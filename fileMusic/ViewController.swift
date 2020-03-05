@@ -88,23 +88,25 @@ class ViewController: UIViewController {
 
     @IBAction func touchedPlayButton(_ sender: UIButton) {
         print("player status -> \(player.isPlaying)")
-        if player.isPlaying == false {
-            play()
+        if player.isPlaying  {
+            sender.setImage(UIImage(named: "icon_play"), for: .normal)
+            player.pause()
         } else {
-            player.stop()
-            playReset()
+            sender.setImage(UIImage(named: "icon_pause"), for: .normal)
+            play()
         }
     }
     
     func playReset() {
-        let playMusicTile = data_item[selectIndex]
         // 새롭게 설정해야 플레이 상태가 초기화 됨
+        player.reset()
         player = AVAudioPlayerNode()
         audioEngine.attach(player)
         audioEngine.attach(mixer)
         audioEngine.connect(player, to: mixer, format: nil)
         audioEngine.connect(mixer, to: audioEngine.outputNode, format: nil)
         
+        let playMusicTile = data_item[selectIndex]
         DispatchQueue.main.async {
             self.playTitleLabel.text = playMusicTile
             self.playButton.setImage(UIImage(named: "icon_play"), for: .normal)
@@ -128,14 +130,11 @@ class ViewController: UIViewController {
                     }
                     self.playReset()
                     // 0.5초후에 플레이
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
                         self.play()
                     }
                 })
                 player.play()
-                DispatchQueue.main.async {
-                    self.playButton.setImage(UIImage(named: "icon_pause"), for: .normal)
-                }
             }
         } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
     }
@@ -159,14 +158,13 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 음원 플레이 중이 아닐 때
-        if player.isPlaying == false {
-            selectIndex = indexPath.row
-            playReset()
-            // 0.5초후에 플레이
-            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
-                self.play()
-            }
+        if player.isPlaying { player.pause() }
+        selectIndex = indexPath.row
+        playReset()
+        // 0.5초후에 플레이
+        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+            self.playButton.setImage(UIImage(named: "icon_pause"), for: .normal)
+            self.play()
         }
     }
 }
