@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +11,102 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="fileMusic" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdI-3I-PF6">
+                                <rect key="frame" x="0.0" y="44" width="414" height="82"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAx-bZ-Bc1">
+                                <rect key="frame" x="0.0" y="126" width="414" height="654"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-eN-gar">
+                                        <rect key="frame" x="8" y="188" width="398" height="458"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileListCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="398" height="81.5"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="81.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
+                                                            <rect key="frame" x="20" y="30.5" width="95" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXR-2G-52G">
+                                                            <rect key="frame" x="343" y="20" width="35" height="41.5"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <state key="normal" image="Icon_play"/>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstItem="tWl-W4-68D" firstAttribute="centerY" secondItem="UvI-e5-Dhy" secondAttribute="centerY" id="ILy-mF-Az9"/>
+                                                        <constraint firstAttribute="trailing" secondItem="kXR-2G-52G" secondAttribute="trailing" constant="20" id="IMP-hp-uwZ"/>
+                                                        <constraint firstAttribute="bottom" secondItem="kXR-2G-52G" secondAttribute="bottom" constant="20" id="T0G-P5-Ydr"/>
+                                                        <constraint firstItem="tWl-W4-68D" firstAttribute="leading" secondItem="UvI-e5-Dhy" secondAttribute="leading" constant="20" id="cTM-FZ-02a"/>
+                                                        <constraint firstItem="kXR-2G-52G" firstAttribute="top" secondItem="UvI-e5-Dhy" secondAttribute="top" constant="20" id="hFn-o4-isM"/>
+                                                        <constraint firstItem="kXR-2G-52G" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tWl-W4-68D" secondAttribute="trailing" constant="20" id="o66-41-uDd"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="fileTitleLabel" destination="tWl-W4-68D" id="TDv-gH-Mc9"/>
+                                                    <outlet property="playButton" destination="kXR-2G-52G" id="cW4-QI-QJP"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="FDs-eN-gar" firstAttribute="height" secondItem="tAx-bZ-Bc1" secondAttribute="height" multiplier="0.7" id="QgD-vG-mJG"/>
+                                    <constraint firstItem="FDs-eN-gar" firstAttribute="leading" secondItem="tAx-bZ-Bc1" secondAttribute="leading" constant="8" id="aeb-v6-klb"/>
+                                    <constraint firstAttribute="bottom" secondItem="FDs-eN-gar" secondAttribute="bottom" constant="8" id="jy6-Aa-0LC"/>
+                                    <constraint firstAttribute="trailing" secondItem="FDs-eN-gar" secondAttribute="trailing" constant="8" id="kkC-39-zLX"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxq-zM-zNr">
+                                <rect key="frame" x="0.0" y="780" width="414" height="82"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="wxq-zM-zNr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3cv-Vu-F8c"/>
+                            <constraint firstItem="hdI-3I-PF6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="4Ms-kW-C1o"/>
+                            <constraint firstItem="tAx-bZ-Bc1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QPm-9C-dLS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wxq-zM-zNr" secondAttribute="bottom" id="UXA-Wu-WM0"/>
+                            <constraint firstItem="wxq-zM-zNr" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.1" id="ZM9-gW-Exp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tAx-bZ-Bc1" secondAttribute="trailing" id="a57-yB-k1Z"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wxq-zM-zNr" secondAttribute="trailing" id="cAN-e6-ntL"/>
+                            <constraint firstItem="wxq-zM-zNr" firstAttribute="top" secondItem="tAx-bZ-Bc1" secondAttribute="bottom" id="e2q-Ys-B9D"/>
+                            <constraint firstItem="tAx-bZ-Bc1" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="bottom" id="eAq-eY-18o"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hdI-3I-PF6" secondAttribute="trailing" id="nMS-4U-dds"/>
+                            <constraint firstItem="hdI-3I-PF6" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.1" id="rzf-Pf-mIx"/>
+                            <constraint firstItem="hdI-3I-PF6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uU5-3V-WOM"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="bottomView" destination="wxq-zM-zNr" id="pO6-MF-7bq"/>
+                        <outlet property="contentView" destination="tAx-bZ-Bc1" id="g6x-rh-nqZ"/>
+                        <outlet property="fileListTableView" destination="FDs-eN-gar" id="sFw-xF-jHZ"/>
+                        <outlet property="topView" destination="hdI-3I-PF6" id="eXd-p5-VqL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="140.57971014492756" y="95.758928571428569"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Icon_play" width="35" height="40.5"/>
+    </resources>
 </document>
