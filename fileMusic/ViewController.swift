@@ -10,7 +10,6 @@ import UIKit
 import AVFoundation
 
 class FileListCell: UITableViewCell {
-    @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var fileTitleLabel: UILabel!
 }
 
@@ -26,6 +25,7 @@ class ViewController: UIViewController {
     let fm = FileManager.default
     var docuPath = ""
     var data_item = [String]()
+    var file: AVAudioFile?
     // 음원 플레이어
     var audioEngine = AVAudioEngine()
     var equalizer: AVAudioUnitEQ!
@@ -53,62 +53,92 @@ class ViewController: UIViewController {
         } catch { print("Not Found item") }
         
         // audioEngine 설정
-        equalizer = AVAudioUnitEQ(numberOfBands: 5)
+        player = AVAudioPlayerNode()
         audioEngine.attach(player)
-        audioEngine.attach(equalizer)
         audioEngine.attach(mixer)
-        audioEngine.connect(player, to: equalizer, format: nil)
-        audioEngine.connect(equalizer, to: audioEngine.outputNode, format: nil)
+        audioEngine.connect(player, to: mixer, format: nil)
         audioEngine.connect(mixer, to: audioEngine.outputNode, format: nil)
-        let bands = equalizer.bands
-        let freqs = [60, 230, 910, 4000, 14000]
-        for i in 0...(bands.count - 1) {
-            bands[i].frequency = Float(freqs[i])
-            bands[i].bypass = false
-            bands[i].filterType = .parametric
+        do {
+            try audioEngine.start()
+        } catch { print("audioEngine error -> \(error.localizedDescription)") }
+        
+        // 타이머 설정
+        playTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [unowned self] (timer) in
+            // 실행 중인 상태 프로그레스로 표시
+            var progress: Float = 0.0
+            if let audio_file = self.file {
+                progress = Float(self.player.current / audio_file.duration)
+                print("playTimer \(progress), \(self.player.current), \(audio_file.duration)")
+            }
+            DispatchQueue.main.async {
+                self.playProgressView.progress = progress
+            }
+        })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // 이름 순으로 정렬
+        data_item.sort()
+        DispatchQueue.main.async {
+            self.fileListTableView.reloadData()
         }
-        bands[0].gain = -10.0
-        bands[0].filterType = .lowShelf
-        bands[1].gain = -10.0
-        bands[1].filterType = .lowShelf
-        bands[2].gain = -10.0
-        bands[2].filterType = .lowShelf
-        bands[3].gain = 10.0
-        bands[3].filterType = .highShelf
-        bands[4].gain = 10.0
-        bands[4].filterType = .highShelf
-        
-        
+        // 타이머 실행
+        if playTimer.isValid { playTimer.fire() }
     }
 
     @IBAction func touchedPlayButton(_ sender: UIButton) {
         print("player status -> \(player.isPlaying)")
-        player = AVAudioPlayerNode()
-        
-        audioEngine.attach(player)
-        audioEngine.connect(player, to: mixer, format: nil)
-        
-        let filename = "\(docuPath)/\(data_item[selectIndex])"
-        let fileUrl = URL(fileURLWithPath: filename)
-        
-        do {
-            let file = try AVAudioFile(forReading: fileUrl)
-            player.scheduleFile(file, at: nil, completionHandler: { print("filename completed") })
-            do {
-                try audioEngine.start()
-                player.play()
-                // 타이머 실행
-                playTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [unowned self] (timer) in
-                    // 실행 중인 상태 프로그레스로 표시
-                    let progress = Float(self.player.current / file.duration)
-                    self.playProgressView.progress = progress
-                })
-                playTimer.fire()
-            } catch { print("audioEngine start error -> \(error.localizedDescription)") }
-        } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
-        sender.setImage(UIImage(named: "icon_pause"), for: .normal)
+        if player.isPlaying == false {
+            play()
+        } else {
+            player.stop()
+            playReset()
+        }
     }
     
+    func playReset() {
+        let playMusicTile = data_item[selectIndex]
+        // 새롭게 설정해야 플레이 상태가 초기화 됨
+        player = AVAudioPlayerNode()
+        audioEngine.attach(player)
+        audioEngine.attach(mixer)
+        audioEngine.connect(player, to: mixer, format: nil)
+        audioEngine.connect(mixer, to: audioEngine.outputNode, format: nil)
+        
+        DispatchQueue.main.async {
+            self.playTitleLabel.text = playMusicTile
+            self.playButton.setImage(UIImage(named: "icon_play"), for: .normal)
+            self.playProgressView.progress = 0.0
+        }
+    }
+    
+    func play() {
+        let music_name = data_item[selectIndex]
+        let filename = "\(docuPath)/\(music_name)"
+        print("\(music_name) start")
+        let fileUrl = URL(fileURLWithPath: filename)
+        do {
+            file = try AVAudioFile(forReading: fileUrl)
+            if let audio_file = file {
+                player.scheduleFile(audio_file, at: nil, completionHandler: { print("\(music_name) completed")
+                    // next auto play
+                    self.selectIndex += 1
+                    if self.selectIndex >= self.data_item.count {
+                        self.selectIndex = 0
+                    }
+                    self.playReset()
+                    // 0.5초후에 플레이
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
+                        self.play()
+                    }
+                })
+                player.play()
+                DispatchQueue.main.async {
+                    self.playButton.setImage(UIImage(named: "icon_pause"), for: .normal)
+                }
+            }
+        } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
+    }
 }
 
 extension ViewController: UITableViewDelegate {
@@ -129,10 +159,11 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        playTitleLabel.text = data_item[indexPath.row]
-        playButton.setImage(UIImage(named: "icon_play"), for: .normal)
-        playProgressView.progress = 0.0
-        selectIndex = indexPath.row
+        // 음원 플레이 중이 아닐 때
+        if player.isPlaying == false {
+            selectIndex = indexPath.row
+            playReset()
+        }
     }
 }
 
@@ -145,6 +176,7 @@ extension AVAudioFile {
 extension AVAudioPlayerNode {
     var current: TimeInterval {
         if let nodeTime = lastRenderTime, let playerTime = playerTime(forNodeTime: nodeTime) {
+            //print("playerTime.sampeTime \(playerTime.sampleTime), \(playerTime.sampleRate)")
             return Double(playerTime.sampleTime) / playerTime.sampleRate
         }
         return 0

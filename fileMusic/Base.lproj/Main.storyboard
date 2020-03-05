@@ -23,8 +23,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAx-bZ-Bc1">
                                 <rect key="frame" x="0.0" y="126" width="414" height="654"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="playing sample file" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SB2-aS-kgA">
-                                        <rect key="frame" x="20" y="20.5" width="141.5" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="재생할 노래를 선택하세요." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SB2-aS-kgA">
+                                        <rect key="frame" x="20" y="20.5" width="175.5" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -41,45 +41,32 @@
                                         <color key="progressTintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="trackTintColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </progressView>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-eN-gar">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-eN-gar">
                                         <rect key="frame" x="8" y="84" width="398" height="562"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileListCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="398" height="53.5"/>
+                                                <rect key="frame" x="0.0" y="28" width="398" height="36.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="36.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rFD-c2-h9s">
-                                                            <rect key="frame" x="8" y="8" width="382" height="37.5"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                                    <rect key="frame" x="16" y="8" width="350" height="21.5"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                            <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <constraints>
-                                                                <constraint firstItem="tWl-W4-68D" firstAttribute="leading" secondItem="rFD-c2-h9s" secondAttribute="leading" constant="16" id="7pE-hY-RJR"/>
-                                                                <constraint firstItem="tWl-W4-68D" firstAttribute="top" secondItem="rFD-c2-h9s" secondAttribute="top" constant="8" id="8L2-4w-qVW"/>
-                                                                <constraint firstAttribute="bottom" secondItem="tWl-W4-68D" secondAttribute="bottom" constant="8" id="ZT3-66-UrA"/>
-                                                                <constraint firstAttribute="trailing" secondItem="tWl-W4-68D" secondAttribute="trailing" constant="16" id="f9J-Ar-1VR"/>
-                                                            </constraints>
-                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
+                                                            <rect key="frame" x="8" y="8" width="382" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="rFD-c2-h9s" firstAttribute="top" secondItem="UvI-e5-Dhy" secondAttribute="top" constant="8" id="6Hn-dT-DTi"/>
-                                                        <constraint firstItem="rFD-c2-h9s" firstAttribute="leading" secondItem="UvI-e5-Dhy" secondAttribute="leading" constant="8" id="7nD-Cx-kRc"/>
-                                                        <constraint firstAttribute="trailing" secondItem="rFD-c2-h9s" secondAttribute="trailing" constant="8" id="hjp-Ay-B1c"/>
-                                                        <constraint firstAttribute="bottom" secondItem="rFD-c2-h9s" secondAttribute="bottom" constant="8" id="jAr-J6-hm3"/>
+                                                        <constraint firstItem="tWl-W4-68D" firstAttribute="leading" secondItem="UvI-e5-Dhy" secondAttribute="leading" constant="8" id="VFW-7f-1vl"/>
+                                                        <constraint firstItem="tWl-W4-68D" firstAttribute="top" secondItem="UvI-e5-Dhy" secondAttribute="top" constant="8" id="dfP-hS-bcb"/>
+                                                        <constraint firstAttribute="bottom" secondItem="tWl-W4-68D" secondAttribute="bottom" constant="8" id="llR-f0-zUN"/>
+                                                        <constraint firstAttribute="trailing" secondItem="tWl-W4-68D" secondAttribute="trailing" constant="8" id="xd7-YB-TO6"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
-                                                    <outlet property="cellView" destination="rFD-c2-h9s" id="7Ba-F1-3UP"/>
                                                     <outlet property="fileTitleLabel" destination="tWl-W4-68D" id="TDv-gH-Mc9"/>
                                                 </connections>
                                             </tableViewCell>
