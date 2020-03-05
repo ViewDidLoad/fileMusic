@@ -68,7 +68,7 @@ class ViewController: UIViewController {
             var progress: Float = 0.0
             if let audio_file = self.file {
                 progress = Float(self.player.current / audio_file.duration)
-                print("playTimer \(progress), \(self.player.current), \(audio_file.duration)")
+                //print("playTimer \(progress), \(self.player.current), \(audio_file.duration)")
             }
             DispatchQueue.main.async {
                 self.playProgressView.progress = progress
@@ -163,6 +163,10 @@ extension ViewController: UITableViewDataSource {
         if player.isPlaying == false {
             selectIndex = indexPath.row
             playReset()
+            // 0.5초후에 플레이
+            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
+                self.play()
+            }
         }
     }
 }
