@@ -109,7 +109,6 @@ class ViewController: UIViewController {
         let playMusicTile = data_item[selectIndex]
         DispatchQueue.main.async {
             self.playTitleLabel.text = playMusicTile
-            self.playButton.setImage(UIImage(named: "icon_play"), for: .normal)
             self.playProgressView.progress = 0.0
         }
     }
@@ -124,20 +123,28 @@ class ViewController: UIViewController {
             if let audio_file = file {
                 player.scheduleFile(audio_file, at: nil, completionHandler: { print("\(music_name) completed")
                     // next auto play
-                    self.selectIndex += 1
-                    if self.selectIndex >= self.data_item.count {
-                        self.selectIndex = 0
-                    }
-                    self.playReset()
-                    // 0.5초후에 플레이
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
-                        self.play()
-                    }
+                    self.nextPlay()
                 })
                 player.play()
             }
         } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
     }
+    
+    func nextPlay() {
+        selectIndex += 1
+        if selectIndex >= data_item.count { selectIndex = 0 }
+        // 테이블 셀 선택 바꿔줘야 함
+        let indexPath = IndexPath(row: selectIndex, section: 0)
+        DispatchQueue.main.async {
+            self.fileListTableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.middle)
+        }
+        playReset()
+        // 0.5초후에 플레이
+        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+            self.play()
+        }
+    }
+    
 }
 
 extension ViewController: UITableViewDelegate {
