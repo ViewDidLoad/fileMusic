@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import MediaPlayer
 
 class FileListCell: UITableViewCell {
     @IBOutlet weak var fileTitleLabel: UILabel!
@@ -144,6 +145,55 @@ class ViewController: UIViewController {
             self.play()
         }
     }
+    
+    /* // 이것대로 했는데 작동 안함
+    func setupRemoteCommandCenter(enable: Bool) {
+        let remoteCommandCenter = MPRemoteCommandCenter.shared()
+        if enable {
+            remoteCommandCenter.pauseCommand.addTarget(self, action: #selector(remoteCommandCenterPauseCommandHandler))
+            remoteCommandCenter.playCommand.addTarget(self, action: #selector(remoteCommandCenterPlayCommandHandler))
+            remoteCommandCenter.stopCommand.addTarget(self, action: #selector(remoteCommandCenterStopCommandHandler))
+            remoteCommandCenter.togglePlayPauseCommand.addTarget(self, action: #selector(remoteCommandCenterPlayPauseCommandHandler))
+        } else {
+            remoteCommandCenter.pauseCommand.removeTarget(self, action: #selector(remoteCommandCenterPauseCommandHandler))
+            remoteCommandCenter.playCommand.removeTarget(self, action: #selector(remoteCommandCenterPlayCommandHandler))
+            remoteCommandCenter.stopCommand.removeTarget(self, action: #selector(remoteCommandCenterStopCommandHandler))
+            remoteCommandCenter.togglePlayPauseCommand.removeTarget(self, action: #selector(remoteCommandCenterPlayPauseCommandHandler))
+        }
+        remoteCommandCenter.pauseCommand.isEnabled = enable
+        remoteCommandCenter.playCommand.isEnabled = enable
+        remoteCommandCenter.stopCommand.isEnabled = enable
+        remoteCommandCenter.togglePlayPauseCommand.isEnabled = enable
+    }
+    
+    deinit {
+        setupRemoteCommandCenter(enable: false)
+    }
+        
+    @objc func remoteCommandCenterPauseCommandHandler() {
+        // handle pause
+        player.pause()
+    }
+        
+    @objc func remoteCommandCenterPlayCommandHandler() {
+        // handle play
+        player.play()
+    }
+        
+    @objc func remoteCommandCenterStopCommandHandler() {
+        // handle stop
+        player.pause()
+    }
+        
+    @objc func remoteCommandCenterPlayPauseCommandHandler() {
+        // handle play pause
+        if player.rate == 0.0 {
+            player.play()
+        } else {
+            player.pause()
+        }
+    }
+    // */
     
 }
 

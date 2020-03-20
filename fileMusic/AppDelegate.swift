@@ -8,12 +8,14 @@
 
 import UIKit
 import AVFoundation
+//import MediaPlayer
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+//    let remoteCommandCenter = MPRemoteCommandCenter.shared()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // 백그라운드 재생
         let audioSession = AVAudioSession.sharedInstance()
