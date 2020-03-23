@@ -38,6 +38,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 잠금 화면과 제어센터
+        setupRemoteTransportControls()
         // tableView
         fileListTableView.rowHeight = UITableView.automaticDimension
         fileListTableView.delegate = self
@@ -52,7 +54,6 @@ class ViewController: UIViewController {
                 data_item.append(item)
             }
         } catch { print("Not Found item") }
-        
         // audioEngine 설정
         player = AVAudioPlayerNode()
         audioEngine.attach(player)
@@ -126,6 +127,9 @@ class ViewController: UIViewController {
                     // next auto play
                     self.nextPlay()
                 })
+                
+                self.setupNowPlaying(title: music_name, current: player.current, duration: audio_file.duration, rate: player.rate)
+                
                 player.play()
             }
         } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
@@ -144,6 +148,50 @@ class ViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
             self.play()
         }
+    }
+    
+    func setupRemoteTransportControls() {
+        // 이게 빠져서 제어센터에 나오지 않았음... 젠장
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        // Get the shared MPRemoteCommandCenter
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.isEnabled = true
+        // Add handler for Play Command
+        commandCenter.playCommand.addTarget { [unowned self] event in
+            if self.player.rate == 0.0 {
+                self.player.play()
+                return .success
+            }
+            return .commandFailed
+        }
+        // Add handler for Pause Command
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.pauseCommand.addTarget { [unowned self] event in
+            if self.player.rate == 1.0 {
+                self.player.pause()
+                return .success
+            }
+            return .commandFailed
+        }
+    }
+    
+    func setupNowPlaying(title: String, current: TimeInterval, duration: TimeInterval, rate: Float) {
+        // Define Now Playing Info
+        var nowPlayingInfo = [String : Any]()
+        nowPlayingInfo[MPMediaItemPropertyTitle] = title
+
+        if let image = UIImage(named: "lockscreen") {
+            nowPlayingInfo[MPMediaItemPropertyArtwork] =
+                MPMediaItemArtwork(boundsSize: image.size) { size in
+                    return image
+            }
+        }
+        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = current
+        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = rate
+
+        // Set the metadata
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     
     /* // 이것대로 했는데 작동 안함

@@ -8,19 +8,18 @@
 
 import UIKit
 import AVFoundation
-//import MediaPlayer
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-//    let remoteCommandCenter = MPRemoteCommandCenter.shared()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // 백그라운드 재생
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers, .duckOthers])
+            //try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers, .duckOthers])
+            try audioSession.setCategory(.playback)
             do {
                 try audioSession.setActive(true)
             } catch { print("audioSession.setActive error") }
