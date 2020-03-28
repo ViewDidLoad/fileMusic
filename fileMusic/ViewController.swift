@@ -154,29 +154,21 @@ class ViewController: UIViewController {
         // 이게 빠져서 제어센터에 나오지 않았음... 젠장
         UIApplication.shared.beginReceivingRemoteControlEvents()
         let commandCenter = MPRemoteCommandCenter.shared()
-        commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget { [unowned self] event in
-            if self.player.rate == 0.0 {
-                self.player.play()
-                return .success
-            }
-            return .commandFailed
+            self.player.play()
+            return .success
         }
-        commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget { [unowned self] event in
-            if self.player.rate == 1.0 {
-                self.player.pause()
-                return .success
-            }
-            return .commandFailed
+            self.player.pause()
+            return .success
         }
     }
     
     func setupNowPlaying(title: String, current: TimeInterval, duration: TimeInterval, rate: Float) {
-        // Define Now Playing Info
+        // 음원 정보
         var nowPlayingInfo = [String : Any]()
         nowPlayingInfo[MPMediaItemPropertyTitle] = title
-
+        // 잠금 화면에서 나오는 이미지
         if let image = UIImage(named: "lockscreen") {
             nowPlayingInfo[MPMediaItemPropertyArtwork] =
                 MPMediaItemArtwork(boundsSize: image.size) { size in
@@ -186,60 +178,9 @@ class ViewController: UIViewController {
         nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = current
         nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = rate
-
-        // Set the metadata
+        // 플레이 되는 음원 정보 표출
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
-    
-    /* // 이것대로 했는데 작동 안함
-    func setupRemoteCommandCenter(enable: Bool) {
-        let remoteCommandCenter = MPRemoteCommandCenter.shared()
-        if enable {
-            remoteCommandCenter.pauseCommand.addTarget(self, action: #selector(remoteCommandCenterPauseCommandHandler))
-            remoteCommandCenter.playCommand.addTarget(self, action: #selector(remoteCommandCenterPlayCommandHandler))
-            remoteCommandCenter.stopCommand.addTarget(self, action: #selector(remoteCommandCenterStopCommandHandler))
-            remoteCommandCenter.togglePlayPauseCommand.addTarget(self, action: #selector(remoteCommandCenterPlayPauseCommandHandler))
-        } else {
-            remoteCommandCenter.pauseCommand.removeTarget(self, action: #selector(remoteCommandCenterPauseCommandHandler))
-            remoteCommandCenter.playCommand.removeTarget(self, action: #selector(remoteCommandCenterPlayCommandHandler))
-            remoteCommandCenter.stopCommand.removeTarget(self, action: #selector(remoteCommandCenterStopCommandHandler))
-            remoteCommandCenter.togglePlayPauseCommand.removeTarget(self, action: #selector(remoteCommandCenterPlayPauseCommandHandler))
-        }
-        remoteCommandCenter.pauseCommand.isEnabled = enable
-        remoteCommandCenter.playCommand.isEnabled = enable
-        remoteCommandCenter.stopCommand.isEnabled = enable
-        remoteCommandCenter.togglePlayPauseCommand.isEnabled = enable
-    }
-    
-    deinit {
-        setupRemoteCommandCenter(enable: false)
-    }
-        
-    @objc func remoteCommandCenterPauseCommandHandler() {
-        // handle pause
-        player.pause()
-    }
-        
-    @objc func remoteCommandCenterPlayCommandHandler() {
-        // handle play
-        player.play()
-    }
-        
-    @objc func remoteCommandCenterStopCommandHandler() {
-        // handle stop
-        player.pause()
-    }
-        
-    @objc func remoteCommandCenterPlayPauseCommandHandler() {
-        // handle play pause
-        if player.rate == 0.0 {
-            player.play()
-        } else {
-            player.pause()
-        }
-    }
-    // */
-    
 }
 
 extension ViewController: UITableViewDelegate {
