@@ -150,6 +150,21 @@ class ViewController: UIViewController {
         }
     }
     
+    func prevPlay() {
+        selectIndex -= 1
+        if selectIndex < 0 { selectIndex = data_item.count - 1 }
+        // 테이블 셀 선택 바꿔줘야 함
+        let indexPath = IndexPath(row: selectIndex, section: 0)
+        DispatchQueue.main.async {
+            self.fileListTableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.middle)
+        }
+        playReset()
+        // 0.5초후에 플레이
+        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+            self.play()
+        }
+    }
+    
     func setupRemoteTransportControls() {
         // 이게 빠져서 제어센터에 나오지 않았음... 젠장
         UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -162,13 +177,21 @@ class ViewController: UIViewController {
             self.player.pause()
             return .success
         }
+        commandCenter.nextTrackCommand.addTarget { [unowned self] event in
+            self.nextPlay()
+            return .success
+        }
+        commandCenter.previousTrackCommand.addTarget { [unowned self] event in
+            self.prevPlay()
+            return .success
+        }
     }
     
     func setupNowPlaying(title: String, current: TimeInterval, duration: TimeInterval, rate: Float) {
         // 음원 정보
         var nowPlayingInfo = [String : Any]()
         nowPlayingInfo[MPMediaItemPropertyTitle] = title
-        // 잠금 화면에서 나오는 이미지
+        // 잠금 화면에서 나오는 이미지, background clear 안됨
         if let image = UIImage(named: "lockscreen") {
             nowPlayingInfo[MPMediaItemPropertyArtwork] =
                 MPMediaItemArtwork(boundsSize: image.size) { size in
