@@ -123,13 +123,11 @@ class ViewController: UIViewController {
         do {
             file = try AVAudioFile(forReading: fileUrl)
             if let audio_file = file {
-                player.scheduleFile(audio_file, at: nil, completionHandler: { print("\(music_name) completed")
-                    // next auto play
+                player.scheduleFile(audio_file, at: nil, completionHandler: {
+                    print("\(music_name) completed")
                     self.nextPlay()
                 })
-                
                 self.setupNowPlaying(title: music_name, current: player.current, duration: audio_file.duration, rate: player.rate)
-                
                 player.play()
             }
         } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
@@ -232,6 +230,19 @@ extension ViewController: UITableViewDataSource {
             self.playButton.setImage(UIImage(named: "icon_pause"), for: .normal)
             self.play()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .normal, title: "") { (action, view, completionHandler) in
+            // 해당 파일 삭제하기
+            let item = self.data_item[indexPath.row]
+            print("select \(item)")
+            completionHandler(true)
+        }
+        action.image = UIImage(named: "icon_delete")
+        action.backgroundColor = .red
+        let configuration = UISwipeActionsConfiguration(actions: [action])
+        return configuration
     }
 }
 
