@@ -18,15 +18,29 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdI-3I-PF6">
                                 <rect key="frame" x="0.0" y="44.000000000000007" width="414" height="81.666666666666686"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FGc-T6-ne8">
+                                        <rect key="frame" x="16" y="15.999999999999996" width="382" height="49.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="42"/>
+                                        <color key="textColor" red="0.1764705882352941" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.792156862745098" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="top" constant="16" id="ZXa-3G-Fdf"/>
+                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="leading" secondItem="hdI-3I-PF6" secondAttribute="leading" constant="16" id="Zlu-B2-Y07"/>
+                                    <constraint firstAttribute="trailing" secondItem="FGc-T6-ne8" secondAttribute="trailing" constant="16" id="etd-o2-Gu1"/>
+                                    <constraint firstAttribute="bottom" secondItem="FGc-T6-ne8" secondAttribute="bottom" constant="16" id="hZB-Vl-I8r"/>
+                                </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAx-bZ-Bc1">
                                 <rect key="frame" x="0.0" y="125.66666666666669" width="414" height="654.66666666666652"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="재생할 노래를 선택하세요." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SB2-aS-kgA">
-                                        <rect key="frame" x="20" y="20.666666666666671" width="175.66666666666666" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="select music on list" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="SB2-aS-kgA">
+                                        <rect key="frame" x="20" y="20.666666666666671" width="146" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.76862745098039209" green="0.99215686274509807" blue="0.3529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqJ-6u-3jC">
@@ -43,29 +57,30 @@
                                     </progressView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-eN-gar">
                                         <rect key="frame" x="8" y="84" width="398" height="562.66666666666663"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileListCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="398" height="37.666667938232422"/>
+                                                <rect key="frame" x="0.0" y="28" width="398" height="53"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="37.666667938232422"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                            <rect key="frame" x="8" y="8.0000000000000018" width="382" height="21.666666666666671"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
+                                                            <rect key="frame" x="24" y="16" width="358" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="tWl-W4-68D" firstAttribute="leading" secondItem="UvI-e5-Dhy" secondAttribute="leading" constant="8" id="VFW-7f-1vl"/>
-                                                        <constraint firstItem="tWl-W4-68D" firstAttribute="top" secondItem="UvI-e5-Dhy" secondAttribute="top" constant="8" id="dfP-hS-bcb"/>
-                                                        <constraint firstAttribute="bottom" secondItem="tWl-W4-68D" secondAttribute="bottom" constant="8" id="llR-f0-zUN"/>
-                                                        <constraint firstAttribute="trailing" secondItem="tWl-W4-68D" secondAttribute="trailing" constant="8" id="xd7-YB-TO6"/>
+                                                        <constraint firstItem="tWl-W4-68D" firstAttribute="leading" secondItem="UvI-e5-Dhy" secondAttribute="leading" constant="24" id="VFW-7f-1vl"/>
+                                                        <constraint firstItem="tWl-W4-68D" firstAttribute="top" secondItem="UvI-e5-Dhy" secondAttribute="top" constant="16" id="dfP-hS-bcb"/>
+                                                        <constraint firstAttribute="bottom" secondItem="tWl-W4-68D" secondAttribute="bottom" constant="16" id="llR-f0-zUN"/>
+                                                        <constraint firstAttribute="trailing" secondItem="tWl-W4-68D" secondAttribute="trailing" constant="16" id="xd7-YB-TO6"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <outlet property="fileTitleLabel" destination="tWl-W4-68D" id="TDv-gH-Mc9"/>
                                                 </connections>
@@ -73,7 +88,7 @@
                                         </prototypes>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="SB2-aS-kgA" firstAttribute="leading" secondItem="tAx-bZ-Bc1" secondAttribute="leading" constant="20" id="0M9-8E-Pjt"/>
                                     <constraint firstItem="zqJ-6u-3jC" firstAttribute="top" secondItem="tAx-bZ-Bc1" secondAttribute="top" constant="20" id="7AU-aa-AmV"/>
@@ -91,7 +106,7 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxq-zM-zNr">
                                 <rect key="frame" x="0.0" y="780.33333333333337" width="414" height="81.666666666666629"/>
-                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.90196078431372551" green="0.9137254901960784" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

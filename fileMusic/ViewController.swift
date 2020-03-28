@@ -235,8 +235,15 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal, title: "") { (action, view, completionHandler) in
             // 해당 파일 삭제하기
-            let item = self.data_item[indexPath.row]
-            print("select \(item)")
+            let remove_item = "\(self.docuPath)/\(self.data_item[indexPath.row])"
+            print("selected remove_item \(remove_item)")
+            do {
+                try self.fm.removeItem(atPath: remove_item)
+                self.data_item.remove(at: indexPath.row)
+                DispatchQueue.main.async {
+                    tableView.reloadData()
+                }
+            } catch { print("FileManager RemoveItem error \(error.localizedDescription)") }
             completionHandler(true)
         }
         action.image = UIImage(named: "icon_delete")
