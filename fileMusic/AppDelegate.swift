@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 백그라운드 재생
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            //try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers, .duckOthers])
             try audioSession.setCategory(.playback)
             do {
                 try audioSession.setActive(true)
