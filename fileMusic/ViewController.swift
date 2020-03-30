@@ -116,21 +116,39 @@ class ViewController: UIViewController {
     }
     
     func play() {
-        let music_name = data_item[selectIndex]
-        let filename = "\(docuPath)/\(music_name)"
-        print("\(music_name) start")
-        let fileUrl = URL(fileURLWithPath: filename)
-        do {
-            file = try AVAudioFile(forReading: fileUrl)
-            if let audio_file = file {
-                player.scheduleFile(audio_file, at: nil, completionHandler: {
-                    print("\(music_name) completed")
-                    self.nextPlay()
-                })
-                self.setupNowPlaying(title: music_name, current: player.current, duration: audio_file.duration, rate: player.rate)
-                player.play()
-            }
-        } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
+        if data_item.count > 0 {
+            // 가져온 파일이 있으면 리스트로 플레이
+            let music_name = data_item[selectIndex]
+            let filename = "\(docuPath)/\(music_name)"
+            print("\(music_name) start")
+            let fileUrl = URL(fileURLWithPath: filename)
+            do {
+                file = try AVAudioFile(forReading: fileUrl)
+                if let audio_file = file {
+                    player.scheduleFile(audio_file, at: nil, completionHandler: {
+                        print("\(music_name) completed")
+                        self.nextPlay()
+                    })
+                    self.setupNowPlaying(title: music_name, current: player.current, duration: audio_file.duration, rate: player.rate)
+                    player.play()
+                }
+            } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
+        } else {
+            // 가저온 파일이 없으면 샘플로 플레이 한다.
+            guard let sampleUrl = Bundle.main.url(forResource: "sample", withExtension: "mp3") else { return }
+            do {
+                file = try AVAudioFile(forReading: sampleUrl)
+                if let audio_file = file {
+                    player.scheduleFile(audio_file, at: nil, completionHandler: {
+                        print("sample.mp3 completed")
+                        self.nextPlay()
+                    })
+                    self.setupNowPlaying(title: "sample.mp3", current: player.current, duration: audio_file.duration, rate: player.rate)
+                    player.play()
+                }
+            } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
+        }
+        
     }
     
     func nextPlay() {
