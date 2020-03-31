@@ -108,7 +108,7 @@ class ViewController: UIViewController {
         audioEngine.connect(player, to: mixer, format: nil)
         audioEngine.connect(mixer, to: audioEngine.outputNode, format: nil)
         
-        let playMusicTile = data_item[selectIndex]
+        let playMusicTile = data_item.count > 0 ? data_item[selectIndex] : "sample.mp3"
         DispatchQueue.main.async {
             self.playTitleLabel.text = playMusicTile
             self.playProgressView.progress = 0.0
@@ -141,9 +141,9 @@ class ViewController: UIViewController {
                 if let audio_file = file {
                     player.scheduleFile(audio_file, at: nil, completionHandler: {
                         print("sample.mp3 completed")
-                        self.nextPlay()
                     })
                     self.setupNowPlaying(title: "sample.mp3", current: player.current, duration: audio_file.duration, rate: player.rate)
+                    self.playTitleLabel.text = "sample.mp3"
                     player.play()
                 }
             } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
@@ -152,32 +152,38 @@ class ViewController: UIViewController {
     }
     
     func nextPlay() {
-        selectIndex += 1
-        if selectIndex >= data_item.count { selectIndex = 0 }
-        // 테이블 셀 선택 바꿔줘야 함
-        let indexPath = IndexPath(row: selectIndex, section: 0)
-        DispatchQueue.main.async {
-            self.fileListTableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.middle)
-        }
-        playReset()
-        // 0.5초후에 플레이
-        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
-            self.play()
+        if data_item.count > 0 {
+            // 파일 리스트가 있을 경우
+            selectIndex += 1
+            if selectIndex >= data_item.count { selectIndex = 0 }
+            // 테이블 셀 선택 바꿔줘야 함
+            let indexPath = IndexPath(row: selectIndex, section: 0)
+            DispatchQueue.main.async {
+                self.fileListTableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.middle)
+            }
+            playReset()
+            // 0.5초후에 플레이
+            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+                self.play()
+            }
         }
     }
     
     func prevPlay() {
-        selectIndex -= 1
-        if selectIndex < 0 { selectIndex = data_item.count - 1 }
-        // 테이블 셀 선택 바꿔줘야 함
-        let indexPath = IndexPath(row: selectIndex, section: 0)
-        DispatchQueue.main.async {
-            self.fileListTableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.middle)
-        }
-        playReset()
-        // 0.5초후에 플레이
-        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
-            self.play()
+        if data_item.count > 0 {
+            // 파일 리스트가 있을 경우
+            selectIndex -= 1
+            if selectIndex < 0 { selectIndex = data_item.count - 1 }
+            // 테이블 셀 선택 바꿔줘야 함
+            let indexPath = IndexPath(row: selectIndex, section: 0)
+            DispatchQueue.main.async {
+                self.fileListTableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.middle)
+            }
+            playReset()
+            // 0.5초후에 플레이
+            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+                self.play()
+            }
         }
     }
     
