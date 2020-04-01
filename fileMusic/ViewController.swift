@@ -148,7 +148,6 @@ class ViewController: UIViewController {
                 }
             } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
         }
-        
     }
     
     func nextPlay() {
