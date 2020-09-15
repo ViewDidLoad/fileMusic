@@ -148,16 +148,30 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="qco-RV-UgC">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="j4D-2Y-QBk">
+                                <rect key="frame" x="16" y="44" width="382" height="58"/>
+                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="48"/>
+                                <color key="textColor" red="0.99607843139999996" green="0.78039215689999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="j4D-2Y-QBk" firstAttribute="leading" secondItem="wh5-rO-aD6" secondAttribute="leading" constant="16" id="CW2-k2-adK"/>
+                            <constraint firstItem="j4D-2Y-QBk" firstAttribute="top" secondItem="wh5-rO-aD6" secondAttribute="top" id="IZn-is-kE2"/>
                             <constraint firstItem="wh5-rO-aD6" firstAttribute="trailing" secondItem="qco-RV-UgC" secondAttribute="trailing" id="NXQ-Vo-dzO"/>
+                            <constraint firstItem="wh5-rO-aD6" firstAttribute="trailing" secondItem="j4D-2Y-QBk" secondAttribute="trailing" constant="16" id="Osu-ss-L9q"/>
+                            <constraint firstItem="j4D-2Y-QBk" firstAttribute="centerX" secondItem="7fq-R6-7bx" secondAttribute="centerX" id="RSg-VT-Suy"/>
                             <constraint firstAttribute="bottom" secondItem="qco-RV-UgC" secondAttribute="bottom" id="UGA-7a-MOn"/>
                             <constraint firstItem="qco-RV-UgC" firstAttribute="top" secondItem="7fq-R6-7bx" secondAttribute="top" id="c2S-zg-Utu"/>
                             <constraint firstItem="qco-RV-UgC" firstAttribute="leading" secondItem="wh5-rO-aD6" secondAttribute="leading" id="zzG-aH-i2h"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wh5-rO-aD6"/>
                     </view>
+                    <connections>
+                        <outlet property="titleLabel" destination="j4D-2Y-QBk" id="eKY-PO-yCN"/>
+                        <outlet property="titleTopConstraint" destination="IZn-is-kE2" id="LkF-V2-ijK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3c6-gk-mLi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
