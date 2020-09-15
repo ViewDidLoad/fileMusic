@@ -10,10 +10,13 @@
 		924737672432B155005FA4A6 /* sample.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 924737662432B155005FA4A6 /* sample.mp3 */; };
 		9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9271133524105DDE007E7D8B /* AppDelegate.swift */; };
 		9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9271133724105DDE007E7D8B /* SceneDelegate.swift */; };
-		9271133A24105DDE007E7D8B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9271133924105DDE007E7D8B /* ViewController.swift */; };
 		9271133D24105DDE007E7D8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9271133B24105DDE007E7D8B /* Main.storyboard */; };
 		9271133F24105DE7007E7D8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9271133E24105DE7007E7D8B /* Assets.xcassets */; };
 		9271134224105DE7007E7D8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9271134024105DE7007E7D8B /* LaunchScreen.storyboard */; };
+		9299AC63251088C300FA4252 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC62251088C300FA4252 /* SplashViewController.swift */; };
+		9299AC6525108A1200FA4252 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6425108A1200FA4252 /* MainViewController.swift */; };
+		9299AC6725108AC100FA4252 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6625108AC100FA4252 /* Extension.swift */; };
+		9299AC6925108DA400FA4252 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6825108DA400FA4252 /* Common.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,12 +24,15 @@
 		9271133224105DDE007E7D8B /* fileMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fileMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9271133524105DDE007E7D8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9271133724105DDE007E7D8B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9271133924105DDE007E7D8B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9271133C24105DDE007E7D8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9271133E24105DE7007E7D8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9271134124105DE7007E7D8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9271134324105DE7007E7D8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		927113492410730B007E7D8B /* fileMusic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = fileMusic.entitlements; sourceTree = "<group>"; };
+		9299AC62251088C300FA4252 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		9299AC6425108A1200FA4252 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9299AC6625108AC100FA4252 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		9299AC6825108DA400FA4252 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +68,9 @@
 				927113492410730B007E7D8B /* fileMusic.entitlements */,
 				9271133524105DDE007E7D8B /* AppDelegate.swift */,
 				9271133724105DDE007E7D8B /* SceneDelegate.swift */,
-				9271133924105DDE007E7D8B /* ViewController.swift */,
+				9299AC6A25108DC900FA4252 /* Common */,
+				9299AC62251088C300FA4252 /* SplashViewController.swift */,
+				9299AC6425108A1200FA4252 /* MainViewController.swift */,
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
 				9271133E24105DE7007E7D8B /* Assets.xcassets */,
 				9271134024105DE7007E7D8B /* LaunchScreen.storyboard */,
@@ -70,6 +78,15 @@
 				9271134324105DE7007E7D8B /* Info.plist */,
 			);
 			path = fileMusic;
+			sourceTree = "<group>";
+		};
+		9299AC6A25108DC900FA4252 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				9299AC6825108DA400FA4252 /* Common.swift */,
+				9299AC6625108AC100FA4252 /* Extension.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,9 +161,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9271133A24105DDE007E7D8B /* ViewController.swift in Sources */,
 				9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */,
 				9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */,
+				9299AC6725108AC100FA4252 /* Extension.swift in Sources */,
+				9299AC63251088C300FA4252 /* SplashViewController.swift in Sources */,
+				9299AC6925108DA400FA4252 /* Common.swift in Sources */,
+				9299AC6525108A1200FA4252 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,14 +312,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = fileMusic/fileMusic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Y5DE47E5W;
 				INFOPLIST_FILE = fileMusic/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.viewdidload.fileMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -313,14 +334,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = fileMusic/fileMusic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Y5DE47E5W;
 				INFOPLIST_FILE = fileMusic/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.viewdidload.fileMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

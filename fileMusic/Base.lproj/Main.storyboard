@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mPh-kC-dit">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="fileMusic" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="MainViewController" customModule="fileMusic" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -21,8 +21,8 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FGc-T6-ne8">
                                         <rect key="frame" x="16" y="15.999999999999996" width="382" height="49.666666666666657"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="42"/>
-                                        <color key="textColor" red="0.1764705882352941" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="42"/>
+                                        <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -46,9 +46,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqJ-6u-3jC">
                                         <rect key="frame" x="380" y="19.999999999999986" width="14" height="22"/>
                                         <state key="normal" image="icon_play"/>
-                                        <connections>
-                                            <action selector="touchedPlayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yac-kK-QsP"/>
-                                        </connections>
                                     </button>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8l4-2i-QLc">
                                         <rect key="frame" x="20" y="61.999999999999986" width="374" height="2"/>
@@ -59,15 +56,15 @@
                                         <rect key="frame" x="8" y="84" width="398" height="562.66666666666663"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileListCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="398" height="53"/>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="398" height="53.666667938232422"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53.666667938232422"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                            <rect key="frame" x="24" y="16" width="358" height="21"/>
+                                                            <rect key="frame" x="24" y="16" width="358" height="21.666666666666671"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -82,7 +79,7 @@
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
-                                                    <outlet property="fileTitleLabel" destination="tWl-W4-68D" id="TDv-gH-Mc9"/>
+                                                    <outlet property="fileTitleLabel" destination="tWl-W4-68D" id="H6U-bT-etk"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -127,21 +124,48 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="bottomView" destination="wxq-zM-zNr" id="pO6-MF-7bq"/>
-                        <outlet property="contentView" destination="tAx-bZ-Bc1" id="g6x-rh-nqZ"/>
-                        <outlet property="fileListTableView" destination="FDs-eN-gar" id="sFw-xF-jHZ"/>
-                        <outlet property="playButton" destination="zqJ-6u-3jC" id="grU-i1-XeG"/>
-                        <outlet property="playProgressView" destination="8l4-2i-QLc" id="0Qp-b6-OSt"/>
-                        <outlet property="playTitleLabel" destination="SB2-aS-kgA" id="CaR-wv-m6v"/>
-                        <outlet property="topView" destination="hdI-3I-PF6" id="eXd-p5-VqL"/>
+                        <outlet property="bottomView" destination="wxq-zM-zNr" id="leQ-0Y-7Ar"/>
+                        <outlet property="contentView" destination="tAx-bZ-Bc1" id="ilD-zJ-Smo"/>
+                        <outlet property="fileListTableView" destination="FDs-eN-gar" id="2Ei-0m-qMa"/>
+                        <outlet property="playButton" destination="zqJ-6u-3jC" id="z5u-jx-kuV"/>
+                        <outlet property="playProgressView" destination="8l4-2i-QLc" id="awF-6P-8A3"/>
+                        <outlet property="playTitleLabel" destination="SB2-aS-kgA" id="bgB-Ke-0iv"/>
+                        <outlet property="topView" destination="hdI-3I-PF6" id="Iaa-u6-08x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-642" y="60"/>
+            <point key="canvasLocation" x="132" y="60"/>
+        </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="KKd-HO-dpL">
+            <objects>
+                <viewController storyboardIdentifier="splashVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mPh-kC-dit" customClass="SplashViewController" customModule="fileMusic" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7fq-R6-7bx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="qco-RV-UgC">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="wh5-rO-aD6" firstAttribute="trailing" secondItem="qco-RV-UgC" secondAttribute="trailing" id="NXQ-Vo-dzO"/>
+                            <constraint firstAttribute="bottom" secondItem="qco-RV-UgC" secondAttribute="bottom" id="UGA-7a-MOn"/>
+                            <constraint firstItem="qco-RV-UgC" firstAttribute="top" secondItem="7fq-R6-7bx" secondAttribute="top" id="c2S-zg-Utu"/>
+                            <constraint firstItem="qco-RV-UgC" firstAttribute="leading" secondItem="wh5-rO-aD6" secondAttribute="leading" id="zzG-aH-i2h"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wh5-rO-aD6"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3c6-gk-mLi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-654" y="60"/>
         </scene>
     </scenes>
     <resources>
         <image name="icon_play" width="14" height="16"/>
+        <image name="splash" width="280" height="355"/>
     </resources>
 </document>

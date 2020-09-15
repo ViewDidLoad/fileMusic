@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  fileMusic
 //
-//  Created by viewdidload soft on 2020/03/05.
+//  Created by viewdidload soft on 2020/09/15.
 //  Copyright © 2020 viewdidload soft. All rights reserved.
 //
 
@@ -14,7 +14,8 @@ class FileListCell: UITableViewCell {
     @IBOutlet weak var fileTitleLabel: UILabel!
 }
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
+    
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var playTitleLabel: UILabel!
@@ -225,21 +226,22 @@ class ViewController: UIViewController {
         // 플레이 되는 음원 정보 표출
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
+
 }
 
-extension ViewController: UITableViewDelegate {
+extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data_item.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "fileListCell", for: indexPath) as! FileListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath) as! FileListCell
         cell.fileTitleLabel.text = data_item[indexPath.row]
         return cell
     }
@@ -276,18 +278,3 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension AVAudioFile {
-    var duration: TimeInterval {
-        return Double(length) / Double(processingFormat.sampleRate)
-    }
-}
-
-extension AVAudioPlayerNode {
-    var current: TimeInterval {
-        if let nodeTime = lastRenderTime, let playerTime = playerTime(forNodeTime: nodeTime) {
-            //print("playerTime.sampeTime \(playerTime.sampleTime), \(playerTime.sampleRate)")
-            return Double(playerTime.sampleTime) / playerTime.sampleRate
-        }
-        return 0
-    }
-}
