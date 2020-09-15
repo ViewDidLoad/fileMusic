@@ -20,7 +20,7 @@ class SplashViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         titleTopConstraint.constant = UIScreen.main.bounds.midY
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.8) {
             self.view.layoutIfNeeded()
         }
     }
@@ -28,7 +28,7 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // 지연 실행
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
             let board = UIStoryboard(name: "Main", bundle: nil)
             let vc = board.instantiateViewController(withIdentifier: "mainVC") as! MainViewController
             vc.modalPresentationStyle = .fullScreen
