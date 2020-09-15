@@ -30,8 +30,6 @@ class MainViewController: UIViewController {
     var file: AVAudioFile?
     // 음원 플레이어
     var audioEngine = AVAudioEngine()
-    var equalizer: AVAudioUnitEQ!
-    var mixer = AVAudioMixerNode()
     var player = AVAudioPlayerNode()
     var audioFile: AVAudioFile!
     var selectIndex = 0
@@ -58,9 +56,7 @@ class MainViewController: UIViewController {
         // audioEngine 설정
         player = AVAudioPlayerNode()
         audioEngine.attach(player)
-        audioEngine.attach(mixer)
-        audioEngine.connect(player, to: mixer, format: nil)
-        audioEngine.connect(mixer, to: audioEngine.outputNode, format: nil)
+        audioEngine.connect(player, to: audioEngine.outputNode, format: nil)
         do {
             try audioEngine.start()
         } catch { print("audioEngine error -> \(error.localizedDescription)") }
@@ -105,9 +101,7 @@ class MainViewController: UIViewController {
         player.reset()
         player = AVAudioPlayerNode()
         audioEngine.attach(player)
-        audioEngine.attach(mixer)
-        audioEngine.connect(player, to: mixer, format: nil)
-        audioEngine.connect(mixer, to: audioEngine.outputNode, format: nil)
+        audioEngine.connect(player, to: audioEngine.outputNode, format: nil)
         
         let playMusicTile = data_item.count > 0 ? data_item[selectIndex] : "sample.mp3"
         DispatchQueue.main.async {

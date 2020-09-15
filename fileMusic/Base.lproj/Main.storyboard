@@ -17,43 +17,48 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdI-3I-PF6">
-                                <rect key="frame" x="0.0" y="44.000000000000007" width="414" height="81.666666666666686"/>
+                                <rect key="frame" x="0.0" y="44.000000000000007" width="414" height="82.666666666666686"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FGc-T6-ne8">
-                                        <rect key="frame" x="16" y="15.999999999999996" width="382" height="49.666666666666657"/>
+                                        <rect key="frame" x="55.333333333333343" y="15.999999999999996" width="303.33333333333326" height="50.666666666666657"/>
                                         <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="42"/>
                                         <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.792156862745098" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.95686274510000002" green="0.87058823529999996" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="top" constant="16" id="ZXa-3G-Fdf"/>
-                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="leading" secondItem="hdI-3I-PF6" secondAttribute="leading" constant="16" id="Zlu-B2-Y07"/>
-                                    <constraint firstAttribute="trailing" secondItem="FGc-T6-ne8" secondAttribute="trailing" constant="16" id="etd-o2-Gu1"/>
-                                    <constraint firstAttribute="bottom" secondItem="FGc-T6-ne8" secondAttribute="bottom" constant="16" id="hZB-Vl-I8r"/>
+                                    <constraint firstAttribute="bottom" secondItem="FGc-T6-ne8" secondAttribute="bottom" constant="16" id="dHR-ar-s3v"/>
+                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="top" constant="16" id="yhY-ua-7Ld"/>
+                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="centerX" secondItem="hdI-3I-PF6" secondAttribute="centerX" id="ypg-uo-OB3"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAx-bZ-Bc1">
-                                <rect key="frame" x="0.0" y="125.66666666666669" width="414" height="654.66666666666652"/>
+                                <rect key="frame" x="0.0" y="126.66666666666669" width="414" height="653.66666666666652"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="select music on list" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="SB2-aS-kgA">
-                                        <rect key="frame" x="20" y="20.666666666666671" width="146" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.76862745098039209" green="0.99215686274509807" blue="0.3529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <rect key="frame" x="20" y="25.999999999999986" width="143.33333333333334" height="21.666666666666671"/>
+                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="18"/>
+                                        <color key="textColor" red="0.99607843139999996" green="0.78039215689999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqJ-6u-3jC">
-                                        <rect key="frame" x="380" y="19.999999999999986" width="14" height="22"/>
+                                        <rect key="frame" x="356.66666666666669" y="15.999999999999989" width="41.333333333333314" height="41.333333333333343"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="zqJ-6u-3jC" secondAttribute="height" id="R4U-qQ-gUq"/>
+                                        </constraints>
                                         <state key="normal" image="icon_play"/>
+                                        <connections>
+                                            <action selector="touchedPlayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CuF-gg-jzd"/>
+                                        </connections>
                                     </button>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8l4-2i-QLc">
-                                        <rect key="frame" x="20" y="61.999999999999986" width="374" height="2"/>
-                                        <color key="progressTintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <rect key="frame" x="20" y="61.333333333333329" width="374" height="2"/>
+                                        <color key="progressTintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="trackTintColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </progressView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-eN-gar">
-                                        <rect key="frame" x="8" y="84" width="398" height="562.66666666666663"/>
+                                        <rect key="frame" x="8" y="83.333333333333314" width="398" height="562.33333333333348"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
@@ -85,20 +90,21 @@
                                         </prototypes>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.1333333333" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="SB2-aS-kgA" firstAttribute="leading" secondItem="tAx-bZ-Bc1" secondAttribute="leading" constant="20" id="0M9-8E-Pjt"/>
-                                    <constraint firstItem="zqJ-6u-3jC" firstAttribute="top" secondItem="tAx-bZ-Bc1" secondAttribute="top" constant="20" id="7AU-aa-AmV"/>
-                                    <constraint firstItem="zqJ-6u-3jC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SB2-aS-kgA" secondAttribute="trailing" constant="20" id="AeK-fz-3n8"/>
-                                    <constraint firstItem="SB2-aS-kgA" firstAttribute="centerY" secondItem="zqJ-6u-3jC" secondAttribute="centerY" id="Zg0-9p-XmM"/>
-                                    <constraint firstAttribute="trailing" secondItem="zqJ-6u-3jC" secondAttribute="trailing" constant="20" id="aJM-MA-TrZ"/>
+                                    <constraint firstItem="zqJ-6u-3jC" firstAttribute="centerY" secondItem="SB2-aS-kgA" secondAttribute="centerY" id="4VR-vn-hU8"/>
+                                    <constraint firstItem="zqJ-6u-3jC" firstAttribute="top" secondItem="tAx-bZ-Bc1" secondAttribute="top" constant="16" id="7AU-aa-AmV"/>
+                                    <constraint firstItem="zqJ-6u-3jC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SB2-aS-kgA" secondAttribute="trailing" constant="16" id="AeK-fz-3n8"/>
+                                    <constraint firstItem="zqJ-6u-3jC" firstAttribute="width" secondItem="tAx-bZ-Bc1" secondAttribute="width" multiplier="0.1" id="Qus-ep-qBY"/>
+                                    <constraint firstAttribute="trailing" secondItem="zqJ-6u-3jC" secondAttribute="trailing" constant="16" id="aJM-MA-TrZ"/>
                                     <constraint firstItem="FDs-eN-gar" firstAttribute="leading" secondItem="tAx-bZ-Bc1" secondAttribute="leading" constant="8" id="aeb-v6-klb"/>
                                     <constraint firstItem="FDs-eN-gar" firstAttribute="top" secondItem="8l4-2i-QLc" secondAttribute="bottom" constant="20" id="fNv-dO-yJg"/>
                                     <constraint firstItem="8l4-2i-QLc" firstAttribute="leading" secondItem="tAx-bZ-Bc1" secondAttribute="leading" constant="20" id="fml-sa-MfV"/>
                                     <constraint firstAttribute="trailing" secondItem="8l4-2i-QLc" secondAttribute="trailing" constant="20" id="gVe-eD-Iw5"/>
                                     <constraint firstAttribute="bottom" secondItem="FDs-eN-gar" secondAttribute="bottom" constant="8" id="jy6-Aa-0LC"/>
                                     <constraint firstAttribute="trailing" secondItem="FDs-eN-gar" secondAttribute="trailing" constant="8" id="kkC-39-zLX"/>
-                                    <constraint firstItem="8l4-2i-QLc" firstAttribute="top" secondItem="zqJ-6u-3jC" secondAttribute="bottom" constant="20" id="tRX-hn-kJJ"/>
+                                    <constraint firstItem="8l4-2i-QLc" firstAttribute="top" secondItem="zqJ-6u-3jC" secondAttribute="bottom" constant="4" id="tRX-hn-kJJ"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxq-zM-zNr">
@@ -118,7 +124,6 @@
                             <constraint firstItem="wxq-zM-zNr" firstAttribute="top" secondItem="tAx-bZ-Bc1" secondAttribute="bottom" id="e2q-Ys-B9D"/>
                             <constraint firstItem="tAx-bZ-Bc1" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="bottom" id="eAq-eY-18o"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hdI-3I-PF6" secondAttribute="trailing" id="nMS-4U-dds"/>
-                            <constraint firstItem="hdI-3I-PF6" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.1" id="rzf-Pf-mIx"/>
                             <constraint firstItem="hdI-3I-PF6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uU5-3V-WOM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -148,8 +153,8 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="qco-RV-UgC">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="j4D-2Y-QBk">
-                                <rect key="frame" x="16" y="44" width="382" height="58"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="j4D-2Y-QBk">
+                                <rect key="frame" x="33.666666666666657" y="44" width="346.66666666666674" height="58"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="48"/>
                                 <color key="textColor" red="0.99607843139999996" green="0.78039215689999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -157,10 +162,8 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="j4D-2Y-QBk" firstAttribute="leading" secondItem="wh5-rO-aD6" secondAttribute="leading" constant="16" id="CW2-k2-adK"/>
                             <constraint firstItem="j4D-2Y-QBk" firstAttribute="top" secondItem="wh5-rO-aD6" secondAttribute="top" id="IZn-is-kE2"/>
                             <constraint firstItem="wh5-rO-aD6" firstAttribute="trailing" secondItem="qco-RV-UgC" secondAttribute="trailing" id="NXQ-Vo-dzO"/>
-                            <constraint firstItem="wh5-rO-aD6" firstAttribute="trailing" secondItem="j4D-2Y-QBk" secondAttribute="trailing" constant="16" id="Osu-ss-L9q"/>
                             <constraint firstItem="j4D-2Y-QBk" firstAttribute="centerX" secondItem="7fq-R6-7bx" secondAttribute="centerX" id="RSg-VT-Suy"/>
                             <constraint firstAttribute="bottom" secondItem="qco-RV-UgC" secondAttribute="bottom" id="UGA-7a-MOn"/>
                             <constraint firstItem="qco-RV-UgC" firstAttribute="top" secondItem="7fq-R6-7bx" secondAttribute="top" id="c2S-zg-Utu"/>
