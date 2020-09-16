@@ -154,12 +154,12 @@ class MainViewController: UIViewController {
                         print("\(music_name) completed")
                         self.nextPlay()
                     })
-                    remoteCommandSetup(title: music_name, current: player.current, duration: audio_file.duration, rate: player.rate)
+                    setupRemoteCommand(title: music_name, current: player.current, duration: audio_file.duration, rate: player.rate)
                     player.play()
                 }
             } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
-        } else {
-            // 가저온 파일이 없으면 샘플로 플레이 한다.
+        } // 가저온 파일이 없으면 샘플로 플레이 한다.
+        else {
             guard let sampleUrl = Bundle.main.url(forResource: "sample", withExtension: "mp3") else { return }
             do {
                 file = try AVAudioFile(forReading: sampleUrl)
@@ -167,7 +167,7 @@ class MainViewController: UIViewController {
                     player.scheduleFile(audio_file, at: nil, completionHandler: {
                         print("sample.mp3 completed")
                     })
-                    remoteCommandSetup(title: "sample.mp3", current: player.current, duration: audio_file.duration, rate: player.rate)
+                    setupRemoteCommand(title: "sample.mp3", current: player.current, duration: audio_file.duration, rate: player.rate)
                     self.playTitleLabel.text = "sample.mp3"
                     player.play()
                 }

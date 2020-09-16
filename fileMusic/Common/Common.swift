@@ -45,7 +45,7 @@ let smallFontSize: CGFloat = 14.0
 let smallFontColor = UIColor(displayP3Red: 34/255, green: 34/355, blue: 34/355, alpha: 1.0)
 
 
-func remoteCommandSetup(title: String, current: TimeInterval, duration: TimeInterval, rate: Float) {
+func setupRemoteCommand(title: String, current: TimeInterval, duration: TimeInterval, rate: Float) {
     // 음원 정보
     var nowPlayingInfo = [String : Any]()
     nowPlayingInfo[MPMediaItemPropertyTitle] = title
