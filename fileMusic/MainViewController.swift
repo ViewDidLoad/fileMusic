@@ -24,6 +24,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var fileListTableView: UITableView!
     @IBOutlet weak var bottomView: UIView!
 
+    // 플레이 파일 목록
     let fm = FileManager.default
     var docuPath = ""
     var data_item = [String]()
@@ -33,10 +34,8 @@ class MainViewController: UIViewController {
     let reverb = AVAudioUnitReverb()
     var sourceFile: AVAudioFile?
     var format: AVAudioFormat?
-    //var audioFile: AVAudioFile!
+    // 선택된 파일 및 표시
     var selectIndex = 0
-    var playTimer:Timer!
-    var progress: Float = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,18 +58,7 @@ class MainViewController: UIViewController {
         do {
             try engine.start()
         } catch { print("engine error -> \(error.localizedDescription)") }
-        
-        // 타이머 설정
-        playTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [unowned self] (timer) in
-            // 실행 중인 상태 프로그레스로 표시
-            if let audio_file = self.sourceFile {
-                self.progress = Float(self.player.current / audio_file.duration)
-                print("playTimer \(self.progress), \(self.player.current), \(audio_file.duration)")
-            }
-            DispatchQueue.main.async {
-                self.playProgressView.progress = self.progress
-            }
-        })
+                
         // 잠금 화면과 제어센터 사용할 내용 등록
         let commandCenter = MPRemoteCommandCenter.shared()
         commandCenter.playCommand.addTarget { [unowned self] event in
@@ -105,33 +93,49 @@ class MainViewController: UIViewController {
         DispatchQueue.main.async {
             self.fileListTableView.reloadData()
         }
+        
+        // 타이머 설정 - 프로그래스 바에 얼마만큼 플레이 중인지 표시
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [unowned self] (timer) in
+            // 플레이어 플레이 중일 때만
+            if self.player.isPlaying {
+                // 프로그레스로 표시
+                if let audioDuration = self.sourceFile?.duration {
+                    let progress = Float(self.player.current / audioDuration)
+                    let log_str = String(format: "timer -> %.2f / %.2f = %.3f", self.player.current, audioDuration, progress)
+                    print(log_str)
+                    DispatchQueue.main.async {
+                        self.playProgressView.progress = progress
+                    }
+                }
+            }
+        })
         // 타이머 실행
-        if playTimer.isValid { playTimer.fire() }
+        timer.fire()
     }
     
     @IBAction func touchedPlayButton(_ sender: UIButton) {
         print("player status -> \(player.isPlaying)")
-        if player.isPlaying  {
-            sender.setImage(UIImage(named: "icon_play"), for: .normal)
+        // 아이콘 표시
+        let image = player.isPlaying ? UIImage(named: "icon_play") : UIImage(named: "icon_pause")
+        sender.setImage(image, for: .normal)
+        if player.isPlaying {
             player.pause()
         } else {
-            sender.setImage(UIImage(named: "icon_pause"), for: .normal)
-            play()
+            musicPlay(music: data_item[selectIndex])
         }
     }
 
     func playReset() {
         // 새롭게 설정해야 플레이 상태가 초기화 됨
         player.reset()
-        engine.attach(player)
-        engine.attach(reverb)
-        engine.connect(player, to: reverb, format: format)
-        engine.connect(reverb, to: engine.mainMixerNode, format: format)
+//        engine.attach(player)
+//        engine.attach(reverb)
+//        engine.connect(player, to: reverb, format: format)
+//        engine.connect(reverb, to: engine.mainMixerNode, format: format)
         
-        let playMusicTile = data_item.count > 0 ? data_item[selectIndex] : "sample.mp3"
+        let playMusicTitle = data_item.count > 0 ? data_item[selectIndex] : "sample.mp3"
         DispatchQueue.main.async {
-            self.playTitleLabel.text = playMusicTile
-            self.playProgressView.progress = 0.0
+            self.playTitleLabel.text = playMusicTitle
         }
     }
     
@@ -208,6 +212,24 @@ class MainViewController: UIViewController {
         }
     }
     
+    func musicPlay(music: String) {
+        // 실행되고 있으면 중단
+        if player.isPlaying { player.stop() }
+        let filename = "\(docuPath)/\(music)"
+        let fileUrl = URL(fileURLWithPath: filename)
+        do {
+            let audio_file = try AVAudioFile(forReading: fileUrl)
+            sourceFile = audio_file
+            format = audio_file.processingFormat
+            player.scheduleFile(audio_file, at: nil, completionHandler: {
+                print("\(music) completed")
+            })
+            playTitleLabel.text = music
+            setupRemoteCommand(title: music, current: player.current, duration: audio_file.duration, rate: player.rate)
+            player.play()
+        } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
+    }
+    
     func hasHeadphones(in routeDescription: AVAudioSessionRouteDescription) -> Bool {
         print("Filter the outputs to only those with a port type of headphones.")
         return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
@@ -282,13 +304,13 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if player.isPlaying { player.pause() }
+        // 선택된 인덱스 저장
         selectIndex = indexPath.row
-        playReset()
+        // 선택된 음원 플레이
+        musicPlay(music: data_item[selectIndex])
         // 0.5초후에 플레이
-        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(500)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
             self.playButton.setImage(UIImage(named: "icon_pause"), for: .normal)
-            self.play()
         }
     }
     
