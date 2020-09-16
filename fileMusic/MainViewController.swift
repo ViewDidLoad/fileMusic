@@ -27,11 +27,13 @@ class MainViewController: UIViewController {
     let fm = FileManager.default
     var docuPath = ""
     var data_item = [String]()
-    var file: AVAudioFile?
     // 음원 플레이어
-    var audioEngine = AVAudioEngine()
-    var player = AVAudioPlayerNode()
-    var audioFile: AVAudioFile!
+    let engine = AVAudioEngine()
+    let player = AVAudioPlayerNode()
+    let reverb = AVAudioUnitReverb()
+    var sourceFile: AVAudioFile?
+    var format: AVAudioFormat?
+    //var audioFile: AVAudioFile!
     var selectIndex = 0
     var playTimer:Timer!
     var progress: Float = 0.0
@@ -43,37 +45,58 @@ class MainViewController: UIViewController {
         do {
             // 접근한 경로의 디렉토리 내 파일 리스트를 불러옵니다.
             let items = try fm.contentsOfDirectory(atPath: docuPath)
-            //for item in items { data_item.append(item) }
-            items.forEach { item in
-                data_item.append(item)
-            }
+            for item in items { data_item.append(item) }
         } catch { print("Not Found item") }
-        // audioEngine 설정
-        player = AVAudioPlayerNode()
-        audioEngine.attach(player)
-        audioEngine.connect(player, to: audioEngine.outputNode, format: nil)
+        // engine 설정
+        engine.attach(player)
+        engine.attach(reverb)
+        // Set the desired reverb parameters
+        reverb.loadFactoryPreset(.mediumHall)
+        reverb.wetDryMix = 50
+        // connect the nodes
+        engine.connect(player, to: reverb, format: format)
+        engine.connect(reverb, to: engine.mainMixerNode, format: format)
         do {
-            try audioEngine.start()
-        } catch { print("audioEngine error -> \(error.localizedDescription)") }
+            try engine.start()
+        } catch { print("engine error -> \(error.localizedDescription)") }
+        
         // 타이머 설정
         playTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [unowned self] (timer) in
             // 실행 중인 상태 프로그레스로 표시
-            if let audio_file = self.file {
+            if let audio_file = self.sourceFile {
                 self.progress = Float(self.player.current / audio_file.duration)
-                //print("playTimer \(progress), \(self.player.current), \(audio_file.duration)")
+                print("playTimer \(self.progress), \(self.player.current), \(audio_file.duration)")
             }
             DispatchQueue.main.async {
                 self.playProgressView.progress = self.progress
             }
         })
-        // 잠금 화면과 제어센터
-        setupRemoteTransportControls(player: player)
+        // 잠금 화면과 제어센터 사용할 내용 등록
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.addTarget { [unowned self] event in
+            self.player.play()
+            return .success
+        }
+        commandCenter.pauseCommand.addTarget { [unowned self] event in
+            self.player.pause()
+            return .success
+        }
+        commandCenter.nextTrackCommand.addTarget { [unowned self] event in
+            self.nextPlay()
+            return .success
+        }
+        commandCenter.previousTrackCommand.addTarget { [unowned self] event in
+            self.prevPlay()
+            return .success
+        }
         // tableView
         fileListTableView.rowHeight = UITableView.automaticDimension
         fileListTableView.delegate = self
         fileListTableView.dataSource = self
-        // 노티 설정 - 오디오 중단 발생 알림
-        NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption(notification:)), name: NSNotification.Name("AVAudioSessionInterruptionNotification"), object: nil)
+        // 알람 설정 - 오디오 중단 발생 알림
+        NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: nil)
+        // 알람 설정 - 해드폰에서 스피커 등 변경될 때
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,42 +119,14 @@ class MainViewController: UIViewController {
             play()
         }
     }
-    
-    @IBAction func handleInterruption(notification: Notification) {
-        // 테스트로 유투브 갔다가 와보니 갔을 때 hadleInterruption Optional([AnyHashable("AVAudioSessionInterruptionTypeKey"): 1])
-        // 유튜브 끝났을 때 -> hadleInterruption Optional([AnyHashable("AVAudioSessionInterruptionOptionKey"): 0, AnyHashable("AVAudioSessionInterruptionTypeKey"): 0])
-        print("hadleInterruption \(String(describing: notification.userInfo))")
-        guard let userInfo = notification.userInfo,
-            let value = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-            let interruptType =  AVAudioSession.InterruptionType(rawValue: value) else {
-                return
-        }
-        
-        switch interruptType {
-        case .began:
-            print("interruptType began")
-            self.player.pause()
-        case .ended:
-            print("interruptType ended")
-            // 재시작 가능할 때
-            if let optionKey = notification.userInfo?[AVAudioSessionInterruptionOptionKey] as? UInt {
-                let interruptOption = AVAudioSession.InterruptionOptions(rawValue: optionKey)
-                if interruptOption == .shouldResume {
-                    self.player.play()
-                }
-            }
-            
-        default:
-            fatalError()
-        }
-    }
-    
+
     func playReset() {
         // 새롭게 설정해야 플레이 상태가 초기화 됨
         player.reset()
-        player = AVAudioPlayerNode()
-        audioEngine.attach(player)
-        audioEngine.connect(player, to: audioEngine.outputNode, format: nil)
+        engine.attach(player)
+        engine.attach(reverb)
+        engine.connect(player, to: reverb, format: format)
+        engine.connect(reverb, to: engine.mainMixerNode, format: format)
         
         let playMusicTile = data_item.count > 0 ? data_item[selectIndex] : "sample.mp3"
         DispatchQueue.main.async {
@@ -148,8 +143,9 @@ class MainViewController: UIViewController {
             print("\(music_name) start")
             let fileUrl = URL(fileURLWithPath: filename)
             do {
-                file = try AVAudioFile(forReading: fileUrl)
-                if let audio_file = file {
+                sourceFile = try AVAudioFile(forReading: fileUrl)
+                if let audio_file = sourceFile {
+                    format = audio_file.processingFormat
                     player.scheduleFile(audio_file, at: nil, completionHandler: {
                         print("\(music_name) completed")
                         self.nextPlay()
@@ -162,8 +158,9 @@ class MainViewController: UIViewController {
         else {
             guard let sampleUrl = Bundle.main.url(forResource: "sample", withExtension: "mp3") else { return }
             do {
-                file = try AVAudioFile(forReading: sampleUrl)
-                if let audio_file = file {
+                sourceFile = try AVAudioFile(forReading: sampleUrl)
+                if let audio_file = sourceFile {
+                    format = audio_file.processingFormat
                     player.scheduleFile(audio_file, at: nil, completionHandler: {
                         print("sample.mp3 completed")
                     })
@@ -211,29 +208,60 @@ class MainViewController: UIViewController {
         }
     }
     
-    func setupRemoteTransportControls(player: AVAudioPlayerNode) {
-        let commandCenter = MPRemoteCommandCenter.shared()
-        commandCenter.playCommand.addTarget { [unowned self] event in
-            print("setupRemoteTransportControls event \(event)")
-            player.play()
-            return .success
-        }
-        commandCenter.pauseCommand.addTarget { [unowned self] event in
-            print("setupRemoteTransportControls event \(event)")
-            player.pause()
-            return .success
-        }
-        commandCenter.nextTrackCommand.addTarget { [unowned self] event in
-            self.nextPlay()
-            return .success
-        }
-        commandCenter.previousTrackCommand.addTarget { [unowned self] event in
-            self.prevPlay()
-            return .success
-        }
+    func hasHeadphones(in routeDescription: AVAudioSessionRouteDescription) -> Bool {
+        print("Filter the outputs to only those with a port type of headphones.")
+        return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
     }
     
+    @objc func handleInterruption(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+            let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+                return
+        }
+        print("Switch over the interruption type. \(type)")
+        switch type {
+        case .began:
+            print("An interruption began. Update the UI as needed.")
+            self.player.pause()
+        case .ended:
+            print("An interruption ended. Resume playback, if appropriate.")
+            guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
+            let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+            if options.contains(.shouldResume) {
+                print("Interruption ended. Playback should resume.")
+                self.player.play()
+            } else {
+                print("Interruption ended. Playback should not resume.")
+            }
+        default: ()
+        }
+    }
 
+    @objc func handleRouteChange(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+            let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+                return
+        }
+        print("Switch over the route change reason.")
+        var headphonesConnected = false
+        switch reason {
+        case .newDeviceAvailable:
+            print("New device found.")
+            let session = AVAudioSession.sharedInstance()
+            headphonesConnected = hasHeadphones(in: session.currentRoute)
+        case .oldDeviceUnavailable:
+            print("Old device removed.")
+            if let previousRoute =
+                userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
+                headphonesConnected = hasHeadphones(in: previousRoute)
+            }
+        default: ()
+        }
+        print("headphonesConnected \(headphonesConnected)")
+    }
+    
 }
 
 extension MainViewController: UITableViewDelegate {
