@@ -13,14 +13,19 @@ import AVFoundation
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // 백그라운드 사운드 컨트롤
+        application.beginReceivingRemoteControlEvents()
         // 백그라운드 재생
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.playback)
+            // 이렇게 하니까 다른 앱에서 실행해도 음원은 중지 되지 않는다. 하지만 인터럽트 이벤트가 안온다.
+            //try audioSession.setCategory(.playback, options: .mixWithOthers)
             do {
                 try audioSession.setActive(true)
             } catch { print("audioSession.setActive error") }
         } catch { print("audioSession.setCategory error") }
+        
         return true
     }
 

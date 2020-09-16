@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MediaPlayer
 
 // 폰트 및 색상
 let fontName = "AppleSDGothicNeo-Regular"
@@ -42,3 +43,22 @@ let mediumFontColor = UIColor(displayP3Red: 34/255, green: 34/355, blue: 34/355,
 let smallFontName = "AppleSDGothicNeo-Regular"
 let smallFontSize: CGFloat = 14.0
 let smallFontColor = UIColor(displayP3Red: 34/255, green: 34/355, blue: 34/355, alpha: 1.0)
+
+
+func remoteCommandSetup(title: String, current: TimeInterval, duration: TimeInterval, rate: Float) {
+    // 음원 정보
+    var nowPlayingInfo = [String : Any]()
+    nowPlayingInfo[MPMediaItemPropertyTitle] = title
+    // 잠금 화면에서 나오는 이미지, background clear 안됨
+    if let image = UIImage(named: "lockscreen") {
+        nowPlayingInfo[MPMediaItemPropertyArtwork] =
+            MPMediaItemArtwork(boundsSize: image.size) { size in
+                return image
+        }
+    }
+    nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = current
+    nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
+    nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = rate
+    // 플레이 되는 음원 정보 표출
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+}
