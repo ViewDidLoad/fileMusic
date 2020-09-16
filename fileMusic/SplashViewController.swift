@@ -19,7 +19,7 @@ class SplashViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        titleTopConstraint.constant = UIScreen.main.bounds.midY
+        titleTopConstraint.constant = UIScreen.main.bounds.midY - titleLabel.bounds.height
         UIView.animate(withDuration: 0.8) {
             self.view.layoutIfNeeded()
         }
