@@ -128,6 +128,9 @@ class MainViewController: UIViewController {
         })
         // 타이머 실행
         timer.fire()
+        // 플레이어 이미지 설정
+        let image = player.isPlaying ? UIImage(named: "icon_pause") : UIImage(named: "icon_play")
+        playButton.setImage(image, for: .normal)
     }
     
     @IBAction func touchedPlayButton(_ sender: UIButton) {
