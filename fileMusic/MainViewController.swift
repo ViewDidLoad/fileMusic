@@ -36,8 +36,11 @@ class MainViewController: UIViewController {
     var format: AVAudioFormat?
     // 선택된 파일 및 표시
     var selectIndex = 0
+    // 타이머
+    var progressTimer = Timer()
     
     override func viewDidLoad() {
+        print("MainViewController.viewDidLoad")
         super.viewDidLoad()
         // 파일 설정 -> 리스트에 url을 넣자
         docuPath = fm.urls(for: .documentDirectory, in: .userDomainMask).first!.path
@@ -105,21 +108,24 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: nil)
         // 알람 설정 - 해드폰에서 스피커 등 변경될 때
         NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
+        // sceneDidBecomeActive 백그라운드에서 깨어날때
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSceneDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("MainViewController.viewWillAppear")
         DispatchQueue.main.async {
             self.fileListTableView.reloadData()
         }
         // 타이머 설정 - 프로그래스 바에 얼마만큼 플레이 중인지 표시
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [unowned self] (timer) in
+        progressTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [unowned self] (timer) in
             // 플레이어 플레이 중일 때만
             if self.player.isPlaying {
                 // 프로그레스로 표시
                 if let audioDuration = self.sourceFile?.duration {
                     let progress = Float(self.player.current / audioDuration)
-                    let log_str = String(format: "timer -> %.2f / %.2f = %.3f", self.player.current, audioDuration, progress)
-                    print(log_str)
+                    //let log_str = String(format: "timer -> %.2f / %.2f = %.3f", self.player.current, audioDuration, progress)
+                    //print(log_str)
                     DispatchQueue.main.async {
                         self.playProgressView.progress = progress
                     }
@@ -127,10 +133,17 @@ class MainViewController: UIViewController {
             }
         })
         // 타이머 실행
-        timer.fire()
+        progressTimer.fire()
         // 플레이어 이미지 설정
         let image = player.isPlaying ? UIImage(named: "icon_pause") : UIImage(named: "icon_play")
         playButton.setImage(image, for: .normal)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        print("MainViewController.viewDidDisappear")
+        super.viewDidDisappear(animated)
+        // 등록된 옵져버 제거
+        NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func touchedPlayButton(_ sender: UIButton) {
@@ -186,18 +199,18 @@ class MainViewController: UIViewController {
             let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
                 return
         }
-        print("Switch over the interruption type. \(type)")
+        print("Switch over the interruption type. \(type)\nengine.isRunning \(engine.isRunning)")
         switch type {
         case .began:
             print("An interruption began. Update the UI as needed.")
-            self.player.pause()
+            player.pause()
         case .ended:
             print("An interruption ended. Resume playback, if appropriate.")
             guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
             let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
             if options.contains(.shouldResume) {
                 print("Interruption ended. Playback should resume.")
-                self.player.play()
+                musicPlay(music: data_item[selectIndex])
             } else {
                 print("Interruption ended. Playback should not resume.")
             }
@@ -227,6 +240,26 @@ class MainViewController: UIViewController {
         default: ()
         }
         print("headphonesConnected \(headphonesConnected)")
+    }
+    
+    @objc func handleSceneDidBecomeActive(notification: Notification) {
+        print("handleSceneDidBecomeActive")
+        if engine.isRunning == false {
+            do {
+                try engine.start()
+            } catch { print("engine error -> \(error.localizedDescription)") }
+        }
+        // 플레이어 이미지 설정
+        let image = player.isPlaying ? UIImage(named: "icon_pause") : UIImage(named: "icon_play")
+        playButton.setImage(image, for: .normal)
+        // 타이머 생성
+        print("progressTimer.isValid \(progressTimer.isValid)")
+        if progressTimer.isValid {
+            playProgressView.progress = 0.0
+            progressTimer.fire()
+        }
+        // 선택된 제목 창 초기화
+        playTitleLabel.text = "select music on list"
     }
     
 }
