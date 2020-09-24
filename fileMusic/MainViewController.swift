@@ -83,11 +83,15 @@ class MainViewController: UIViewController {
             return .success
         }
         commandCenter.nextTrackCommand.addTarget { [unowned self] event in
-            //self.nextPlay()
+            self.selectIndex += 1
+            if self.selectIndex >= data_item.count { self.selectIndex = 0 }
+            musicPlay(music: data_item[selectIndex])
             return .success
         }
         commandCenter.previousTrackCommand.addTarget { [unowned self] event in
-            //self.prevPlay()
+            self.selectIndex -= 1
+            if self.selectIndex < 0 { self.selectIndex = self.data_item.count - 1 }
+            musicPlay(music: data_item[selectIndex])
             return .success
         }
         // tableView
