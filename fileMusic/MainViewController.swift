@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
+import GoogleMobileAds
 
 class FileListCell: UITableViewCell {
     @IBOutlet weak var fileTitleLabel: UILabel!
@@ -104,6 +105,13 @@ class MainViewController: UIViewController {
         fileListTableView.dragDelegate = self
         fileListTableView.dropDelegate = self
         fileListTableView.dragInteractionEnabled = true
+        // 애드몹 광고창 설정
+        let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint.zero)
+        bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
+        bannerView.rootViewController = self
+        bannerView.delegate = self
+        bottomView.addSubview(bannerView)
+        bannerView.load(GADRequest())
         // 알람 설정 - 오디오 중단 발생 알림
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: nil)
         // 알람 설정 - 해드폰에서 스피커 등 변경될 때
@@ -349,5 +357,23 @@ extension MainViewController: UITableViewDropDelegate {
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
         print("performDropWith")
         // 확인해보니 현재 이곳을 타지 않는다.
+    }
+}
+
+extension MainViewController: GADBannerViewDelegate {
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) // 광고 정보를 받았을 때
+    {
+        //print("adViewDidReceiveAd \(bottomView.frame.height), \(bannerView.frame.height)")
+        bannerView.alpha = 0
+        // 바닥으로 정렬
+        bannerView.frame.origin = CGPoint(x: 0, y: bottomView.frame.height - bannerView.frame.height)
+        UIView.animate(withDuration: 0.8, animations: {
+            bannerView.alpha = 1.0
+        })
+    }
+    
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) // 광고 정보 받아오는 중에 오류가 났을 때
+    {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
     }
 }

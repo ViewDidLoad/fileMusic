@@ -8,12 +8,17 @@
 
 import UIKit
 import AVFoundation
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //print("didFinishLaunchingWithOptions")
+        // 구글 애드몹 설정
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        // 테스트 모드 기기 등록, 내 아이폰 테스트 기기 설정
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "bae5161289c9cb3b73b84388355350e8" ]
         // 백그라운드 사운드 컨트롤
         application.beginReceivingRemoteControlEvents()
         // 백그라운드 재생
