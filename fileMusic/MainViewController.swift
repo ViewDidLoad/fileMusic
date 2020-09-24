@@ -165,7 +165,7 @@ class MainViewController: UIViewController {
                         // 다음 곡 재생
                         self.musicPlay(music: self.data_item[self.selectIndex])
                         // 현재 재생 중인 테이블 뷰의 셀을 표시하기
-                        
+                        self.fileListTableView.selectRow(at: IndexPath(row: self.selectIndex, section: 0), animated: false, scrollPosition: .none)
                     }
                 })
                 playTitleLabel.text = String(name)
