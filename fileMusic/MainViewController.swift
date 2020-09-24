@@ -156,6 +156,17 @@ class MainViewController: UIViewController {
                 format = audio_file.processingFormat
                 player.scheduleFile(audio_file, at: nil, completionHandler: {
                     print("\(name) completed")
+                    DispatchQueue.main.async {
+                        // 프로그레스바 초기화
+                        self.playProgressView.progress = 0.0
+                        // 다음 곡 설정
+                        self.selectIndex += 1
+                        if self.selectIndex >= self.data_item.count { self.selectIndex = 0 }
+                        // 다음 곡 재생
+                        self.musicPlay(music: self.data_item[self.selectIndex])
+                        // 현재 재생 중인 테이블 뷰의 셀을 표시하기
+                        
+                    }
                 })
                 playTitleLabel.text = String(name)
                 setupRemoteCommand(title: String(name), current: player.current, duration: audio_file.duration, rate: player.rate)
