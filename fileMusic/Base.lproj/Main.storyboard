@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mPh-kC-dit">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mPh-kC-dit">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -52,23 +54,23 @@
                                         </connections>
                                     </button>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8l4-2i-QLc">
-                                        <rect key="frame" x="20" y="61.333333333333329" width="374" height="2"/>
+                                        <rect key="frame" x="20" y="61.333333333333329" width="374" height="4"/>
                                         <color key="progressTintColor" red="0.99607843139999996" green="0.78039215689999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="trackTintColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="trackTintColor" systemColor="systemGroupedBackgroundColor"/>
                                     </progressView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-eN-gar">
-                                        <rect key="frame" x="8" y="83.333333333333314" width="398" height="562.33333333333348"/>
+                                        <rect key="frame" x="8" y="85.333333333333314" width="398" height="560.33333333333348"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="398" height="52.666667938232422"/>
+                                                <rect key="frame" x="0.0" y="28" width="398" height="53.666667938232422"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="52.666667938232422"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53.666667938232422"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                            <rect key="frame" x="24" y="16" width="358" height="20.666666666666671"/>
+                                                            <rect key="frame" x="24" y="16" width="358" height="21.666666666666671"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -111,7 +113,8 @@
                                 <color key="backgroundColor" red="0.90196078431372551" green="0.9137254901960784" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="wxq-zM-zNr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3cv-Vu-F8c"/>
                             <constraint firstItem="hdI-3I-PF6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="4Ms-kW-C1o"/>
@@ -125,7 +128,6 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hdI-3I-PF6" secondAttribute="trailing" id="nMS-4U-dds"/>
                             <constraint firstItem="hdI-3I-PF6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uU5-3V-WOM"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="bottomView" destination="wxq-zM-zNr" id="leQ-0Y-7Ar"/>
@@ -159,7 +161,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="wh5-rO-aD6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="j4D-2Y-QBk" firstAttribute="top" secondItem="wh5-rO-aD6" secondAttribute="top" id="IZn-is-kE2"/>
                             <constraint firstItem="wh5-rO-aD6" firstAttribute="trailing" secondItem="qco-RV-UgC" secondAttribute="trailing" id="NXQ-Vo-dzO"/>
@@ -168,7 +171,6 @@
                             <constraint firstItem="qco-RV-UgC" firstAttribute="top" secondItem="7fq-R6-7bx" secondAttribute="top" id="c2S-zg-Utu"/>
                             <constraint firstItem="qco-RV-UgC" firstAttribute="leading" secondItem="wh5-rO-aD6" secondAttribute="leading" id="zzG-aH-i2h"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="wh5-rO-aD6"/>
                     </view>
                     <connections>
                         <outlet property="titleLabel" destination="j4D-2Y-QBk" id="eKY-PO-yCN"/>
@@ -183,5 +185,11 @@
     <resources>
         <image name="icon_play" width="14" height="16"/>
         <image name="splash" width="280" height="355"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

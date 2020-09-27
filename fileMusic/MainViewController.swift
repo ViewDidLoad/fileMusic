@@ -170,13 +170,15 @@ class MainViewController: UIViewController {
         // 실행되고 있으면 중단
         if player.isPlaying { player.stop() }
         print("musicPlay \(music)")
-        if let name = music.absoluteString.split(separator: "/").last?.split(separator: ".").first {
+        if let name = music.absoluteString.split(separator: "/").last?.split(separator: ".").first?.removingPercentEncoding {
             do {
                 let audio_file = try AVAudioFile(forReading: music)
                 sourceFile = audio_file
                 format = audio_file.processingFormat
                 player.scheduleFile(audio_file, at: nil, completionHandler: {
                     print("\(name) completed")
+                    // 이렇게 처리하면 안되고 post 던지고 노티센터에서 받아서 처리하는 걸로 수정해보자
+                    /*
                     DispatchQueue.main.async {
                         // 프로그레스바 초기화
                         self.playProgressView.progress = 0.0
@@ -188,6 +190,7 @@ class MainViewController: UIViewController {
                         // 현재 재생 중인 테이블 뷰의 셀을 표시하기
                         self.fileListTableView.selectRow(at: IndexPath(row: self.selectIndex, section: 0), animated: false, scrollPosition: .none)
                     }
+                    // */
                 })
                 playTitleLabel.text = String(name)
                 setupRemoteCommand(title: String(name), current: player.current, duration: audio_file.duration, rate: player.rate)
