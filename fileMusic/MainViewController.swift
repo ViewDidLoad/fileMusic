@@ -329,7 +329,8 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath) as! FileListCell
-        if let name = data_item[indexPath.row].absoluteString.split(separator: "/").last?.split(separator: ".").first {
+        print("data_item[indexPath.row] \(data_item[indexPath.row])")
+        if let name = data_item[indexPath.row].absoluteString.split(separator: "/").last?.split(separator: ".").first?.removingPercentEncoding {
             cell.fileTitleLabel.text = String(name)
         }
         return cell
