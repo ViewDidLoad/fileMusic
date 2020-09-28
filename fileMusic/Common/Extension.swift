@@ -19,9 +19,13 @@ extension AVAudioFile {
 extension AVAudioPlayerNode {
     var current: TimeInterval {
         if let nodeTime = lastRenderTime, let playerTime = playerTime(forNodeTime: nodeTime) {
-            //print("playerTime.sampeTime \(playerTime.sampleTime), \(playerTime.sampleRate)")
+            //print("sampeTime \(playerTime.sampleTime) / sampleRate \(playerTime.sampleRate) = \(Double(playerTime.sampleTime) / playerTime.sampleRate)")
             return Double(playerTime.sampleTime) / playerTime.sampleRate
         }
         return 0
     }
+}
+
+extension Notification.Name {
+    static let playFinished = Notification.Name("playFinished")
 }

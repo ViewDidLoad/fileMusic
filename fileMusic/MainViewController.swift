@@ -89,12 +89,14 @@ class MainViewController: UIViewController {
         commandCenter.nextTrackCommand.addTarget { [unowned self] event in
             self.selectIndex += 1
             if self.selectIndex >= data_item.count { self.selectIndex = 0 }
+            if self.player.isPlaying { self.player.stop() }
             musicPlay(music: data_item[selectIndex])
             return .success
         }
         commandCenter.previousTrackCommand.addTarget { [unowned self] event in
             self.selectIndex -= 1
             if self.selectIndex < 0 { self.selectIndex = self.data_item.count - 1 }
+            if self.player.isPlaying { self.player.stop() }
             musicPlay(music: data_item[selectIndex])
             return .success
         }
@@ -112,6 +114,8 @@ class MainViewController: UIViewController {
         bannerView.delegate = self
         bottomView.addSubview(bannerView)
         bannerView.load(GADRequest())
+        // 플레이가 끝났을 때
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePlayFinished), name: .playFinished, object: nil)
         // 알람 설정 - 오디오 중단 발생 알림
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: nil)
         // 알람 설정 - 해드폰에서 스피커 등 변경될 때
@@ -127,16 +131,13 @@ class MainViewController: UIViewController {
         }
         // 타이머 설정 - 프로그래스 바에 얼마만큼 플레이 중인지 표시
         progressTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [unowned self] (timer) in
-            // 플레이어 플레이 중일 때만
-            if self.player.isPlaying {
-                // 프로그레스로 표시
-                if let audioDuration = self.sourceFile?.duration {
-                    let progress = Float(self.player.current / audioDuration)
-                    //let log_str = String(format: "timer -> %.2f / %.2f = %.3f", self.player.current, audioDuration, progress)
-                    //print(log_str)
-                    DispatchQueue.main.async {
-                        self.playProgressView.progress = progress
-                    }
+            // 프로그레스로 표시
+            if let audioDuration = self.sourceFile?.duration {
+                let progress = Float(self.player.current / audioDuration)
+                //let log_str = String(format: "timer -> %.2f / %.2f = %.3f", self.player.current, audioDuration, progress)
+                //print(log_str)
+                DispatchQueue.main.async {
+                    self.playProgressView.progress = progress
                 }
             }
         })
@@ -167,32 +168,20 @@ class MainViewController: UIViewController {
     }
     
     func musicPlay(music: URL) {
-        // 실행되고 있으면 중단
-        if player.isPlaying { player.stop() }
-        print("musicPlay \(music)")
+        //print("musicPlay \(music)")
         if let name = music.absoluteString.split(separator: "/").last?.split(separator: ".").first?.removingPercentEncoding {
             do {
                 let audio_file = try AVAudioFile(forReading: music)
                 sourceFile = audio_file
                 format = audio_file.processingFormat
                 player.scheduleFile(audio_file, at: nil, completionHandler: {
-                    print("\(name) completed")
+                    //print("\(name) completed")
                     // 이렇게 처리하면 안되고 post 던지고 노티센터에서 받아서 처리하는 걸로 수정해보자
-                    /*
-                    DispatchQueue.main.async {
-                        // 프로그레스바 초기화
-                        self.playProgressView.progress = 0.0
-                        // 다음 곡 설정
-                        self.selectIndex += 1
-                        if self.selectIndex >= self.data_item.count { self.selectIndex = 0 }
-                        // 다음 곡 재생
-                        self.musicPlay(music: self.data_item[self.selectIndex])
-                        // 현재 재생 중인 테이블 뷰의 셀을 표시하기
-                        self.fileListTableView.selectRow(at: IndexPath(row: self.selectIndex, section: 0), animated: false, scrollPosition: .none)
-                    }
-                    // */
+                    NotificationCenter.default.post(name: .playFinished, object: nil)
                 })
-                playTitleLabel.text = String(name)
+                DispatchQueue.main.async {
+                    self.playTitleLabel.text = String(name)
+                }
                 setupRemoteCommand(title: String(name), current: player.current, duration: audio_file.duration, rate: player.rate)
                 player.play()
             } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
@@ -202,6 +191,25 @@ class MainViewController: UIViewController {
     func hasHeadphones(in routeDescription: AVAudioSessionRouteDescription) -> Bool {
         print("Filter the outputs to only those with a port type of headphones.")
         return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
+    }
+    
+    @objc func handlePlayFinished(notification: Notification) {
+        // 마지막까지 끝내지 않을 경우는 다음곡이 아니다.
+        DispatchQueue.main.async {
+            print("handlePlayFinished \(self.selectIndex), \(self.playProgressView.progress)")
+            if self.playProgressView.progress > 0.9 {
+                // 일단 정지
+                if self.player.isPlaying { self.player.pause() }
+                // 다음 곡
+                self.selectIndex += 1
+                if self.selectIndex > self.data_item.count - 1 { self.selectIndex = 0 }
+                self.player.stop()
+                self.musicPlay(music: self.data_item[self.selectIndex])
+            } else {
+                // 초기화
+                self.playProgressView.progress = 0
+            }
+        }
     }
     
     @objc func handleInterruption(notification: Notification) {
@@ -283,6 +291,9 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 선택된 인덱스 저장
         selectIndex = indexPath.row
+        print("selectIndex \(selectIndex), indexPath.row \(indexPath.row)")
+        // 실행되고 있으면 중단
+        if player.isPlaying { player.stop() }
         // 선택된 음원 플레이
         musicPlay(music: data_item[selectIndex])
         // 0.5초후에 플레이
@@ -307,7 +318,7 @@ extension MainViewController: UITableViewDelegate {
         let action = UIContextualAction(style: .normal, title: "") { (action, view, completionHandler) in
             // 해당 파일 삭제하기
             let remove_item = "\(self.docuPath)/\(self.data_item[indexPath.row])"
-            print("selected remove_item \(remove_item)")
+            //print("selected remove_item \(remove_item)")
             do {
                 try self.fm.removeItem(atPath: remove_item)
                 self.data_item.remove(at: indexPath.row)
@@ -332,7 +343,7 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath) as! FileListCell
-        print("data_item[indexPath.row] \(data_item[indexPath.row])")
+        //print("data_item[indexPath.row] \(data_item[indexPath.row])")
         if let name = data_item[indexPath.row].absoluteString.split(separator: "/").last?.split(separator: ".").first?.removingPercentEncoding {
             cell.fileTitleLabel.text = String(name)
         }
