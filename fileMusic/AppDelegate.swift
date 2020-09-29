@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 try audioSession.setActive(true)
             } catch { print("audioSession.setActive error") }
         } catch { print("audioSession.setCategory error") }
+        // */
         
         return true
     }

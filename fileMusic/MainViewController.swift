@@ -35,6 +35,7 @@ class MainViewController: UIViewController {
     let reverb = AVAudioUnitReverb()
     var sourceFile: AVAudioFile?
     var format: AVAudioFormat?
+    let audioSession = AVAudioSession.sharedInstance()
     // 선택된 파일 및 표시
     var selectIndex = 0
     // 타이머
@@ -198,13 +199,13 @@ class MainViewController: UIViewController {
         DispatchQueue.main.async {
             print("handlePlayFinished \(self.selectIndex), \(self.playProgressView.progress)")
             if self.playProgressView.progress > 0.9 {
-                // 일단 정지
-                if self.player.isPlaying { self.player.pause() }
                 // 다음 곡
                 self.selectIndex += 1
-                if self.selectIndex > self.data_item.count - 1 { self.selectIndex = 0 }
+                if self.selectIndex >= self.data_item.count { self.selectIndex = 0 }
                 self.player.stop()
                 self.musicPlay(music: self.data_item[self.selectIndex])
+                // 현재 재생 중인 테이블 뷰의 셀을 표시하기
+                self.fileListTableView.selectRow(at: IndexPath(row: self.selectIndex, section: 0), animated: false, scrollPosition: .none)
             } else {
                 // 초기화
                 self.playProgressView.progress = 0
@@ -223,15 +224,25 @@ class MainViewController: UIViewController {
         case .began:
             print("An interruption began. Update the UI as needed.")
             player.pause()
+            do {
+                try audioSession.setActive(false)
+                print("audiosession is inactive")
+            } catch let error as NSError { print(error.localizedDescription) }
         case .ended:
             print("An interruption ended. Resume playback, if appropriate.")
             guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
             let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
             if options.contains(.shouldResume) {
                 print("Interruption ended. Playback should resume.")
-                musicPlay(music: data_item[selectIndex])
+                // engine is running -> false, 이곳을 나오게 하는 것을 찾아야 한다.
+                do {
+                    try audioSession.setActive(true)
+                    print("audioSession is Active again")
+                    player.play()
+                } catch let error as NSError { print(error.localizedDescription) }
             } else {
-                print("Interruption ended. Playback should not resume.")
+                // 실행 중 유투브 갔다가 돌아오면 여기를 탄다
+                print("Interruption ended. Playback should not resume. engine.isRunning \(engine.isRunning)")
             }
         default: ()
         }
@@ -262,7 +273,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func handleSceneDidBecomeActive(notification: Notification) {
-        print("handleSceneDidBecomeActive")
+        // 이전에 정지 되었던 상태 였으면 여기서 다시 실행한다.
+        print("handleSceneDidBecomeActive engine.isRunning \(engine.isRunning), player \(player.description)")
         if engine.isRunning == false {
             do {
                 try engine.start()
@@ -272,7 +284,7 @@ class MainViewController: UIViewController {
         let image = player.isPlaying ? UIImage(named: "icon_pause") : UIImage(named: "icon_play")
         playButton.setImage(image, for: .normal)
         // 타이머 생성
-        print("progressTimer.isValid \(progressTimer.isValid)")
+        //print("progressTimer.isValid \(progressTimer.isValid)")
         if progressTimer.isValid {
             playProgressView.progress = 0.0
             progressTimer.fire()
