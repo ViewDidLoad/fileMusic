@@ -18,6 +18,7 @@
 		9299AC6525108A1200FA4252 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6425108A1200FA4252 /* MainViewController.swift */; };
 		9299AC6725108AC100FA4252 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6625108AC100FA4252 /* Extension.swift */; };
 		9299AC6925108DA400FA4252 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6825108DA400FA4252 /* Common.swift */; };
+		92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E3526C252D1BD200ACC94F /* ConfigViewController.swift */; };
 		C44380BFB167D95F002D6E0E /* Pods_fileMusic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6147D286852A41E482B85C33 /* Pods_fileMusic.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,7 @@
 		9299AC6625108AC100FA4252 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		9299AC6825108DA400FA4252 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		92E3526A252D107F00ACC94F /* fileMusicDemoSmall.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fileMusicDemoSmall.mp4; sourceTree = "<group>"; };
+		92E3526C252D1BD200ACC94F /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
 		95F6A1D507010820E64A5F2C /* Pods-fileMusic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fileMusic.release.xcconfig"; path = "Target Support Files/Pods-fileMusic/Pods-fileMusic.release.xcconfig"; sourceTree = "<group>"; };
 		B278710ECA51503E43C79241 /* Pods-fileMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fileMusic.debug.xcconfig"; path = "Target Support Files/Pods-fileMusic/Pods-fileMusic.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,6 +100,7 @@
 				9299AC6A25108DC900FA4252 /* Common */,
 				9299AC62251088C300FA4252 /* SplashViewController.swift */,
 				9299AC6425108A1200FA4252 /* MainViewController.swift */,
+				92E3526C252D1BD200ACC94F /* ConfigViewController.swift */,
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
 				9271133E24105DE7007E7D8B /* Assets.xcassets */,
 				9271134024105DE7007E7D8B /* LaunchScreen.storyboard */,
@@ -239,6 +242,7 @@
 				9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */,
 				9299AC6725108AC100FA4252 /* Extension.swift in Sources */,
 				9299AC63251088C300FA4252 /* SplashViewController.swift in Sources */,
+				92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */,
 				9299AC6925108DA400FA4252 /* Common.swift in Sources */,
 				9299AC6525108A1200FA4252 /* MainViewController.swift in Sources */,
 			);

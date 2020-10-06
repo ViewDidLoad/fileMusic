@@ -18,6 +18,8 @@ class FileListCell: UITableViewCell {
 class MainViewController: UIViewController {
     
     @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var configButton: UIButton!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var playTitleLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
@@ -159,6 +161,16 @@ class MainViewController: UIViewController {
         super.viewDidDisappear(animated)
         // 등록된 옵져버 제거
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    @IBAction func configButtonTouched(_ sender: UIButton) {
+        print("config button touched")
+        // 설정 창으로 이동
+        let board = UIStoryboard(name: "Main", bundle: nil)
+        let vc = board.instantiateViewController(withIdentifier: "configVC") as! ConfigViewController
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .coverVertical
+        present(vc, animated: false, completion: nil)
     }
     
     @IBAction func touchedPlayButton(_ sender: UIButton) {
