@@ -37,6 +37,7 @@
 		9299AC6425108A1200FA4252 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9299AC6625108AC100FA4252 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		9299AC6825108DA400FA4252 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		92E3526A252D107F00ACC94F /* fileMusicDemoSmall.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fileMusicDemoSmall.mp4; sourceTree = "<group>"; };
 		95F6A1D507010820E64A5F2C /* Pods-fileMusic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fileMusic.release.xcconfig"; path = "Target Support Files/Pods-fileMusic/Pods-fileMusic.release.xcconfig"; sourceTree = "<group>"; };
 		B278710ECA51503E43C79241 /* Pods-fileMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fileMusic.debug.xcconfig"; path = "Target Support Files/Pods-fileMusic/Pods-fileMusic.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,6 +103,7 @@
 				9271134024105DE7007E7D8B /* LaunchScreen.storyboard */,
 				920EB67A2519E9680095A3AE /* Blumenlied.mp3 */,
 				920EB6772519E95E0095A3AE /* Canon.mp3 */,
+				92E3526A252D107F00ACC94F /* fileMusicDemoSmall.mp4 */,
 				9271134324105DE7007E7D8B /* Info.plist */,
 			);
 			path = fileMusic;
@@ -395,7 +397,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.viewdidload.fileMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -418,7 +420,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.viewdidload.fileMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
