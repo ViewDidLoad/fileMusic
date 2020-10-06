@@ -164,7 +164,7 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func configButtonTouched(_ sender: UIButton) {
-        print("config button touched")
+        //print("config button touched")
         // 설정 창으로 이동
         let board = UIStoryboard(name: "Main", bundle: nil)
         let vc = board.instantiateViewController(withIdentifier: "configVC") as! ConfigViewController
@@ -414,8 +414,8 @@ extension MainViewController: GADBannerViewDelegate {
     {
         //print("adViewDidReceiveAd \(bottomView.frame.height), \(bannerView.frame.height)")
         bannerView.alpha = 0
-        // 바닥으로 정렬
-        bannerView.frame.origin = CGPoint(x: 0, y: bottomView.frame.height - bannerView.frame.height)
+        // bottomView 상단에 위치
+        bannerView.frame.origin = CGPoint.zero
         UIView.animate(withDuration: 0.8, animations: {
             bannerView.alpha = 1.0
         })
