@@ -40,9 +40,11 @@ class MainViewController: UIViewController {
     var selectIndex = 0
     // 타이머
     var progressTimer = Timer()
+    // 샘플 음원 여부
+    var isSampleMusic = false
     
     override func viewDidLoad() {
-        print("MainViewController.viewDidLoad")
+        //print("MainViewController.viewDidLoad")
         super.viewDidLoad()
         // 파일 설정 -> 리스트에 url을 넣자
         docuPath = fm.urls(for: .documentDirectory, in: .userDomainMask).first!.path
@@ -53,15 +55,18 @@ class MainViewController: UIViewController {
                 let filename = "\(docuPath)/\(item)"
                 let fileUrl = URL(fileURLWithPath: filename)
                 data_item.append(fileUrl)
+                isSampleMusic = false
             }
         } catch { print("Not Found item") }
         // 가져올 파일이 없으면 샘플 파일을 로딩
         if data_item.count == 0 {
             if let fileUrl_1 = Bundle.main.url(forResource: "Blumenlied", withExtension: "mp3") {
                 data_item.append(fileUrl_1)
+                isSampleMusic = true
             }
             if let fileUrl_2 = Bundle.main.url(forResource: "Canon", withExtension: "mp3") {
                 data_item.append(fileUrl_2)
+                isSampleMusic = true
             }
         }
         // engine 설정
@@ -126,7 +131,7 @@ class MainViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("MainViewController.viewWillAppear")
+        //print("MainViewController.viewWillAppear")
         DispatchQueue.main.async {
             self.fileListTableView.reloadData()
         }
@@ -150,14 +155,14 @@ class MainViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        print("MainViewController.viewDidDisappear")
+        //print("MainViewController.viewDidDisappear")
         super.viewDidDisappear(animated)
         // 등록된 옵져버 제거
         NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func touchedPlayButton(_ sender: UIButton) {
-        print("player status -> \(player.isPlaying)")
+        //print("player status -> \(player.isPlaying)")
         // 아이콘 표시
         let image = player.isPlaying ? UIImage(named: "icon_play") : UIImage(named: "icon_pause")
         sender.setImage(image, for: .normal)
@@ -197,7 +202,7 @@ class MainViewController: UIViewController {
     @objc func handlePlayFinished(notification: Notification) {
         // 마지막까지 끝내지 않을 경우는 다음곡이 아니다.
         DispatchQueue.main.async {
-            print("handlePlayFinished \(self.selectIndex), \(self.playProgressView.progress)")
+            //print("handlePlayFinished \(self.selectIndex), \(self.playProgressView.progress)")
             if self.playProgressView.progress > 0.9 {
                 // 다음 곡
                 self.selectIndex += 1
@@ -303,7 +308,7 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 선택된 인덱스 저장
         selectIndex = indexPath.row
-        print("selectIndex \(selectIndex), indexPath.row \(indexPath.row)")
+        print("selectIndex \(selectIndex), indexPath.row \(indexPath.row), play url \(data_item[selectIndex])")
         // 실행되고 있으면 중단
         if player.isPlaying { player.stop() }
         // 선택된 음원 플레이
@@ -328,16 +333,21 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal, title: "") { (action, view, completionHandler) in
-            // 해당 파일 삭제하기
-            let remove_item = "\(self.docuPath)/\(self.data_item[indexPath.row])"
-            //print("selected remove_item \(remove_item)")
-            do {
-                try self.fm.removeItem(atPath: remove_item)
-                self.data_item.remove(at: indexPath.row)
-                DispatchQueue.main.async {
-                    tableView.reloadData()
-                }
-            } catch { print("FileManager RemoveItem error \(error.localizedDescription)") }
+            if self.isSampleMusic {
+                print("sample file is not removed")
+            } else {
+                // 해당 파일 삭제하기
+                print("selected remove_item \(self.data_item[indexPath.row])")
+                do {
+                    //try self.fm.removeItem(atPath: remove_item)
+                    try self.fm.removeItem(at: self.data_item[indexPath.row])
+                    self.data_item.remove(at: indexPath.row)
+                    DispatchQueue.main.async {
+                        tableView.reloadData()
+                    }
+                } catch { print("FileManager RemoveItem error \(error.localizedDescription)") }
+            }
+            
             completionHandler(true)
         }
         action.image = UIImage(named: "icon_delete")
