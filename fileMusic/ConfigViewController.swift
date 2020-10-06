@@ -7,17 +7,24 @@
 //
 
 import UIKit
+import AVKit
 
 class ConfigViewController: UIViewController {
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var movieView: UIView!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var movieLabel: UILabel!
     @IBOutlet weak var bottomView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // 동영상 플레이 끝났을 때 알기 위해 노티 추가
+        NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying(_:)), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     @IBAction func closeButtonTouched(_ sender: UIButton) {
@@ -30,4 +37,19 @@ class ConfigViewController: UIViewController {
         present(vc, animated: false, completion: nil)
     }
     
+    @IBAction func playButtonTouched(_ sender: UIButton) {
+        print("playButtonTouched")
+    }
+    
+    @objc func playerDidFinishPlaying(_ noti: Notification) {
+        if let playerItem = noti.object as? AVPlayerItem {
+            if let assetItem = playerItem.asset as? AVURLAsset {
+                let url = assetItem.url
+                let fileName = url.deletingPathExtension().lastPathComponent
+                movieView.layer.sublayers?.forEach { layer in
+                    if layer.name == fileName { layer.removeFromSuperlayer() }
+                }
+            }
+        }
+    }
 }

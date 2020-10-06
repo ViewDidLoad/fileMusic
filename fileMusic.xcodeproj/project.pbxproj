@@ -19,6 +19,7 @@
 		9299AC6725108AC100FA4252 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6625108AC100FA4252 /* Extension.swift */; };
 		9299AC6925108DA400FA4252 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6825108DA400FA4252 /* Common.swift */; };
 		92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E3526C252D1BD200ACC94F /* ConfigViewController.swift */; };
+		92E35271252D285B00ACC94F /* demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E35270252D285B00ACC94F /* demo.png */; };
 		C44380BFB167D95F002D6E0E /* Pods_fileMusic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6147D286852A41E482B85C33 /* Pods_fileMusic.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		9299AC6825108DA400FA4252 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		92E3526A252D107F00ACC94F /* fileMusicDemoSmall.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fileMusicDemoSmall.mp4; sourceTree = "<group>"; };
 		92E3526C252D1BD200ACC94F /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
+		92E35270252D285B00ACC94F /* demo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = demo.png; sourceTree = "<group>"; };
 		95F6A1D507010820E64A5F2C /* Pods-fileMusic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fileMusic.release.xcconfig"; path = "Target Support Files/Pods-fileMusic/Pods-fileMusic.release.xcconfig"; sourceTree = "<group>"; };
 		B278710ECA51503E43C79241 /* Pods-fileMusic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fileMusic.debug.xcconfig"; path = "Target Support Files/Pods-fileMusic/Pods-fileMusic.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +109,7 @@
 				920EB67A2519E9680095A3AE /* Blumenlied.mp3 */,
 				920EB6772519E95E0095A3AE /* Canon.mp3 */,
 				92E3526A252D107F00ACC94F /* fileMusicDemoSmall.mp4 */,
+				92E35270252D285B00ACC94F /* demo.png */,
 				9271134324105DE7007E7D8B /* Info.plist */,
 			);
 			path = fileMusic;
@@ -183,6 +186,7 @@
 			files = (
 				9271134224105DE7007E7D8B /* LaunchScreen.storyboard in Resources */,
 				9271133F24105DE7007E7D8B /* Assets.xcassets in Resources */,
+				92E35271252D285B00ACC94F /* demo.png in Resources */,
 				920EB67B2519E9680095A3AE /* Blumenlied.mp3 in Resources */,
 				920EB6782519E95E0095A3AE /* Canon.mp3 in Resources */,
 				9271133D24105DDE007E7D8B /* Main.storyboard in Resources */,
