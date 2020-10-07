@@ -18,6 +18,7 @@
 		9299AC6525108A1200FA4252 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6425108A1200FA4252 /* MainViewController.swift */; };
 		9299AC6725108AC100FA4252 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6625108AC100FA4252 /* Extension.swift */; };
 		9299AC6925108DA400FA4252 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299AC6825108DA400FA4252 /* Common.swift */; };
+		92DBB254252D9468001330B5 /* fileMusicDemoSmall.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 92E3526A252D107F00ACC94F /* fileMusicDemoSmall.mp4 */; };
 		92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E3526C252D1BD200ACC94F /* ConfigViewController.swift */; };
 		92E35271252D285B00ACC94F /* demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 92E35270252D285B00ACC94F /* demo.png */; };
 		C44380BFB167D95F002D6E0E /* Pods_fileMusic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6147D286852A41E482B85C33 /* Pods_fileMusic.framework */; };
@@ -184,6 +185,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92DBB254252D9468001330B5 /* fileMusicDemoSmall.mp4 in Resources */,
 				9271134224105DE7007E7D8B /* LaunchScreen.storyboard in Resources */,
 				9271133F24105DE7007E7D8B /* Assets.xcassets in Resources */,
 				92E35271252D285B00ACC94F /* demo.png in Resources */,

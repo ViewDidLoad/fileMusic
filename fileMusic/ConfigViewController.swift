@@ -44,13 +44,13 @@ class ConfigViewController: UIViewController {
     
     @IBAction func playButtonTouched(_ sender: UIButton) {
         print("playButtonTouched")
-        // 파일을 못 가져옴, 왜 그럴까?
-        if let fileurl = Bundle.main.url(forResource: "fileMusicDemoSmall", withExtension: "mp4") {
-            let player = AVPlayer(url: fileurl)
+        // 파일을 못 가져옴, 왜 그럴까? 찾았다. build phases - bundle resources 에 이 파일이 없어서 그럼, 추가하니 잘나옴
+        if let url = Bundle.main.url(forResource: "fileMusicDemoSmall", withExtension: "mp4") {
+            let player = AVPlayer(url: url)
             let playerLayer = AVPlayerLayer(player: player)
             playerLayer.videoGravity = .resize
             playerLayer.frame = sender.frame
-            playerLayer.name = fileurl.deletingPathExtension().lastPathComponent
+            playerLayer.name = url.deletingPathExtension().lastPathComponent
             movieView.layer.addSublayer(playerLayer)
             player.play()
         }
