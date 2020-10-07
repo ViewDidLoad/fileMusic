@@ -8,6 +8,7 @@
 
 import UIKit
 import AVKit
+import GoogleMobileAds
 
 class ConfigViewController: UIViewController {
     @IBOutlet weak var topView: UIView!
@@ -22,7 +23,13 @@ class ConfigViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // 애드몹 광고창 설정
+        let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint.zero)
+        bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
+        bannerView.rootViewController = self
+        bannerView.delegate = self
+        bottomView.addSubview(bannerView)
+        bannerView.load(GADRequest())
         // 동영상 플레이 끝났을 때 알기 위해 노티 추가
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying(_:)), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
@@ -67,5 +74,23 @@ class ConfigViewController: UIViewController {
                 }
             }
         }
+    }
+}
+
+extension ConfigViewController: GADBannerViewDelegate {
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) // 광고 정보를 받았을 때
+    {
+        //print("adViewDidReceiveAd \(bottomView.frame.height), \(bannerView.frame.height)")
+        bannerView.alpha = 0
+        // bottomView 상단에 위치
+        bannerView.frame.origin = CGPoint.zero
+        UIView.animate(withDuration: 0.8, animations: {
+            bannerView.alpha = 1.0
+        })
+    }
+    
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) // 광고 정보 받아오는 중에 오류가 났을 때
+    {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
     }
 }
