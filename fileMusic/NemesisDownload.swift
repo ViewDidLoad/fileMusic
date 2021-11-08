@@ -81,10 +81,8 @@ open class NemesisDownload: NSObject {
     
     open func download(request: URLRequest, kind: Kind) -> URLSessionDownloadTask {
         removeItem(at: kind.url)
-
         let task = session.downloadTask(with: request)
         task.taskDescription = kind.rawValue
-//        print(#function, request, trace)
         task.priority = URLSessionTask.highPriority
         return task
     }
@@ -113,118 +111,18 @@ extension NemesisDownload: URLSessionTaskDelegate {
 
 @available(iOS 12.0, *)
 extension NemesisDownload: URLSessionDownloadDelegate {
-    fileprivate func export(_ url: URL) {
-        PHPhotoLibrary.shared().performChanges({
-            _ = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
-            //                            changeRequest.contentEditingOutput = output
-        }) { (success, error) in
-            print(#function, success, error ?? "")
-        }
-    }
-        
-    func assemble(to url: URL, size: UInt64) -> UInt64 {
-        let partURL = url.appendingPathExtension("part")
-        FileManager.default.createFile(atPath: partURL.path, contents: nil, attributes: nil)
-        
-        var offset: UInt64 = 0
-        
-        do {
-            let file = try FileHandle(forWritingTo: partURL)
-            
-            repeat {
-                let part = url.appendingPathExtension("part-\(offset)")
-                let data = try Data(contentsOf: part, options: .alwaysMapped)
-                
-                if #available(iOS 13.0, *) {
-                    try file.seek(toOffset: offset)
-                } else {
-                    file.seek(toFileOffset: offset)
-                }
-                
-                file.write(data)
-                
-                removeItem(at: part)
-                
-                offset += UInt64(data.count)
-            } while offset < size - 1
-        }
-        catch {
-            print(#function, error)
-        }
-        
-        removeItem(at: url)
-        
-        do {
-            try FileManager.default.moveItem(at: partURL, to: url)
-        }
-        catch {
-            print(#function, error)
-        }
-        
-        return offset
-    }
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        let (_, range, size) = (downloadTask.response as? HTTPURLResponse)?.contentRange
-            ?? (nil, -1 ..< -1, -1)
-//        print(#function, session, location)
-        
         let kind = Kind(rawValue: downloadTask.taskDescription ?? "") ?? .complete
-
         do {
-            if range.isEmpty {
-                removeItem(at: kind.url)
-                try FileManager.default.moveItem(at: location, to: kind.url)
-            } else {
-                let part = kind.url.appendingPathExtension("part-\(range.lowerBound)")
-                removeItem(at: part)
-                try FileManager.default.moveItem(at: location, to: part)
-
-                guard range.upperBound >= size else {
-                    session.getTasksWithCompletionHandler { (_, _, tasks) in
-                        tasks.first {
-                            $0.originalRequest?.url == downloadTask.originalRequest?.url
-                                && ($0.originalRequest?.value(forHTTPHeaderField: "Range") ?? "")
-                                .hasPrefix("bytes=\(range.upperBound)-") }?
-                            .resume()
-                    }
-                    return
-                }
-            }
-            
-            session.getTasksWithCompletionHandler { (_, _, tasks) in
-                print(#function, tasks)
-                if let task = tasks.first(where: {
-                    let range = $0.originalRequest?.value(forHTTPHeaderField: "Range") ?? ""
-                    return $0.state == .suspended && (range.isEmpty || range.hasPrefix("bytes=0-"))
-                }) {
-                    DispatchQueue.main.async {
-                        task.taskDescription.flatMap { Kind(rawValue: $0) }.map { kind in
-                            do {
-                                try "".write(to: kind.url, atomically: false, encoding: .utf8)
-                            }
-                            catch {
-                                print(error)
-                            }
-                        }
-                    }
-                    task.resume()
-                }
-            }
-            
-            switch kind {
-            case .complete:
-                export(kind.url)
-            case .videoOnly, .audioOnly:
-                DispatchQueue.global(qos: .userInitiated).async {
-                    _ = self.assemble(to: kind.url, size: .max)
-                }
-            case .otherVideo:
-                print("otherVideo")
-            }
-        }
-        catch {
-            print(error)
+            // same name already exists 해결 방법
+            //try FileManager.default.moveItem(at: location, to: kind.url)
+            try FileManager.default.removeItem(at: kind.url)
+            print("file remove \(kind.url)")
+            try FileManager.default.copyItem(at: location, to: kind.url)
+            print("file copy completed \(kind.url)")
+        } catch {
+            print("File move location \(location) -> \(kind.url) error \(error)")
         }
     }
     
@@ -242,6 +140,6 @@ extension NemesisDownload: URLSessionDownloadDelegate {
         let remain = Double(size - count) / bytesPerSec
         
         let percent = percentFormatter.string(from: NSNumber(value: Double(count) / Double(size)))
-        print("percent \(percent)")
+        print("urlSession downloadTask percent \(String(describing: percent)), remain \(remain)")
     }
 }
