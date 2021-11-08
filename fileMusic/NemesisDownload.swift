@@ -12,46 +12,19 @@ import Photos
 
 @available(iOS 12.0, *)
 open class NemesisDownload: NSObject {
-
-//    public enum Kind: String {
-//        case complete, videoOnly, audioOnly, otherVideo
-//        
-//        public var url: URL {
-//            do {
-//                return try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-//                    .appendingPathComponent("video")
-//                    .appendingPathExtension(self != .audioOnly
-//                                                ? (self == .otherVideo ? "other" : "mp4")
-//                                                : "m4a")
-//            }
-//            catch {
-//                print(error)
-//                fatalError()
-//            }
-//        }
-//    }
-    
     public var saveUrl: URL = URL(fileURLWithPath: "")
-    
     public static let shared = NemesisDownload(backgroundURLSessionIdentifier: "YoutubeDL")
-    
     open var session: URLSession = URLSession.shared
-    
     let decimalFormatter = NumberFormatter()
-    
     let percentFormatter = NumberFormatter()
-    
     let dateComponentsFormatter = DateComponentsFormatter()
-    
     var t = ProcessInfo.processInfo.systemUptime
-    
     open var t0 = ProcessInfo.processInfo.systemUptime
     
     init(backgroundURLSessionIdentifier: String?) {
         super.init()
         
         decimalFormatter.numberStyle = .decimal
-
         percentFormatter.numberStyle = .percent
         percentFormatter.minimumFractionDigits = 1
         
@@ -61,7 +34,6 @@ open class NemesisDownload: NSObject {
         } else {
             configuration = .default
         }
-
         configuration.networkServiceType = .responsiveAV
         
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
@@ -124,6 +96,10 @@ extension NemesisDownload: URLSessionDownloadDelegate {
             print("file remove \(saveUrl)")
             try FileManager.default.copyItem(at: location, to: saveUrl)
             print("file copy completed \(saveUrl)")
+            DispatchQueue.main.async {
+                // SwiftUIView 에 노티로 데이터를 보내보자. 다운로드 상태를 보여주자.
+                NotificationCenter.default.post(name: Notification.Name("DownloadStatus"), object: "completed")
+            }
         } catch {
             print("File move location \(location) -> \(saveUrl) error \(error)")
         }
@@ -138,6 +114,10 @@ extension NemesisDownload: URLSessionDownloadDelegate {
         let remain = Double(totalBytesExpectedToWrite - totalBytesWritten) / bytesPerSec
         if let percent = percentFormatter.string(from: NSNumber(value: Double(totalBytesWritten) / Double(totalBytesExpectedToWrite))) {
             print("urlSession downloadTask percent \(String(describing: percent)), remain \(remain)")
+            DispatchQueue.main.async {
+                // SwiftUIView 에 노티로 데이터를 보내보자. 다운로드 상태를 보여주자.
+                NotificationCenter.default.post(name: Notification.Name("DownloadStatus"), object: percent)
+            }
         }
     }
 }

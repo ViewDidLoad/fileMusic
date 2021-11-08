@@ -11,6 +11,7 @@ import YoutubeDL
 import PythonKit
 
 struct SwiftUIView: View {
+    @Environment(\.presentationMode) var presentationMode
     @State var dn = NemesisDownload.shared
     @State var alertMessage: String?
     @State var isShowingAlert = false
@@ -21,6 +22,7 @@ struct SwiftUIView: View {
         }
     }
     @State var info: Info?
+    @State var downloadStatus: String?
     @State var error: Error? {
         didSet {
             alertMessage = error?.localizedDescription
@@ -30,11 +32,13 @@ struct SwiftUIView: View {
     @State var youtubeDL: YoutubeDL?
     @State var showingFormats = false
     @State var formatsSheet: ActionSheet?
+    let pub = NotificationCenter.default.publisher(for: Notification.Name("DownloadStatus"))
 
     var body: some View {
         List {
             if url != nil { Text(url?.absoluteString ?? "nil?") }
             if info != nil { Text(info?.title ?? "nil?") }
+            if downloadStatus != nil { Text(downloadStatus ?? "nil?") }
             youtubeDL?.version.map { Text("youtube_dl version \($0)") }
             Button("Paste URL") {
                 // https://youtu.be/-n_Kw19q2bM 첨밀밀 노래
@@ -44,6 +48,11 @@ struct SwiftUIView: View {
         }
         .onAppear(perform: {
             if info == nil, let url = url { extractInfo(url: url) }
+        })
+        .onReceive(pub, perform: { output in
+            if let output_result = output.object as? String {
+                self.DownloadStatus(result: output_result)
+            }
         })
         .alert(isPresented: $isShowingAlert) { Alert(title: Text(alertMessage ?? "no message?")) }
         .actionSheet(isPresented: $showingFormats) { () -> ActionSheet in
@@ -76,6 +85,16 @@ struct SwiftUIView: View {
                     }
                 }
             }
+        }
+    }
+    
+    func DownloadStatus(result: String) {
+        // 다운로드 상태를 받아보자. 이게 나오면 성공이다.
+        print("DownloadStatus receive success \(result)")
+        downloadStatus = "Download Status \(result)"
+        if result == "completed" {
+            // 현재 창을 닫자.
+            self.presentationMode.wrappedValue.dismiss()
         }
     }
     
