@@ -34,15 +34,23 @@ struct SwiftUIView: View {
     @State var formatsSheet: ActionSheet?
     // 초기설정 첨밀밀
     @State var download_url = ""
+    @State var isDownloadButtonDisable = true
     let pub = NotificationCenter.default.publisher(for: Notification.Name("DownloadStatus"))
 
     var body: some View {
         List {
-            TextField("input download youtube url", text: $download_url)
+            TextField("input youtube url", text: $download_url, onEditingChanged: { _ in
+                print("onEditingChanged")
+            }, onCommit: {
+                print("input url completed")
+                // 공백이 아닐 때 버튼 활성화
+                isDownloadButtonDisable = download_url == "" ? true : false
+            })
             Button("Download URL") {
-                download_url = "https://youtu.be/-n_Kw19q2bM"
+                //download_url = "https://youtu.be/-n_Kw19q2bM"
                 self.url = URL(string: download_url)
             }
+            .disabled(isDownloadButtonDisable)
             youtubeDL?.version.map { Text("youtube_dl version \($0)") }
             if info != nil { Text(info?.title ?? "nil?") }
             if downloadStatus != nil { Text(downloadStatus ?? "nil?") }
