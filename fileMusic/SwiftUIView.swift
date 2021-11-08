@@ -21,7 +21,7 @@ struct SwiftUIView: View {
             extractInfo(url: url)
         }
     }
-    @State var info: Info?
+    @State var info: NemesisInfo?
     @State var downloadStatus: String?
     @State var error: Error? {
         didSet {
@@ -29,12 +29,12 @@ struct SwiftUIView: View {
             isShowingAlert = true
         }
     }
-    @State var youtubeDL: YoutubeDL?
+    @State var youtubeDL: NemesisYoutubeDL?//YoutubeDL?
     @State var showingFormats = false
     @State var formatsSheet: ActionSheet?
-    // 초기설정 첨밀밀
     @State var download_url = ""
     @State var isDownloadButtonDisable = true
+    
     let pub = NotificationCenter.default.publisher(for: Notification.Name("DownloadStatus"))
 
     var body: some View {
@@ -117,7 +117,7 @@ struct SwiftUIView: View {
         }
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                youtubeDL = try YoutubeDL()
+                youtubeDL = try NemesisYoutubeDL()
                 DispatchQueue.main.async {
                     url.map { extractInfo(url: $0) }
                 }
@@ -149,7 +149,7 @@ struct SwiftUIView: View {
         isShowingAlert = true
     }
     
-    func check(info: Info?) {
+    func check(info: NemesisInfo?) {
         guard let formats = info?.formats else { return }
         
         formatsSheet = ActionSheet(title: Text("YouTube Download"), message: Text(info?.description ?? "default"), buttons: [
@@ -164,7 +164,7 @@ struct SwiftUIView: View {
         }
     }
     
-    func download(format: Format) {
+    func download(format: NemesisFormat) {
         print("download format.description \(format.description)")
         let docuUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let saveFileUrl = docuUrl.appendingPathComponent(info?.description ?? "video").appendingPathExtension("mp4")

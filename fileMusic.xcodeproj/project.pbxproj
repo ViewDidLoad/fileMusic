@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34479F972739EDFD00FD8380 /* NemesisYoutubeDL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */; };
 		345B45552738A16000986B84 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345B45542738A16000986B84 /* SwiftUIView.swift */; };
 		345B45582738A41700986B84 /* YoutubeDL in Frameworks */ = {isa = PBXBuildFile; productRef = 345B45572738A41700986B84 /* YoutubeDL */; };
 		345B45712738F62200986B84 /* NemesisDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345B45702738F62200986B84 /* NemesisDownload.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemesisYoutubeDL.swift; sourceTree = "<group>"; };
 		345B45542738A16000986B84 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		345B45702738F62200986B84 /* NemesisDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemesisDownload.swift; sourceTree = "<group>"; };
 		6147D286852A41E482B85C33 /* Pods_fileMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fileMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +115,7 @@
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
 				345B45542738A16000986B84 /* SwiftUIView.swift */,
 				345B45702738F62200986B84 /* NemesisDownload.swift */,
+				34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */,
 				9271133E24105DE7007E7D8B /* Assets.xcassets */,
 				9271134024105DE7007E7D8B /* LaunchScreen.storyboard */,
 				920EB67A2519E9680095A3AE /* Blumenlied.mp3 */,
@@ -258,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34479F972739EDFD00FD8380 /* NemesisYoutubeDL.swift in Sources */,
 				9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */,
 				9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */,
 				345B45552738A16000986B84 /* SwiftUIView.swift in Sources */,
