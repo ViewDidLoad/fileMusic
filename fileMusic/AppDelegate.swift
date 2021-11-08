@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 import GoogleMobileAds
+import YoutubeDL
+import PythonSupport
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } catch { print("audioSession.setActive error") }
         } catch { print("audioSession.setCategory error") }
         // */
+        // Youtube-dl
+        PythonSupport.initialize()
+        _ = Downloader.shared // create URL session
         
         return true
     }
