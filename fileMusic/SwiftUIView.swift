@@ -33,16 +33,9 @@ struct SwiftUIView: View {
 
     var body: some View {
         List {
-            if url != nil {
-                Text(url?.absoluteString ?? "nil?")
-            }
-            
-            if info != nil {
-                Text(info?.title ?? "nil?")
-            }
-            
+            if url != nil { Text(url?.absoluteString ?? "nil?") }
+            if info != nil { Text(info?.title ?? "nil?") }
             youtubeDL?.version.map { Text("youtube_dl version \($0)") }
-            
             Button("Paste URL") {
                 // https://youtu.be/-n_Kw19q2bM 첨밀밀 노래
                 let url = URL(string: "https://youtu.be/-n_Kw19q2bM")
@@ -50,13 +43,9 @@ struct SwiftUIView: View {
             }
         }
         .onAppear(perform: {
-            if info == nil, let url = url {
-                extractInfo(url: url)
-            }
+            if info == nil, let url = url { extractInfo(url: url) }
         })
-        .alert(isPresented: $isShowingAlert) {
-            Alert(title: Text(alertMessage ?? "no message?"))
-        }
+        .alert(isPresented: $isShowingAlert) { Alert(title: Text(alertMessage ?? "no message?")) }
         .actionSheet(isPresented: $showingFormats) { () -> ActionSheet in
             formatsSheet ?? ActionSheet(title: Text("nil?"))
         }

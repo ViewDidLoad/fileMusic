@@ -52,27 +52,6 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         // 파일 설정 -> 리스트에 url을 넣자
         docuPath = fm.urls(for: .documentDirectory, in: .userDomainMask).first!.path
-        do {
-            // 접근한 경로의 디렉토리 내 파일 리스트를 불러옵니다.
-            let items = try fm.contentsOfDirectory(atPath: docuPath)
-            for item in items {
-                let filename = "\(docuPath)/\(item)"
-                let fileUrl = URL(fileURLWithPath: filename)
-                data_item.append(fileUrl)
-                isSampleMusic = false
-            }
-        } catch { print("Not Found item") }
-        // 가져올 파일이 없으면 샘플 파일을 로딩
-        if data_item.count == 0 {
-            if let fileUrl_1 = Bundle.main.url(forResource: "Blumenlied", withExtension: "mp3") {
-                data_item.append(fileUrl_1)
-                isSampleMusic = true
-            }
-            if let fileUrl_2 = Bundle.main.url(forResource: "Canon", withExtension: "mp3") {
-                data_item.append(fileUrl_2)
-                isSampleMusic = true
-            }
-        }
         // engine 설정
         engine.attach(player)
         engine.attach(reverb)
@@ -161,6 +140,33 @@ class MainViewController: UIViewController {
         // 플레이어 이미지 설정
         let image = player.isPlaying ? UIImage(named: "icon_pause") : UIImage(named: "icon_play")
         playButton.setImage(image, for: .normal)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // 기존 자료 지우고.
+        data_item.removeAll()
+        do {
+            // 접근한 경로의 디렉토리 내 파일 리스트를 불러옵니다.
+            let items = try fm.contentsOfDirectory(atPath: docuPath)
+            for item in items {
+                let filename = "\(docuPath)/\(item)"
+                let fileUrl = URL(fileURLWithPath: filename)
+                data_item.append(fileUrl)
+                isSampleMusic = false
+            }
+        } catch { print("Not Found item") }
+        // 가져올 파일이 없으면 샘플 파일을 로딩
+        if data_item.count == 0 {
+            if let fileUrl_1 = Bundle.main.url(forResource: "Blumenlied", withExtension: "mp3") {
+                data_item.append(fileUrl_1)
+                isSampleMusic = true
+            }
+            if let fileUrl_2 = Bundle.main.url(forResource: "Canon", withExtension: "mp3") {
+                data_item.append(fileUrl_2)
+                isSampleMusic = true
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

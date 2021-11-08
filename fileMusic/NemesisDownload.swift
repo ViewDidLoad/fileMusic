@@ -13,23 +13,23 @@ import Photos
 @available(iOS 12.0, *)
 open class NemesisDownload: NSObject {
 
-    public enum Kind: String {
-        case complete, videoOnly, audioOnly, otherVideo
-        
-        public var url: URL {
-            do {
-                return try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-                    .appendingPathComponent("video")
-                    .appendingPathExtension(self != .audioOnly
-                                                ? (self == .otherVideo ? "other" : "mp4")
-                                                : "m4a")
-            }
-            catch {
-                print(error)
-                fatalError()
-            }
-        }
-    }
+//    public enum Kind: String {
+//        case complete, videoOnly, audioOnly, otherVideo
+//        
+//        public var url: URL {
+//            do {
+//                return try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+//                    .appendingPathComponent("video")
+//                    .appendingPathExtension(self != .audioOnly
+//                                                ? (self == .otherVideo ? "other" : "mp4")
+//                                                : "m4a")
+//            }
+//            catch {
+//                print(error)
+//                fatalError()
+//            }
+//        }
+//    }
     
     public var saveUrl: URL = URL(fileURLWithPath: "")
     
@@ -118,7 +118,6 @@ extension NemesisDownload: URLSessionTaskDelegate {
 
 @available(iOS 12.0, *)
 extension NemesisDownload: URLSessionDownloadDelegate {
-    
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         do {
             try FileManager.default.removeItem(at: saveUrl)
@@ -137,7 +136,8 @@ extension NemesisDownload: URLSessionDownloadDelegate {
         let elapsed = t - t0
         let bytesPerSec = Double(totalBytesWritten) / elapsed
         let remain = Double(totalBytesExpectedToWrite - totalBytesWritten) / bytesPerSec
-        let percent = percentFormatter.string(from: NSNumber(value: Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)))
-        print("urlSession downloadTask percent \(String(describing: percent)), remain \(remain)")
+        if let percent = percentFormatter.string(from: NSNumber(value: Double(totalBytesWritten) / Double(totalBytesExpectedToWrite))) {
+            print("urlSession downloadTask percent \(String(describing: percent)), remain \(remain)")
+        }
     }
 }
