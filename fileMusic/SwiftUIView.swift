@@ -11,43 +11,26 @@ import YoutubeDL
 import PythonKit
 
 struct SwiftUIView: View {
+    @State var dn = NemesisDownload.shared
     @State var alertMessage: String?
-    
     @State var isShowingAlert = false
-    
     @State var url: URL? {
         didSet {
-            guard let url = url else {
-                return
-            }
-            
+            guard let url = url else { return }
             extractInfo(url: url)
         }
     }
-    
     @State var info: Info?
-    
     @State var error: Error? {
         didSet {
             alertMessage = error?.localizedDescription
             isShowingAlert = true
         }
     }
-    
     @State var youtubeDL: YoutubeDL?
-    
-    @State var indeterminateProgressKey: String?
-    
-    @State var isTranscodingEnabled = true
-    
-    @State var isRemuxingEnabled = true
-    
     @State var showingFormats = false
-    
     @State var formatsSheet: ActionSheet?
 
-    @State var progress: Progress?
-    
     var body: some View {
         List {
             if url != nil {
@@ -56,25 +39,6 @@ struct SwiftUIView: View {
             
             if info != nil {
                 Text(info?.title ?? "nil?")
-            }
-            
-            if let key = indeterminateProgressKey {
-                if #available(iOS 14.0, *) {
-                    ProgressView(key)
-                } else {
-                    Text(key)
-                }
-            }
-            
-            if let progress = progress {
-                if #available(iOS 14.0, *) {
-                    ProgressView(progress)
-                } else {
-                    VStack {
-                        Text("\(progress.localizedDescription)")
-                        Text("\(progress.localizedAdditionalDescription)")
-                    }
-                }
             }
             
             youtubeDL?.version.map { Text("youtube_dl version \($0)") }
@@ -98,35 +62,21 @@ struct SwiftUIView: View {
         }
     }
     
-    func open(url: URL) {
-        print("open \(url.description)")
-        UIApplication.shared.open(url, options: [:]) {
-            if !$0 {
-                alert(message: "Failed to open \(url)")
-            }
-        }
-    }
-    
     func extractInfo(url: URL) {
         print("extractInfo \(url.description)")
         guard let youtubeDL = youtubeDL else {
             loadPythonModule()
             return
         }
-        
-        indeterminateProgressKey = "Extracting info..."
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let (_, info) = try youtubeDL.extractInfo(url: url)
                 DispatchQueue.main.async {
-                    indeterminateProgressKey = nil
                     self.info = info
-                    
                     check(info: info)
                 }
             }
             catch {
-                indeterminateProgressKey = nil
                 guard let pyError = error as? PythonError, case let .exception(exception, traceback: _) = pyError else {
                     self.error = error
                     return
@@ -146,13 +96,10 @@ struct SwiftUIView: View {
             downloadPythonModule()
             return
         }
-        indeterminateProgressKey = "Loading Python module..."
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 youtubeDL = try YoutubeDL()
                 DispatchQueue.main.async {
-                    indeterminateProgressKey = nil
-                    
                     url.map { extractInfo(url: $0) }
                 }
             }
@@ -166,10 +113,8 @@ struct SwiftUIView: View {
     
     func downloadPythonModule() {
         print("downloadPythonModule")
-        indeterminateProgressKey = "Downloading Python module..."
         YoutubeDL.downloadPythonModule { error in
             DispatchQueue.main.async {
-                indeterminateProgressKey = nil
                 guard error == nil else {
                     self.alert(message: error?.localizedDescription ?? "nil?")
                     return
@@ -186,39 +131,30 @@ struct SwiftUIView: View {
     }
     
     func check(info: Info?) {
-        print("check \(info?.description)")
-        guard let formats = info?.formats else {
-            return
-        }
+        guard let formats = info?.formats else { return }
         
-        let _best = formats.filter { !$0.isRemuxingNeeded && !$0.isTranscodingNeeded }.last
-        guard let best = _best else { return }
-        guard let bestHeight = best.height else { return }
-        
-        formatsSheet = ActionSheet(title: Text("ChooseFormat"), message: Text("SomeFormatsNeedTranscoding"), buttons: [
-            .default(Text(String(format: NSLocalizedString("BestFormat", comment: "Alert action"), bestHeight)),
+        formatsSheet = ActionSheet(title: Text("YouTube Download"), message: Text(info?.description ?? "default"), buttons: [
+            .default(Text("Download"),
                      action: {
-                        self.download(format: best, start: true, faster: false)
-                     }),
-            .cancel()
+                         self.download(format: formats.last!, start: true, faster: false)
+                     })
         ])
-
+        // 이게 추가되어야 아래 액션시트가 나온다.
         DispatchQueue.main.async {
             showingFormats = true
         }
     }
     
     func download(format: Format, start: Bool, faster: Bool) {
-        print("download \(format.description)")
-        let kind: Downloader.Kind = format.isVideoOnly
-            ? (!format.isTranscodingNeeded ? .videoOnly : .otherVideo)
-            : (format.isAudioOnly ? .audioOnly : .complete)
-
+        print("download format.description \(format.description)")
+        let kind: NemesisDownload.Kind = .videoOnly
+        print("download url \(url), requestUrl \(format.urlRequest)")
+        let docuPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path
         var requests: [URLRequest] = []
         
         if faster, let size = format.filesize {
-            if !FileManager.default.createFile(atPath: kind.url.part.path, contents: Data(), attributes: nil) {
-                print(#function, "couldn't create \(kind.url.part.lastPathComponent)")
+            if !FileManager.default.createFile(atPath: docuPath, contents: Data(), attributes: nil) {
+                print(#function, "couldn't create \(docuPath)")
             }
 
             var end: Int64 = -1
@@ -233,23 +169,19 @@ struct SwiftUIView: View {
             requests.append(request)
         }
 
-        let tasks = requests.map { Downloader.shared.download(request: $0, kind: kind) }
+        let tasks = requests.map { dn.download(request: $0, kind: kind) }
 
         if start {
-            progress = Downloader.shared.progress
-            progress?.kind = .file
-            progress?.fileOperationKind = .downloading
             do {
                 try "".write(to: kind.url, atomically: false, encoding: .utf8)
             }
             catch {
                 print(error)
             }
-            progress?.fileURL = kind.url
-
-            Downloader.shared.t0 = ProcessInfo.processInfo.systemUptime
+            dn.t0 = ProcessInfo.processInfo.systemUptime
             tasks.first?.resume()
         }
+        // */
     }
 }
 
@@ -258,3 +190,4 @@ struct SwiftUIView_Previews: PreviewProvider {
         SwiftUIView()
     }
 }
+

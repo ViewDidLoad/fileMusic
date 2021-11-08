@@ -22,6 +22,10 @@
 	<string>ca-app-pub-7335522539377881~8882538242</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>save video</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Fetch vodeo</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

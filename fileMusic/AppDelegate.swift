@@ -36,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // */
         // Youtube-dl
         PythonSupport.initialize()
-        _ = Downloader.shared // create URL session
         
         return true
     }
