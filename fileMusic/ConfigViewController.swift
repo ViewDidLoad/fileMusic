@@ -50,9 +50,10 @@ class ConfigViewController: UIViewController {
     }
     
     @IBAction func playButtonTouched(_ sender: UIButton) {
-        //print("playButtonTouched")
+        print("playButtonTouched")
         // 파일을 못 가져옴, 왜 그럴까? 찾았다. build phases - bundle resources 에 이 파일이 없어서 그럼, 추가하니 잘나옴
-        if let url = Bundle.main.url(forResource: "fileMusicDemoSmall", withExtension: "mp4") {
+        //if let url = Bundle.main.url(forResource: "fileMusicDemoSmall", withExtension: "mp4") {
+        if let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let player = AVPlayer(url: url)
             let playerLayer = AVPlayerLayer(player: player)
             playerLayer.videoGravity = .resize

@@ -31,6 +31,8 @@ open class NemesisDownload: NSObject {
         }
     }
     
+    public var saveUrl: URL = URL(fileURLWithPath: "")
+    
     public static let shared = NemesisDownload(backgroundURLSessionIdentifier: "YoutubeDL")
     
     open var session: URLSession = URLSession.shared
@@ -64,6 +66,12 @@ open class NemesisDownload: NSObject {
         
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         print(session, "created")
+        // 기본 url
+        do {
+            saveUrl = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                        .appendingPathComponent("video")
+                        .appendingPathExtension("mp4")
+        } catch { print("saveUrl error \(error.localizedDescription)") }
     }
 
     func removeItem(at url: URL) {
@@ -79,11 +87,10 @@ open class NemesisDownload: NSObject {
         }
     }
     
-    open func download(request: URLRequest, kind: Kind) -> URLSessionDownloadTask {
-        removeItem(at: kind.url)
+    open func download(request: URLRequest, save: URL) -> URLSessionDownloadTask {
         let task = session.downloadTask(with: request)
-        task.taskDescription = kind.rawValue
         task.priority = URLSessionTask.highPriority
+        saveUrl = save
         return task
     }
     
@@ -113,33 +120,24 @@ extension NemesisDownload: URLSessionTaskDelegate {
 extension NemesisDownload: URLSessionDownloadDelegate {
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        let kind = Kind(rawValue: downloadTask.taskDescription ?? "") ?? .complete
         do {
-            // same name already exists 해결 방법
-            //try FileManager.default.moveItem(at: location, to: kind.url)
-            try FileManager.default.removeItem(at: kind.url)
-            print("file remove \(kind.url)")
-            try FileManager.default.copyItem(at: location, to: kind.url)
-            print("file copy completed \(kind.url)")
+            try FileManager.default.removeItem(at: saveUrl)
+            print("file remove \(saveUrl)")
+            try FileManager.default.copyItem(at: location, to: saveUrl)
+            print("file copy completed \(saveUrl)")
         } catch {
-            print("File move location \(location) -> \(kind.url) error \(error)")
+            print("File move location \(location) -> \(saveUrl) error \(error)")
         }
     }
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         let t = ProcessInfo.processInfo.systemUptime
-        guard t - self.t > 0.9 else {
-            return
-        }
+        guard t - self.t > 0.9 else { return }
         self.t = t
-        
         let elapsed = t - t0
-        let (_, range, size) = (downloadTask.response as? HTTPURLResponse)?.contentRange ?? (nil, 0..<0, totalBytesExpectedToWrite)
-        let count = range.lowerBound + totalBytesWritten
-        let bytesPerSec = Double(count) / elapsed
-        let remain = Double(size - count) / bytesPerSec
-        
-        let percent = percentFormatter.string(from: NSNumber(value: Double(count) / Double(size)))
+        let bytesPerSec = Double(totalBytesWritten) / elapsed
+        let remain = Double(totalBytesExpectedToWrite - totalBytesWritten) / bytesPerSec
+        let percent = percentFormatter.string(from: NSNumber(value: Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)))
         print("urlSession downloadTask percent \(String(describing: percent)), remain \(remain)")
     }
 }

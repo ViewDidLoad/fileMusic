@@ -136,7 +136,7 @@ struct SwiftUIView: View {
         formatsSheet = ActionSheet(title: Text("YouTube Download"), message: Text(info?.description ?? "default"), buttons: [
             .default(Text("Download"),
                      action: {
-                         self.download(format: formats.last!, start: true, faster: false)
+                         self.download(format: formats.last!)
                      })
         ])
         // 이게 추가되어야 아래 액션시트가 나온다.
@@ -145,43 +145,19 @@ struct SwiftUIView: View {
         }
     }
     
-    func download(format: Format, start: Bool, faster: Bool) {
+    func download(format: Format) {
         print("download format.description \(format.description)")
-        let kind: NemesisDownload.Kind = .videoOnly
-        print("download url \(url), requestUrl \(format.urlRequest)")
-        let docuPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path
-        var requests: [URLRequest] = []
-        
-        if faster, let size = format.filesize {
-            if !FileManager.default.createFile(atPath: docuPath, contents: Data(), attributes: nil) {
-                print(#function, "couldn't create \(docuPath)")
-            }
-
-            var end: Int64 = -1
-            while end < size - 1 {
-                guard var request = format.urlRequest else { fatalError() }
-                // https://github.com/ytdl-org/youtube-dl/issues/15271#issuecomment-362834889
-                end = request.setRange(start: end + 1, fullSize: size)
-                requests.append(request)
-            }
-        } else {
-            guard let request = format.urlRequest else { fatalError() }
-            requests.append(request)
-        }
-
-        let tasks = requests.map { dn.download(request: $0, kind: kind) }
-
-        if start {
-            do {
-                try "".write(to: kind.url, atomically: false, encoding: .utf8)
-            }
-            catch {
-                print(error)
-            }
-            dn.t0 = ProcessInfo.processInfo.systemUptime
-            tasks.first?.resume()
-        }
-        // */
+        let docuUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let saveFileUrl = docuUrl.appendingPathComponent(info?.description ?? "video").appendingPathExtension("mp4")
+        //print("download saveFileName \(saveFileUrl)")
+        guard let request = format.urlRequest else { fatalError() }
+        let task = dn.download(request: request, save: saveFileUrl)
+        // 여기서 더미로 저장을 안하면 저장이 안된다.
+        do {
+            try "".write(to: saveFileUrl, atomically: false, encoding: .utf8)
+        } catch { print("saveFileUrl write error \(error.localizedDescription)") }
+        dn.t0 = ProcessInfo.processInfo.systemUptime
+        task.resume()
     }
 }
 
