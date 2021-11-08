@@ -32,19 +32,20 @@ struct SwiftUIView: View {
     @State var youtubeDL: YoutubeDL?
     @State var showingFormats = false
     @State var formatsSheet: ActionSheet?
+    // 초기설정 첨밀밀
+    @State var download_url = ""
     let pub = NotificationCenter.default.publisher(for: Notification.Name("DownloadStatus"))
 
     var body: some View {
         List {
-            if url != nil { Text(url?.absoluteString ?? "nil?") }
+            TextField("input download youtube url", text: $download_url)
+            Button("Download URL") {
+                download_url = "https://youtu.be/-n_Kw19q2bM"
+                self.url = URL(string: download_url)
+            }
+            youtubeDL?.version.map { Text("youtube_dl version \($0)") }
             if info != nil { Text(info?.title ?? "nil?") }
             if downloadStatus != nil { Text(downloadStatus ?? "nil?") }
-            youtubeDL?.version.map { Text("youtube_dl version \($0)") }
-            Button("Paste URL") {
-                // https://youtu.be/-n_Kw19q2bM 첨밀밀 노래
-                let url = URL(string: "https://youtu.be/-n_Kw19q2bM")
-                self.url = url
-            }
         }
         .onAppear(perform: {
             if info == nil, let url = url { extractInfo(url: url) }
