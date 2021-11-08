@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		345B45552738A16000986B84 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345B45542738A16000986B84 /* SwiftUIView.swift */; };
 		920EB6782519E95E0095A3AE /* Canon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 920EB6772519E95E0095A3AE /* Canon.mp3 */; };
 		920EB67B2519E9680095A3AE /* Blumenlied.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 920EB67A2519E9680095A3AE /* Blumenlied.mp3 */; };
 		9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9271133524105DDE007E7D8B /* AppDelegate.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		345B45542738A16000986B84 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		6147D286852A41E482B85C33 /* Pods_fileMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fileMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		920EB6772519E95E0095A3AE /* Canon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Canon.mp3; sourceTree = "<group>"; };
 		920EB67A2519E9680095A3AE /* Blumenlied.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Blumenlied.mp3; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				9299AC6425108A1200FA4252 /* MainViewController.swift */,
 				92E3526C252D1BD200ACC94F /* ConfigViewController.swift */,
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
+				345B45542738A16000986B84 /* SwiftUIView.swift */,
 				9271133E24105DE7007E7D8B /* Assets.xcassets */,
 				9271134024105DE7007E7D8B /* LaunchScreen.storyboard */,
 				920EB67A2519E9680095A3AE /* Blumenlied.mp3 */,
@@ -246,6 +249,7 @@
 			files = (
 				9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */,
 				9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */,
+				345B45552738A16000986B84 /* SwiftUIView.swift in Sources */,
 				9299AC6725108AC100FA4252 /* Extension.swift in Sources */,
 				9299AC63251088C300FA4252 /* SplashViewController.swift in Sources */,
 				92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */,

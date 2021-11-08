@@ -89,8 +89,4 @@ extension ConfigViewController: GADBannerViewDelegate {
         })
     }
     
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) // 광고 정보 받아오는 중에 오류가 났을 때
-    {
-        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
-    }
 }

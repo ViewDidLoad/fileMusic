@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mPh-kC-dit">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mPh-kC-dit">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -80,14 +80,14 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="398" height="53.666667938232422"/>
+                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="53"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53.666667938232422"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                            <rect key="frame" x="24" y="16" width="358" height="21.666666666666671"/>
+                                                            <rect key="frame" x="24" y="16" width="358" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -127,7 +127,25 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxq-zM-zNr">
                                 <rect key="frame" x="0.0" y="780.33333333333337" width="414" height="81.666666666666629"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jno-rm-MHy">
+                                        <rect key="frame" x="4" y="4" width="406" height="73.666666666666671"/>
+                                        <color key="backgroundColor" red="0.88235294117647056" green="0.19215686274509802" blue="0.44705882352941173" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="YouTube-DL Start"/>
+                                        <connections>
+                                            <action selector="youtubeDLButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Th-UV-B9M"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" red="0.46666666666666667" green="0.46666666666666667" blue="0.46666666666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="jno-rm-MHy" secondAttribute="bottom" constant="4" id="c0B-Z3-0e1"/>
+                                    <constraint firstItem="jno-rm-MHy" firstAttribute="top" secondItem="wxq-zM-zNr" secondAttribute="top" constant="4" id="rwH-p6-OXk"/>
+                                    <constraint firstItem="jno-rm-MHy" firstAttribute="leading" secondItem="wxq-zM-zNr" secondAttribute="leading" constant="4" id="vMH-R7-RfY"/>
+                                    <constraint firstAttribute="trailing" secondItem="jno-rm-MHy" secondAttribute="trailing" constant="4" id="zcO-aE-9Bd"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -157,6 +175,7 @@
                         <outlet property="playTitleLabel" destination="SB2-aS-kgA" id="bgB-Ke-0iv"/>
                         <outlet property="titleLabel" destination="FGc-T6-ne8" id="VLe-W3-JyR"/>
                         <outlet property="topView" destination="hdI-3I-PF6" id="Iaa-u6-08x"/>
+                        <outlet property="youtubeDlButton" destination="jno-rm-MHy" id="qNp-aj-5Xp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 import AVFoundation
 import MediaPlayer
 import GoogleMobileAds
@@ -26,7 +27,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var playProgressView: UIProgressView!
     @IBOutlet weak var fileListTableView: UITableView!
     @IBOutlet weak var bottomView: UIView!
-
+    @IBOutlet weak var youtubeDlButton: UIButton!
+    
     // 플레이 파일 목록
     let fm = FileManager.default
     var docuPath = ""
@@ -115,13 +117,18 @@ class MainViewController: UIViewController {
         fileListTableView.dragDelegate = self
         fileListTableView.dropDelegate = self
         fileListTableView.dragInteractionEnabled = true
-        // 애드몹 광고창 설정
+        // youtubeDL button
+        youtubeDlButton.layer.cornerRadius = 15.0
+        youtubeDlButton.layer.borderWidth = 1.0
+        youtubeDlButton.layer.borderColor = UIColor.white.cgColor
+        /*/ 애드몹 광고창 설정
         let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint.zero)
         bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
         bannerView.rootViewController = self
         bannerView.delegate = self
         bottomView.addSubview(bannerView)
         bannerView.load(GADRequest())
+        // */
         // 플레이가 끝났을 때
         NotificationCenter.default.addObserver(self, selector: #selector(handlePlayFinished), name: .playFinished, object: nil)
         // 알람 설정 - 오디오 중단 발생 알림
@@ -182,6 +189,13 @@ class MainViewController: UIViewController {
             player.pause()
         } else {
             musicPlay(music: data_item[selectIndex])
+        }
+    }
+    
+    @IBAction func youtubeDLButtonTouched(_ sender: UIButton) {
+        // swiftUI 연결
+        if let swiftUIView = [UIHostingController(rootView: SwiftUIView())].first {
+            present(swiftUIView, animated: false, completion: nil)
         }
     }
     
@@ -421,8 +435,4 @@ extension MainViewController: GADBannerViewDelegate {
         })
     }
     
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) // 광고 정보 받아오는 중에 오류가 났을 때
-    {
-        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
-    }
 }
