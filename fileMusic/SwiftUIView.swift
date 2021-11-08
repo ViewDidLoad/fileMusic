@@ -95,6 +95,8 @@ struct SwiftUIView: View {
         if result == "completed" {
             // 현재 창을 닫자.
             self.presentationMode.wrappedValue.dismiss()
+            // 다운로드 된 파일 갱신
+            NotificationCenter.default.post(name: Notification.Name("updateFileList"), object: nil)
         }
     }
     

@@ -108,6 +108,8 @@ class MainViewController: UIViewController {
         bottomView.addSubview(bannerView)
         bannerView.load(GADRequest())
         // */
+        // 파일 리스트 갱신
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFileList), name: Notification.Name("updateFileList"), object: nil)
         // 플레이가 끝났을 때
         NotificationCenter.default.addObserver(self, selector: #selector(handlePlayFinished), name: .playFinished, object: nil)
         // 알람 설정 - 오디오 중단 발생 알림
@@ -144,18 +146,7 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // 기존 자료 지우고.
-        data_item.removeAll()
-        do {
-            // 접근한 경로의 디렉토리 내 파일 리스트를 불러옵니다.
-            let items = try fm.contentsOfDirectory(atPath: docuPath)
-            for item in items {
-                let filename = "\(docuPath)/\(item)"
-                let fileUrl = URL(fileURLWithPath: filename)
-                data_item.append(fileUrl)
-                isSampleMusic = false
-            }
-        } catch { print("Not Found item") }
+        updateFileList()
         // 가져올 파일이 없으면 샘플 파일을 로딩
         if data_item.count == 0 {
             if let fileUrl_1 = Bundle.main.url(forResource: "Blumenlied", withExtension: "mp3") {
@@ -229,6 +220,25 @@ class MainViewController: UIViewController {
     func hasHeadphones(in routeDescription: AVAudioSessionRouteDescription) -> Bool {
         print("Filter the outputs to only those with a port type of headphones.")
         return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
+    }
+    
+    @objc func updateFileList() {
+        // 기존 자료 지우고.
+        data_item.removeAll()
+        do {
+            // 접근한 경로의 디렉토리 내 파일 리스트를 불러옵니다.
+            let items = try fm.contentsOfDirectory(atPath: docuPath)
+            for item in items {
+                let filename = "\(docuPath)/\(item)"
+                let fileUrl = URL(fileURLWithPath: filename)
+                data_item.append(fileUrl)
+                isSampleMusic = false
+            }
+        } catch { print("Not Found item") }
+        // 파일 리스트 갱신
+        DispatchQueue.main.async {
+            self.fileListTableView.reloadData()
+        }
     }
     
     @objc func handlePlayFinished(notification: Notification) {
