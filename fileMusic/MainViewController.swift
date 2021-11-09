@@ -89,7 +89,14 @@ class MainViewController: UIViewController {
             musicPlay(music: data_item[selectIndex])
             return .success
         }
+        // topView
+        topView.layer.cornerRadius = 15.0
+        topView.layer.borderWidth = 1.0
+        topView.layer.borderColor = UIColor.white.cgColor
         // tableView
+        fileListTableView.layer.cornerRadius = 15.0
+        fileListTableView.layer.borderWidth = 1.0
+        fileListTableView.layer.borderColor = UIColor.white.cgColor
         fileListTableView.delegate = self
         fileListTableView.dataSource = self
         fileListTableView.rowHeight = UITableView.automaticDimension
