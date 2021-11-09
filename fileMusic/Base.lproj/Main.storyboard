@@ -80,14 +80,14 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="53"/>
+                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="53.333332061767578"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53.333332061767578"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                            <rect key="frame" x="24" y="16" width="358" height="21"/>
+                                                            <rect key="frame" x="24" y="15.999999999999998" width="358" height="21.333333333333329"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -321,31 +321,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="qco-RV-UgC">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="j4D-2Y-QBk">
-                                <rect key="frame" x="32" y="44" width="350" height="58"/>
+                                <rect key="frame" x="32" y="419.33333333333331" width="350" height="57.666666666666686"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="48"/>
-                                <color key="textColor" red="0.99607843139999996" green="0.78039215689999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="wh5-rO-aD6"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.88235294119999996" green="0.19215686269999999" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="j4D-2Y-QBk" firstAttribute="top" secondItem="wh5-rO-aD6" secondAttribute="top" id="IZn-is-kE2"/>
-                            <constraint firstItem="wh5-rO-aD6" firstAttribute="trailing" secondItem="qco-RV-UgC" secondAttribute="trailing" id="NXQ-Vo-dzO"/>
-                            <constraint firstAttribute="bottom" secondItem="qco-RV-UgC" secondAttribute="bottom" id="UGA-7a-MOn"/>
-                            <constraint firstItem="qco-RV-UgC" firstAttribute="top" secondItem="7fq-R6-7bx" secondAttribute="top" id="c2S-zg-Utu"/>
+                            <constraint firstItem="j4D-2Y-QBk" firstAttribute="centerY" secondItem="7fq-R6-7bx" secondAttribute="centerY" id="FS7-s2-Mde"/>
                             <constraint firstItem="j4D-2Y-QBk" firstAttribute="leading" secondItem="wh5-rO-aD6" secondAttribute="leading" constant="32" id="c7A-ul-n7j"/>
+                            <constraint firstItem="j4D-2Y-QBk" firstAttribute="centerX" secondItem="7fq-R6-7bx" secondAttribute="centerX" id="g7K-Yi-rfK"/>
                             <constraint firstItem="wh5-rO-aD6" firstAttribute="trailing" secondItem="j4D-2Y-QBk" secondAttribute="trailing" constant="32" id="yCV-LP-MIp"/>
-                            <constraint firstItem="qco-RV-UgC" firstAttribute="leading" secondItem="wh5-rO-aD6" secondAttribute="leading" id="zzG-aH-i2h"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="titleLabel" destination="j4D-2Y-QBk" id="eKY-PO-yCN"/>
-                        <outlet property="titleTopConstraint" destination="IZn-is-kE2" id="LkF-V2-ijK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3c6-gk-mLi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -358,7 +351,6 @@
         <image name="config" width="25.666666030883789" height="25.666666030883789"/>
         <image name="demo.png" width="1362" height="1049"/>
         <image name="icon_play" width="14" height="16"/>
-        <image name="splash" width="280" height="355"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

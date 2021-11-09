@@ -10,19 +10,9 @@ import UIKit
 
 class SplashViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleTopConstraint.constant = 10
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        titleTopConstraint.constant = UIScreen.main.bounds.midY - titleLabel.bounds.height
-        UIView.animate(withDuration: 0.8) {
-            self.view.layoutIfNeeded()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

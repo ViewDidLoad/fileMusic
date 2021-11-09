@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		34479F972739EDFD00FD8380 /* NemesisYoutubeDL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */; };
+		34479F99273A5F0100FD8380 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F98273A5F0100FD8380 /* DBHelper.swift */; };
+		34479F9B273A606B00FD8380 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F9A273A606B00FD8380 /* Model.swift */; };
+		34479F9D273A610000FD8380 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F9C273A610000FD8380 /* API.swift */; };
 		345B45552738A16000986B84 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345B45542738A16000986B84 /* SwiftUIView.swift */; };
 		345B45582738A41700986B84 /* YoutubeDL in Frameworks */ = {isa = PBXBuildFile; productRef = 345B45572738A41700986B84 /* YoutubeDL */; };
 		345B45712738F62200986B84 /* NemesisDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345B45702738F62200986B84 /* NemesisDownload.swift */; };
@@ -30,6 +33,9 @@
 
 /* Begin PBXFileReference section */
 		34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemesisYoutubeDL.swift; sourceTree = "<group>"; };
+		34479F98273A5F0100FD8380 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		34479F9A273A606B00FD8380 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		34479F9C273A610000FD8380 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		345B45542738A16000986B84 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		345B45702738F62200986B84 /* NemesisDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemesisDownload.swift; sourceTree = "<group>"; };
 		6147D286852A41E482B85C33 /* Pods_fileMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fileMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,7 +136,10 @@
 		9299AC6A25108DC900FA4252 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				34479F9C273A610000FD8380 /* API.swift */,
+				34479F9A273A606B00FD8380 /* Model.swift */,
 				9299AC6825108DA400FA4252 /* Common.swift */,
+				34479F98273A5F0100FD8380 /* DBHelper.swift */,
 				9299AC6625108AC100FA4252 /* Extension.swift */,
 			);
 			path = Common;
@@ -261,12 +270,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34479F99273A5F0100FD8380 /* DBHelper.swift in Sources */,
 				34479F972739EDFD00FD8380 /* NemesisYoutubeDL.swift in Sources */,
 				9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */,
+				34479F9B273A606B00FD8380 /* Model.swift in Sources */,
 				9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */,
 				345B45552738A16000986B84 /* SwiftUIView.swift in Sources */,
 				9299AC6725108AC100FA4252 /* Extension.swift in Sources */,
 				9299AC63251088C300FA4252 /* SplashViewController.swift in Sources */,
+				34479F9D273A610000FD8380 /* API.swift in Sources */,
 				345B45712738F62200986B84 /* NemesisDownload.swift in Sources */,
 				92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */,
 				9299AC6925108DA400FA4252 /* Common.swift in Sources */,

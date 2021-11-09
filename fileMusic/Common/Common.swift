@@ -62,3 +62,55 @@ func setupRemoteCommand(title: String, current: TimeInterval, duration: TimeInte
     // 플레이 되는 음원 정보 표출
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 }
+
+func ObjectIdToDate(id: String) -> Date {
+    var resultDate = Date()
+    let endIdx: String.Index = id.index(id.startIndex, offsetBy: 7)
+    let hex = id[id.startIndex...endIdx]
+    if let offset = UInt32(hex, radix: 16) {
+        resultDate = Date(timeIntervalSince1970: TimeInterval(offset))
+    }
+    return resultDate
+}
+
+func getLocale() -> String {
+    return Locale.current.identifier
+}
+
+func getUUID() -> String {
+    var result = ""
+    if let uuid = UserDefaults.standard.string(forKey: "uuid") {
+        result = uuid
+    }
+    return result
+}
+
+func getNick() -> String {
+    var result = ""
+    if let nick = UserDefaults.standard.string(forKey: "nick") {
+        result = nick
+    }
+    return result
+}
+
+func getVersion() -> String {
+    var result = ""
+    if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        result = version
+    }
+    return result
+}
+
+func getOS() -> String {
+    return "iOS_\(UIDevice.current.systemVersion)"
+}
+
+func randomString(length: Int) -> String {
+    let letters = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+    var randomString: String = ""
+    for _ in 0..<length {
+        let randomNumber = Int.random(in: 0..<letters.count)
+        randomString.append(letters[randomNumber])
+    }
+    return randomString
+}
