@@ -98,3 +98,23 @@ func getPlay(success: @escaping ([RESPONSE_PLAY]) -> Void) {
         } catch { print("JSONDecoder error \(error.localizedDescription)") }
     }.resume()
 }
+
+func getAd(success: @escaping ([RESPONSE_AD]) -> Void) {
+    let config = URLSessionConfiguration.default
+    config.timeoutIntervalForRequest = TimeInterval(5)
+    let session = URLSession(configuration: config)
+    guard let url = URL(string: web_server + "/getAd") else {
+        print("url error")
+        return
+    }
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+    session.dataTask(with: request) { (rData, response, _) in
+        guard let data = rData else { return }
+        do {
+            let response_result = try JSONDecoder().decode([RESPONSE_AD].self, from: data)
+            success(response_result)
+        } catch { print("JSONDecoder error \(error.localizedDescription)") }
+    }.resume()
+}

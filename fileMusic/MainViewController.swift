@@ -11,6 +11,8 @@ import SwiftUI
 import AVFoundation
 import MediaPlayer
 import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 class FileListCell: UITableViewCell {
     @IBOutlet weak var fileTitleLabel: UILabel!
@@ -28,6 +30,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var playProgressView: UIProgressView!
     @IBOutlet weak var fileListTableView: UITableView!
     @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var youtubeDlButton: UIButton!
     
     // 플레이 파일 목록
@@ -48,6 +51,8 @@ class MainViewController: UIViewController {
     // 샘플 음원 여부
     var isSampleMusic = false
     var elixir_count = 0
+    // 구글 애드몹 광고창
+    var bannerView = GADBannerView()
     
     override func viewDidLoad() {
         //print("MainViewController.viewDidLoad")
@@ -135,9 +140,8 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         //print("MainViewController.viewWillAppear")
-        DispatchQueue.main.async {
-            self.fileListTableView.reloadData()
-        }
+        // 바닥 뷰의 크기를 0으로 설정하여 나오지 않도록 하고 광고 데이터 받았을 때 나오도록 함
+        bottomViewHeightConstraint.constant = 0
         // 타이머 설정 - 프로그래스 바에 얼마만큼 플레이 중인지 표시
         progressTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [unowned self] (timer) in
             // 프로그레스로 표시
@@ -159,6 +163,7 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        // 디렉토리의 파일을 가져온다
         updateFileList()
         // 가져올 파일이 없으면 샘플 파일을 로딩
         if data_item.count == 0 {
@@ -170,7 +175,26 @@ class MainViewController: UIViewController {
                 data_item.append(fileUrl_2)
                 isSampleMusic = true
             }
+            DispatchQueue.main.async {
+                self.fileListTableView.reloadData()
+            }
         }
+        // 애드몹 광고창 설정
+        let adSize = getFullWidthAdaptiveAdSize(view: bottomView)
+        bannerView = GADBannerView(adSize: adSize, origin: CGPoint.zero)
+        bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
+        bannerView.rootViewController = self
+        bannerView.delegate = self
+        bottomView.addSubview(bannerView)
+        //*/ 스크린 샷을 위해 광고 중지
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { (status) in
+                self.bannerView.load(GADRequest())
+            }
+        } else {
+            bannerView.load(GADRequest())
+        }
+        // */
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -182,9 +206,28 @@ class MainViewController: UIViewController {
     
     @IBAction func elixirButtonTouched(_ sender: UIButton) {
         if elixir_count > 0 {
-            // 유튜브 다운로드 버튼을 보여준다.
+            // 엘릭샤 카운트 감소
+            elixir_count -= 1
+            UserDefaults.standard.set(elixir_count, forKey: "elixir")
+            elixirLabel.text = "\(elixir_count)"
+            // 배너 광고를 제거해준다.
+            bannerView.isHidden = true
+            // 광고 설정이 되었을 때만 버튼 보여준다.
+            let ad = UserDefaults.standard.bool(forKey: "AdEnable")
+            if ad == true {
+                // 유튜브 다운로드 버튼을 보여준다.
+                youtubeDlButton.isHidden = false
+            }
+            // 한번 실행하면 비활성화 하자.
+            sender.isEnabled = false
         } else {
             // 설정화면에서 엘릭샤 버튼을 터치하여 전면광고를 시청 한 후 다시 시도하세요.
+            let alert = UIAlertController(title: "Elixir tribe", message: "Go to config and touch the elixir button to view the ad and replenish it.", preferredStyle: UIAlertController.Style.alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                alert.dismiss(animated: false, completion: nil)
+            }
+            alert.addAction(okAction)
+            present(alert, animated: false, completion: nil)
         }
     }
     
@@ -365,6 +408,17 @@ class MainViewController: UIViewController {
         playTitleLabel.text = "select music on list"
     }
     
+    fileprivate func getFullWidthAdaptiveAdSize(view: UIView) -> GADAdSize {
+        let frame = { () -> CGRect in
+            if #available(iOS 11.0, *) {
+                return view.frame.inset(by: view.safeAreaInsets)
+            } else {
+                return view.frame
+            }
+        }()
+        return GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(frame.size.width)
+    }
+    
 }
 
 extension MainViewController: UITableViewDelegate {
@@ -465,15 +519,16 @@ extension MainViewController: UITableViewDropDelegate {
 }
 
 extension MainViewController: GADBannerViewDelegate {
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) // 광고 정보를 받았을 때
-    {
-        //print("adViewDidReceiveAd \(bottomView.frame.height), \(bannerView.frame.height)")
-        bannerView.alpha = 0
-        // bottomView 상단에 위치
-        bannerView.frame.origin = CGPoint.zero
-        UIView.animate(withDuration: 0.8, animations: {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        bannerView.alpha = 0.0
+        bottomViewHeightConstraint.constant = bannerView.bounds.height
+        UIView.animate(withDuration: 0.8) {
+            self.view.layoutIfNeeded()
             bannerView.alpha = 1.0
-        })
+        }
     }
     
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
 }

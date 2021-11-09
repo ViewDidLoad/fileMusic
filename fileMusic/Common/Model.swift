@@ -20,6 +20,11 @@ struct RESPONSE_PLAY: Codable {
     let filename: String
 }
 
+struct RESPONSE_AD: Codable {
+    let _id: String
+    let enable: Bool
+}
+
 struct PLAY_HISTORY {
     let uuid: String
     let nick: String

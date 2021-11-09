@@ -72,7 +72,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAx-bZ-Bc1">
-                                <rect key="frame" x="0.0" y="125.66666666666669" width="414" height="654.66666666666652"/>
+                                <rect key="frame" x="0.0" y="125.66666666666669" width="414" height="736.33333333333326"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="select music on list" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="SB2-aS-kgA">
                                         <rect key="frame" x="20" y="25.999999999999986" width="143.33333333333334" height="21.666666666666671"/>
@@ -96,19 +96,19 @@
                                         <color key="trackTintColor" systemColor="systemGroupedBackgroundColor"/>
                                     </progressView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-eN-gar">
-                                        <rect key="frame" x="8" y="85.666666666666686" width="398" height="561"/>
+                                        <rect key="frame" x="8" y="85.666666666666686" width="398" height="642.66666666666652"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="53"/>
+                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="53.333332061767578"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53.333332061767578"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                            <rect key="frame" x="24" y="16" width="358" height="21"/>
+                                                            <rect key="frame" x="24" y="15.999999999999998" width="358" height="21.333333333333329"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -147,10 +147,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxq-zM-zNr">
-                                <rect key="frame" x="0.0" y="780.33333333333337" width="414" height="81.666666666666629"/>
+                                <rect key="frame" x="0.0" y="862" width="414" height="0.0"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jno-rm-MHy">
-                                        <rect key="frame" x="4" y="4" width="406" height="73.666666666666671"/>
+                                        <rect key="frame" x="4" y="4" width="406" height="38"/>
                                         <color key="backgroundColor" red="0.88235294117647056" green="0.19215686274509802" blue="0.44705882352941173" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -163,6 +163,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="jno-rm-MHy" secondAttribute="bottom" constant="4" id="c0B-Z3-0e1"/>
+                                    <constraint firstAttribute="height" id="glE-ko-9O6"/>
                                     <constraint firstItem="jno-rm-MHy" firstAttribute="top" secondItem="wxq-zM-zNr" secondAttribute="top" constant="4" id="rwH-p6-OXk"/>
                                     <constraint firstItem="jno-rm-MHy" firstAttribute="leading" secondItem="wxq-zM-zNr" secondAttribute="leading" constant="4" id="vMH-R7-RfY"/>
                                     <constraint firstAttribute="trailing" secondItem="jno-rm-MHy" secondAttribute="trailing" constant="4" id="zcO-aE-9Bd"/>
@@ -177,7 +178,6 @@
                             <constraint firstItem="hdI-3I-PF6" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.1" id="B1k-D5-Uez"/>
                             <constraint firstItem="tAx-bZ-Bc1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QPm-9C-dLS"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wxq-zM-zNr" secondAttribute="bottom" id="UXA-Wu-WM0"/>
-                            <constraint firstItem="wxq-zM-zNr" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.1" id="ZM9-gW-Exp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tAx-bZ-Bc1" secondAttribute="trailing" id="a57-yB-k1Z"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wxq-zM-zNr" secondAttribute="trailing" id="cAN-e6-ntL"/>
                             <constraint firstItem="wxq-zM-zNr" firstAttribute="top" secondItem="tAx-bZ-Bc1" secondAttribute="bottom" id="e2q-Ys-B9D"/>
@@ -187,7 +187,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bottomView" destination="wxq-zM-zNr" id="leQ-0Y-7Ar"/>
+                        <outlet property="bottomView" destination="wxq-zM-zNr" id="ndE-Qx-ElZ"/>
+                        <outlet property="bottomViewHeightConstraint" destination="glE-ko-9O6" id="JbJ-Ud-ekh"/>
                         <outlet property="configButton" destination="htW-dx-P7S" id="PRn-Fv-xKQ"/>
                         <outlet property="contentView" destination="tAx-bZ-Bc1" id="ilD-zJ-Smo"/>
                         <outlet property="elixirButton" destination="9iL-zz-c92" id="8DK-gb-XFq"/>

@@ -35,7 +35,7 @@ class ConfigViewController: UIViewController {
         //UserDefaults.standard.set(100, forKey: "elixir")
         elixir_count = UserDefaults.standard.integer(forKey: "elixir")
         elixirLabel.text = "\(elixir_count)"
-        // 애드몹 광고창 설정
+        // 애드몹 광고창 설정 ca-app-pub-7335522539377881/3302541567 보상형 전면광고
         let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint.zero)
         bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
         bannerView.rootViewController = self

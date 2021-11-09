@@ -13,6 +13,13 @@ class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 서버에서 광고여부 가져오기
+        getAd(success: { ads in
+            for ad in ads {
+                print("enable \(ad.enable)")
+                UserDefaults.standard.set(ad.enable, forKey: "AdEnable")
+            }
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
