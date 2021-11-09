@@ -141,7 +141,7 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         //print("MainViewController.viewWillAppear")
         // 바닥 뷰의 크기를 0으로 설정하여 나오지 않도록 하고 광고 데이터 받았을 때 나오도록 함
-        bottomViewHeightConstraint.constant = 0
+        bottomViewHeightConstraint.constant = 8.0
         // 타이머 설정 - 프로그래스 바에 얼마만큼 플레이 중인지 표시
         progressTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [unowned self] (timer) in
             // 프로그레스로 표시

@@ -9,6 +9,8 @@
 import UIKit
 import AVKit
 import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 class ConfigViewController: UIViewController {
     @IBOutlet weak var topView: UIView!
@@ -22,7 +24,13 @@ class ConfigViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var movieLabel: UILabel!
     @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var bottomHeightConstraint: NSLayoutConstraint!
     
+    // 구글 애드몹 배너광고창
+    var bannerView = GADBannerView()
+    // 보상형 전면광고 - 엘릭샤 충전
+    var rewardedInterstitialAd: GADRewardedInterstitialAd?
+    let reward_id = "ca-app-pub-7335522539377881/3302541567"
     var elixir_count = 0
     
     override func viewDidLoad() {
@@ -35,15 +43,32 @@ class ConfigViewController: UIViewController {
         //UserDefaults.standard.set(100, forKey: "elixir")
         elixir_count = UserDefaults.standard.integer(forKey: "elixir")
         elixirLabel.text = "\(elixir_count)"
-        // 애드몹 광고창 설정 ca-app-pub-7335522539377881/3302541567 보상형 전면광고
-        let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint.zero)
+        // 애드몹 광고창 설정
+        let adSize = getFullWidthAdaptiveAdSize(view: bottomView)
+        bannerView = GADBannerView(adSize: adSize, origin: CGPoint.zero)
         bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
         bannerView.rootViewController = self
         bannerView.delegate = self
         bottomView.addSubview(bannerView)
-        bannerView.load(GADRequest())
+        //*/ 스크린 샷을 위해 광고 중지
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { (status) in
+                self.bannerView.load(GADRequest())
+            }
+        } else {
+            bannerView.load(GADRequest())
+        }
+        // */
+        // 전면광고 데이터 가져오자.
+        loadInterstitial()
         // 동영상 플레이 끝났을 때 알기 위해 노티 추가
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying(_:)), name: .AVPlayerItemDidPlayToEndTime, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 바닥 뷰의 크기를 0으로 설정하여 나오지 않도록 하고 광고 데이터 받았을 때 나오도록 함
+        bottomHeightConstraint.constant = 0.0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,7 +87,29 @@ class ConfigViewController: UIViewController {
     }
     
     @IBAction func elixirButtonTouched(_ sender: UIButton) {
-        // 전면광고를 보면 엘릭샤를 1 더한다.
+        // 데이터 가져왔으면 전면 광고 띄워보자.
+        if let ad = rewardedInterstitialAd {
+            ad.present(fromRootViewController: self) {
+                if let reward = self.rewardedInterstitialAd?.adReward {
+                    // 1 reward 설정 했는데 10이 오고 있다.
+                    print("reward \(reward.amount)")
+                    if reward.amount.intValue > 0 {
+                        // 가져온 마법 물약 추가분을 저장시킨다.
+                        self.elixir_count += 1
+                        self.elixirLabel.text = "\(self.elixir_count)"
+                        UserDefaults.standard.set(self.elixir_count, forKey: "elixir")
+                    }
+                }
+            }
+        } else {
+            // 데이터 없음 잠시 후에 다시 시도하세요.
+            let alert = UIAlertController(title: "Ad Empty", message: "Please try again later.", preferredStyle: UIAlertController.Style.alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                alert.dismiss(animated: false, completion: nil)
+            }
+            alert.addAction(okAction)
+            present(alert, animated: false, completion: nil)
+        }
     }
     
     @IBAction func playButtonTouched(_ sender: UIButton) {
@@ -92,18 +139,84 @@ class ConfigViewController: UIViewController {
             }
         }
     }
+    
+    fileprivate func getFullWidthAdaptiveAdSize(view: UIView) -> GADAdSize {
+        let frame = { () -> CGRect in
+            if #available(iOS 11.0, *) {
+                return view.frame.inset(by: view.safeAreaInsets)
+            } else {
+                return view.frame
+            }
+        }()
+        return GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(frame.size.width)
+    }
+    
+    fileprivate func loadInterstitial() {
+        let request = GADRequest()
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { (status) in
+                //보상형 전면광고
+                GADRewardedInterstitialAd.load(withAdUnitID: self.reward_id, request: request) { (ad, err) in
+                    if let error = err {
+                        print("Failed to load Reward Interstitial ad error \(error.localizedDescription)")
+                        return
+                    }
+                    if let reward_ad = ad {
+                        self.rewardedInterstitialAd = reward_ad
+                        self.rewardedInterstitialAd!.fullScreenContentDelegate = self
+                        print("GADRewardedInterstitialAd load")
+                        // elixirButton
+                        self.elixirButton.isEnabled = true
+                    }
+                }
+            }
+        } else {
+            // 보상형 전면광고
+            GADRewardedInterstitialAd.load(withAdUnitID: reward_id, request: request) { (ad, err) in
+                if let error = err {
+                    print("Failed to load Reward Interstitial ad error \(error.localizedDescription)")
+                    return
+                }
+                if let reward_ad = ad {
+                    self.rewardedInterstitialAd = reward_ad
+                    self.rewardedInterstitialAd!.fullScreenContentDelegate = self
+                    print("GADRewardedInterstitialAd load")
+                    // elixirButton
+                    self.elixirButton.isEnabled = true
+                }
+            }
+        }
+    }
 }
 
 extension ConfigViewController: GADBannerViewDelegate {
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) // 광고 정보를 받았을 때
-    {
-        //print("adViewDidReceiveAd \(bottomView.frame.height), \(bannerView.frame.height)")
-        bannerView.alpha = 0
-        // bottomView 상단에 위치
-        bannerView.frame.origin = CGPoint.zero
-        UIView.animate(withDuration: 0.8, animations: {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        bannerView.alpha = 0.0
+        bottomHeightConstraint.constant = bannerView.bounds.height
+        UIView.animate(withDuration: 0.8) {
+            self.view.layoutIfNeeded()
             bannerView.alpha = 1.0
-        })
+        }
     }
     
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+}
+
+extension ConfigViewController: GADFullScreenContentDelegate {
+    // MARK: - GADFullScreenContentDelegate
+    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("Ad did present full screen content.")
+    }
+
+    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        print("Ad failed to present full screen content with error \(error.localizedDescription).")
+        // 광고시청 오류 : 딱히 넣지 말자, 나중에 생각나면 추가
+    }
+
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("Ad did dismiss full screen content.")
+        // 광고 시청 : 딱히 넣지 말자, 나중에 생각나면 추가
+    }
 }
