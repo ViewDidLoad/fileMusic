@@ -21,9 +21,9 @@ class SplashViewController: UIViewController {
         let nick = UserDefaults.standard.string(forKey: "nick")
         // 지연 실행
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            if nick == "" {
+            if nick == "" || nick == nil {
                 let board = UIStoryboard(name: "Main", bundle: nil)
-                let vc = board.instantiateViewController(withIdentifier: "mainVC") as! MainViewController
+                let vc = board.instantiateViewController(withIdentifier: "nickVC") as! NickViewController
                 vc.modalPresentationStyle = .fullScreen
                 vc.modalTransitionStyle = .crossDissolve
                 self.present(vc, animated: false, completion: nil)

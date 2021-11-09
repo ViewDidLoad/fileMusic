@@ -69,7 +69,7 @@ class NickViewController: UIViewController {
         }
         // MainVC 이동
         let board = UIStoryboard(name: "Main", bundle: nil)
-        let vc = board.instantiateViewController(withIdentifier: "MainVC") as! MainViewController
+        let vc = board.instantiateViewController(withIdentifier: "mainVC") as! MainViewController
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .coverVertical
         present(vc, animated: false, completion: nil)

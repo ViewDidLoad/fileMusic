@@ -18,12 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //print("didFinishLaunchingWithOptions")
         // 데이터베이스 생성은 한번만 해야 함.
         let db = DBHelper()
-        let sqlite = UserDefaults.standard.string(forKey: "sqlite")
-        if sqlite == nil {
-            UserDefaults.standard.set(UUID().uuidString, forKey: "sqlite")
-            // uuid 저장
-            let uuid = UUID().uuidString
-            UserDefaults.standard.set(uuid, forKey: "uuid")
+        let uuid = UserDefaults.standard.string(forKey: "uuid")
+        if uuid == nil {
+            UserDefaults.standard.set(UUID().uuidString, forKey: "uuid")
             // 데이터베이스 생성해야 함.
             db.createTable()
         }
