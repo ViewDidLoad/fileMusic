@@ -11,6 +11,7 @@
 		34479F99273A5F0100FD8380 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F98273A5F0100FD8380 /* DBHelper.swift */; };
 		34479F9B273A606B00FD8380 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F9A273A606B00FD8380 /* Model.swift */; };
 		34479F9D273A610000FD8380 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F9C273A610000FD8380 /* API.swift */; };
+		34479F9F273A64B400FD8380 /* NickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F9E273A64B400FD8380 /* NickViewController.swift */; };
 		345B45552738A16000986B84 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345B45542738A16000986B84 /* SwiftUIView.swift */; };
 		345B45582738A41700986B84 /* YoutubeDL in Frameworks */ = {isa = PBXBuildFile; productRef = 345B45572738A41700986B84 /* YoutubeDL */; };
 		345B45712738F62200986B84 /* NemesisDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345B45702738F62200986B84 /* NemesisDownload.swift */; };
@@ -36,6 +37,7 @@
 		34479F98273A5F0100FD8380 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		34479F9A273A606B00FD8380 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		34479F9C273A610000FD8380 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		34479F9E273A64B400FD8380 /* NickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickViewController.swift; sourceTree = "<group>"; };
 		345B45542738A16000986B84 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		345B45702738F62200986B84 /* NemesisDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemesisDownload.swift; sourceTree = "<group>"; };
 		6147D286852A41E482B85C33 /* Pods_fileMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fileMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +118,7 @@
 				9271133724105DDE007E7D8B /* SceneDelegate.swift */,
 				9299AC6A25108DC900FA4252 /* Common */,
 				9299AC62251088C300FA4252 /* SplashViewController.swift */,
+				34479F9E273A64B400FD8380 /* NickViewController.swift */,
 				9299AC6425108A1200FA4252 /* MainViewController.swift */,
 				92E3526C252D1BD200ACC94F /* ConfigViewController.swift */,
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
@@ -283,6 +286,7 @@
 				92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */,
 				9299AC6925108DA400FA4252 /* Common.swift in Sources */,
 				9299AC6525108A1200FA4252 /* MainViewController.swift in Sources */,
+				34479F9F273A64B400FD8380 /* NickViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,13 +17,23 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        // nick 설정
+        let nick = UserDefaults.standard.string(forKey: "nick")
         // 지연 실행
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            let board = UIStoryboard(name: "Main", bundle: nil)
-            let vc = board.instantiateViewController(withIdentifier: "mainVC") as! MainViewController
-            vc.modalPresentationStyle = .fullScreen
-            vc.modalTransitionStyle = .crossDissolve
-            self.present(vc, animated: false, completion: nil)
+            if nick == "" {
+                let board = UIStoryboard(name: "Main", bundle: nil)
+                let vc = board.instantiateViewController(withIdentifier: "mainVC") as! MainViewController
+                vc.modalPresentationStyle = .fullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                self.present(vc, animated: false, completion: nil)
+            } else {
+                let board = UIStoryboard(name: "Main", bundle: nil)
+                let vc = board.instantiateViewController(withIdentifier: "mainVC") as! MainViewController
+                vc.modalPresentationStyle = .fullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                self.present(vc, animated: false, completion: nil)
+            }
         }
     }
 }

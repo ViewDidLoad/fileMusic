@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import GoogleMobileAds
-import YoutubeDL
 import PythonSupport
 
 @UIApplicationMain
@@ -17,6 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //print("didFinishLaunchingWithOptions")
+        // 데이터베이스 생성은 한번만 해야 함.
+        let db = DBHelper()
+        let sqlite = UserDefaults.standard.string(forKey: "sqlite")
+        if sqlite == nil {
+            UserDefaults.standard.set(UUID().uuidString, forKey: "sqlite")
+            // uuid 저장
+            let uuid = UUID().uuidString
+            UserDefaults.standard.set(uuid, forKey: "uuid")
+            // 데이터베이스 생성해야 함.
+            db.createTable()
+        }
+        
         // 구글 애드몹 설정
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         // 테스트 모드 기기 등록, 내 아이폰 테스트 기기 설정
