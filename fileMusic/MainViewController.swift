@@ -231,7 +231,11 @@ class MainViewController: UIViewController {
             for item in items {
                 let filename = "\(docuPath)/\(item)"
                 let fileUrl = URL(fileURLWithPath: filename)
-                data_item.append(fileUrl)
+                // filemusic.sqlite 는 제외하자.
+                //print("fileurl.lastPathComponent \(fileUrl.lastPathComponent)")
+                if fileUrl.lastPathComponent != "filemusic.sqlite" {
+                    data_item.append(fileUrl)
+                }
                 isSampleMusic = false
             }
         } catch { print("Not Found item") }
