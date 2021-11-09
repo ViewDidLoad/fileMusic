@@ -54,7 +54,7 @@ func registerNick(success: @escaping (RESPONSE_RESULT) -> Void) {
     }.resume()
 }
 
-func registerPlay(room_id: String, level: Int32, micro_second: Int32, success: @escaping (RESPONSE_RESULT) -> Void) {
+func registerPlay(url: String, filename: String, success: @escaping (RESPONSE_RESULT) -> Void) {
     let config = URLSessionConfiguration.default
     config.timeoutIntervalForRequest = TimeInterval(5)
     let session = URLSession(configuration: config)
@@ -67,7 +67,7 @@ func registerPlay(room_id: String, level: Int32, micro_second: Int32, success: @
     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
     let uuid = getUUID()
     let nick = getNick()
-    let formDataString = "uuid=\(uuid)&nick=\(nick)&room_id=\(room_id)&level=\(level)&micro_second=\(micro_second)"
+    let formDataString = "uuid=\(uuid)&nick=\(nick)&url=\(url)&filename=\(filename)"
     let formEncodedData = formDataString.data(using: .utf8)
     request.httpBody = formEncodedData
     session.dataTask(with: request) { (rData, response, _) in
