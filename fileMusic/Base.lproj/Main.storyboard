@@ -21,13 +21,31 @@
                                 <rect key="frame" x="16" y="44.000000000000007" width="382" height="81.666666666666686"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FGc-T6-ne8">
-                                        <rect key="frame" x="15.999999999999986" y="15.999999999999996" width="245.66666666666663" height="49.666666666666657"/>
-                                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="34"/>
+                                        <rect key="frame" x="16" y="15.999999999999996" width="159.33333333333334" height="49.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9iL-zz-c92">
+                                        <rect key="frame" x="191.33333333333334" y="15.999999999999996" width="49.666666666666657" height="49.666666666666657"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="9iL-zz-c92" secondAttribute="height" id="0uF-Xb-fpK"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="elixir"/>
+                                        <connections>
+                                            <action selector="elixirButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NdT-Yt-M1X"/>
+                                            <action selector="elixirButtonTouched:" destination="xcD-ee-Yre" eventType="touchUpInside" id="wZL-hl-DOg"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EOb-Kz-zUD">
+                                        <rect key="frame" x="257" y="30" width="11" height="22"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="htW-dx-P7S">
-                                        <rect key="frame" x="277.66666666666669" y="15.999999999999996" width="88.333333333333314" height="49.666666666666657"/>
+                                        <rect key="frame" x="284" y="15.999999999999996" width="82" height="49.666666666666657"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="64"/>
                                         <state key="normal" title="⚙︎">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -40,11 +58,16 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="htW-dx-P7S" secondAttribute="trailing" constant="16" id="BMf-HW-SDp"/>
+                                    <constraint firstAttribute="bottom" secondItem="9iL-zz-c92" secondAttribute="bottom" constant="16" id="FGh-Qj-m58"/>
+                                    <constraint firstItem="EOb-Kz-zUD" firstAttribute="centerY" secondItem="hdI-3I-PF6" secondAttribute="centerY" id="GhB-ub-NbI"/>
+                                    <constraint firstItem="htW-dx-P7S" firstAttribute="leading" secondItem="EOb-Kz-zUD" secondAttribute="trailing" constant="16" id="HsE-L4-syX"/>
+                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="leading" secondItem="hdI-3I-PF6" secondAttribute="leading" constant="16" id="ZRs-qj-J3Q"/>
                                     <constraint firstAttribute="bottom" secondItem="FGc-T6-ne8" secondAttribute="bottom" constant="16" id="dHR-ar-s3v"/>
-                                    <constraint firstItem="htW-dx-P7S" firstAttribute="leading" secondItem="FGc-T6-ne8" secondAttribute="trailing" constant="16" id="eMi-wF-8yY"/>
                                     <constraint firstItem="htW-dx-P7S" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="top" constant="16" id="kSg-4g-dK0"/>
-                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="leading" secondItem="hdI-3I-PF6" secondAttribute="leading" constant="16" id="qnM-AX-uPw"/>
+                                    <constraint firstItem="9iL-zz-c92" firstAttribute="leading" secondItem="FGc-T6-ne8" secondAttribute="trailing" constant="16" id="l1M-ID-Sj3"/>
                                     <constraint firstAttribute="bottom" secondItem="htW-dx-P7S" secondAttribute="bottom" constant="16" id="qt7-3L-ShU"/>
+                                    <constraint firstItem="9iL-zz-c92" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="top" constant="16" id="sCr-ve-WhL"/>
+                                    <constraint firstItem="EOb-Kz-zUD" firstAttribute="leading" secondItem="9iL-zz-c92" secondAttribute="trailing" constant="16" id="tuL-Fr-WMx"/>
                                     <constraint firstItem="FGc-T6-ne8" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="top" constant="16" id="yhY-ua-7Ld"/>
                                 </constraints>
                             </view>
@@ -78,14 +101,14 @@
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="52.666667938232422"/>
+                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="53"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="52.666667938232422"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                            <rect key="frame" x="24" y="16" width="358" height="20.666666666666671"/>
+                                                            <rect key="frame" x="24" y="16" width="358" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -167,6 +190,8 @@
                         <outlet property="bottomView" destination="wxq-zM-zNr" id="leQ-0Y-7Ar"/>
                         <outlet property="configButton" destination="htW-dx-P7S" id="PRn-Fv-xKQ"/>
                         <outlet property="contentView" destination="tAx-bZ-Bc1" id="ilD-zJ-Smo"/>
+                        <outlet property="elixirButton" destination="9iL-zz-c92" id="8DK-gb-XFq"/>
+                        <outlet property="elixirLabel" destination="EOb-Kz-zUD" id="EvL-87-ZSV"/>
                         <outlet property="fileListTableView" destination="FDs-eN-gar" id="2Ei-0m-qMa"/>
                         <outlet property="playButton" destination="zqJ-6u-3jC" id="z5u-jx-kuV"/>
                         <outlet property="playProgressView" destination="8l4-2i-QLc" id="awF-6P-8A3"/>
@@ -178,7 +203,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="894" y="60"/>
+            <point key="canvasLocation" x="892.75362318840587" y="59.598214285714285"/>
         </scene>
         <!--Config View Controller-->
         <scene sceneID="TMI-LT-yP5">
@@ -214,6 +239,9 @@
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="elixir"/>
+                                        <connections>
+                                            <action selector="elixirButtonTouched:" destination="xcD-ee-Yre" eventType="touchUpInside" id="mku-Fz-eQh"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SmT-EU-dO8">
                                         <rect key="frame" x="355" y="30" width="11" height="22"/>
@@ -315,6 +343,8 @@
                         <outlet property="bottomView" destination="QKG-Bp-vxn" id="YJv-Mt-HfN"/>
                         <outlet property="closeButton" destination="y4z-Ty-G6h" id="pvC-FG-OHq"/>
                         <outlet property="contentView" destination="RX8-Ji-MXc" id="Mx7-Ul-cx9"/>
+                        <outlet property="elixirButton" destination="LDV-vw-S01" id="Tol-DI-oSI"/>
+                        <outlet property="elixirLabel" destination="SmT-EU-dO8" id="bge-uL-QSA"/>
                         <outlet property="imageView" destination="DHJ-jn-ekA" id="r4M-Gs-QrG"/>
                         <outlet property="movieLabel" destination="NSb-mr-uQw" id="yQB-Ch-an0"/>
                         <outlet property="movieView" destination="ltk-m2-Vwc" id="gJu-AD-bnh"/>

@@ -14,6 +14,8 @@ class ConfigViewController: UIViewController {
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var elixirButton: UIButton!
+    @IBOutlet weak var elixirLabel: UILabel!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var movieView: UIView!
     @IBOutlet weak var imageView: UIImageView!
@@ -21,8 +23,18 @@ class ConfigViewController: UIViewController {
     @IBOutlet weak var movieLabel: UILabel!
     @IBOutlet weak var bottomView: UIView!
     
+    var elixir_count = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // topView
+        topView.layer.cornerRadius = 15.0
+        topView.layer.borderWidth = 1.0
+        topView.layer.borderColor = UIColor.white.cgColor
+        // 저장된 엘릭샤 개수 가져와서 표시
+        //UserDefaults.standard.set(100, forKey: "elixir")
+        elixir_count = UserDefaults.standard.integer(forKey: "elixir")
+        elixirLabel.text = "\(elixir_count)"
         // 애드몹 광고창 설정
         let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint.zero)
         bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
@@ -47,6 +59,10 @@ class ConfigViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: false, completion: nil)
+    }
+    
+    @IBAction func elixirButtonTouched(_ sender: UIButton) {
+        // 전면광고를 보면 엘릭샤를 1 더한다.
     }
     
     @IBAction func playButtonTouched(_ sender: UIButton) {

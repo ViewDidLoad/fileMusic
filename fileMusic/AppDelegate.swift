@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let uuid = UserDefaults.standard.string(forKey: "uuid")
         if uuid == nil {
             UserDefaults.standard.set(UUID().uuidString, forKey: "uuid")
+            UserDefaults.standard.set(10, forKey: "elixir")
             // 데이터베이스 생성해야 함.
             db.createTable()
         }

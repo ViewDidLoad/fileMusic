@@ -17,9 +17,10 @@ class FileListCell: UITableViewCell {
 }
 
 class MainViewController: UIViewController {
-    
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var elixirButton: UIButton!
+    @IBOutlet weak var elixirLabel: UILabel!
     @IBOutlet weak var configButton: UIButton!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var playTitleLabel: UILabel!
@@ -46,6 +47,7 @@ class MainViewController: UIViewController {
     var progressTimer = Timer()
     // 샘플 음원 여부
     var isSampleMusic = false
+    var elixir_count = 0
     
     override func viewDidLoad() {
         //print("MainViewController.viewDidLoad")
@@ -93,6 +95,9 @@ class MainViewController: UIViewController {
         topView.layer.cornerRadius = 15.0
         topView.layer.borderWidth = 1.0
         topView.layer.borderColor = UIColor.white.cgColor
+        // 마법 물약 개수 가져와서 표기
+        elixir_count = UserDefaults.standard.integer(forKey: "elixir")
+        elixirLabel.text = "\(elixir_count)"
         // tableView
         fileListTableView.layer.cornerRadius = 15.0
         fileListTableView.layer.borderWidth = 1.0
@@ -107,6 +112,7 @@ class MainViewController: UIViewController {
         youtubeDlButton.layer.cornerRadius = 15.0
         youtubeDlButton.layer.borderWidth = 1.0
         youtubeDlButton.layer.borderColor = UIColor.white.cgColor
+        youtubeDlButton.isHidden = true
         /*/ 애드몹 광고창 설정
         let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint.zero)
         bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
@@ -172,6 +178,14 @@ class MainViewController: UIViewController {
         super.viewDidDisappear(animated)
         // 등록된 옵져버 제거
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    @IBAction func elixirButtonTouched(_ sender: UIButton) {
+        if elixir_count > 0 {
+            // 유튜브 다운로드 버튼을 보여준다.
+        } else {
+            // 설정화면에서 엘릭샤 버튼을 터치하여 전면광고를 시청 한 후 다시 시도하세요.
+        }
     }
     
     @IBAction func configButtonTouched(_ sender: UIButton) {
