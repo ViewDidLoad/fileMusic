@@ -169,8 +169,10 @@ struct SwiftUIView: View {
     func download(format: NemesisFormat) {
         print("download format.description \(format.description)")
         let docuUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let saveFileUrl = docuUrl.appendingPathComponent(info?.description ?? "audio").appendingPathExtension("m4a")
-        //print("download saveFileName \(saveFileUrl)")
+        var fileName = info?.description ?? "audio"
+        fileName.removeAll(where: { $0.isPunctuation }) // 특수문자 제거
+        let saveFileUrl = docuUrl.appendingPathComponent(fileName).appendingPathExtension("m4a")
+        print("download saveFileUrl \(saveFileUrl)")
         guard let request = format.urlRequest else { fatalError() }
         let task = dn.download(request: request, save: saveFileUrl)
         // 여기서 더미로 저장을 안하면 저장이 안된다.
