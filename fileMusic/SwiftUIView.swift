@@ -32,7 +32,7 @@ struct SwiftUIView: View {
     @State var youtubeDL: NemesisYoutubeDL?//YoutubeDL?
     @State var showingFormats = false
     @State var formatsSheet: ActionSheet?
-    @State var download_url = ""
+    @State var download_url = "https://youtu.be/-n_Kw19q2bM"
     @State var isDownloadButtonDisable = true
     
     let pub = NotificationCenter.default.publisher(for: Notification.Name("DownloadStatus"))
@@ -151,13 +151,15 @@ struct SwiftUIView: View {
     
     func check(info: NemesisInfo?) {
         guard let formats = info?.formats else { return }
-        
-        formatsSheet = ActionSheet(title: Text("YouTube Download"), message: Text(info?.description ?? "default"), buttons: [
-            .default(Text("Download"),
-                     action: {
-                         self.download(format: formats.last!)
-                     })
-        ])
+        if let bestAudio = formats.filter({ $0.isAudioOnly && $0.ext == "m4a" }).last {
+            print("_bestAudio \(bestAudio)")
+            formatsSheet = ActionSheet(title: Text("YouTube Download"), message: Text(info?.description ?? "default"), buttons: [
+                .default(Text("Download"),
+                         action: {
+                             self.download(format: bestAudio)
+                         })
+            ])
+        }
         // 이게 추가되어야 아래 액션시트가 나온다.
         DispatchQueue.main.async {
             showingFormats = true
@@ -167,7 +169,7 @@ struct SwiftUIView: View {
     func download(format: NemesisFormat) {
         print("download format.description \(format.description)")
         let docuUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let saveFileUrl = docuUrl.appendingPathComponent(info?.description ?? "video").appendingPathExtension("mp4")
+        let saveFileUrl = docuUrl.appendingPathComponent(info?.description ?? "audio").appendingPathExtension("m4a")
         //print("download saveFileName \(saveFileUrl)")
         guard let request = format.urlRequest else { fatalError() }
         let task = dn.download(request: request, save: saveFileUrl)

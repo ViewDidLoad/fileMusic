@@ -41,8 +41,8 @@ open class NemesisDownload: NSObject {
         // 기본 url
         do {
             saveUrl = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-                        .appendingPathComponent("video")
-                        .appendingPathExtension("mp4")
+                        .appendingPathComponent("audio")
+                        .appendingPathExtension("m4a")
         } catch { print("saveUrl error \(error.localizedDescription)") }
     }
 
