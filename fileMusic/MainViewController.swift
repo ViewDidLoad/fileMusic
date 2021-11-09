@@ -118,14 +118,6 @@ class MainViewController: UIViewController {
         youtubeDlButton.layer.borderWidth = 1.0
         youtubeDlButton.layer.borderColor = UIColor.white.cgColor
         youtubeDlButton.isHidden = true
-        /*/ 애드몹 광고창 설정
-        let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint.zero)
-        bannerView.adUnitID = "ca-app-pub-7335522539377881/7377884882"
-        bannerView.rootViewController = self
-        bannerView.delegate = self
-        bottomView.addSubview(bannerView)
-        bannerView.load(GADRequest())
-        // */
         // 파일 리스트 갱신
         NotificationCenter.default.addObserver(self, selector: #selector(updateFileList), name: Notification.Name("updateFileList"), object: nil)
         // 플레이가 끝났을 때
