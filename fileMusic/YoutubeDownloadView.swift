@@ -92,7 +92,7 @@ struct YoutubeDownloadView: View {
     }
     
 }
-
+/*
 struct ActivityIndicator: UIViewRepresentable {
     @Binding var isAnimating: Bool
     let style: UIActivityIndicatorView.Style
@@ -105,7 +105,7 @@ struct ActivityIndicator: UIViewRepresentable {
         isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
     }
 }
-
+// */
 /* // 굳이 이게 있어야 할 필요가 있나?
 struct YoutubeDownloadView_Previews: PreviewProvider {
     static var previews: some View {
