@@ -9,7 +9,7 @@
 import Foundation
 
 let web_server = "https://www.whenyourapprun.com/filemusic"
-let remote_server = "https://www.viewdidload.shop/filemusic"
+let remote_server = "https://www.viewdidload.shop/youtubedownload"
 
 // Session config
 func getSessionNoToken(second: TimeInterval) -> URLSession {
@@ -120,11 +120,11 @@ func getAd(success: @escaping ([RESPONSE_AD]) -> Void) {
     }.resume()
 }
 
-func downloadURL(url: String, success: @escaping (RESPONSE_RESULT) -> Void) {
+func checkURL(check_url: String, success: @escaping (RESPONSE_RESULT) -> Void) {
     let config = URLSessionConfiguration.default
     config.timeoutIntervalForRequest = TimeInterval(5)
     let session = URLSession(configuration: config)
-    guard let url = URL(string: web_server + "/downloadURL") else {
+    guard let url = URL(string: remote_server + "/checkURL") else {
         print("url error")
         return
     }
@@ -132,8 +132,7 @@ func downloadURL(url: String, success: @escaping (RESPONSE_RESULT) -> Void) {
     request.httpMethod = "POST"
     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
     let uuid = getUUID()
-    let nick = getNick()
-    let formDataString = "uuid=\(uuid)&nick=\(nick)&url=\(url)"
+    let formDataString = "uuid=\(uuid)&url=\(check_url)"
     let formEncodedData = formDataString.data(using: .utf8)
     request.httpBody = formEncodedData
     session.dataTask(with: request) { (rData, response, _) in
@@ -145,11 +144,12 @@ func downloadURL(url: String, success: @escaping (RESPONSE_RESULT) -> Void) {
     }.resume()
 }
 
-func getURL(url: String, success: @escaping (RESPONSE_RESULT) -> Void) {
+// 이건 바로 파일로 나오는데 어떻게 해야 하지 찾아보자.
+func getFileData(filename: String, success: @escaping (RESPONSE_RESULT) -> Void) {
     let config = URLSessionConfiguration.default
     config.timeoutIntervalForRequest = TimeInterval(5)
     let session = URLSession(configuration: config)
-    guard let url = URL(string: web_server + "/getURL") else {
+    guard let url = URL(string: remote_server + "/getFileData") else {
         print("url error")
         return
     }
@@ -157,7 +157,33 @@ func getURL(url: String, success: @escaping (RESPONSE_RESULT) -> Void) {
     request.httpMethod = "POST"
     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
     let uuid = getUUID()
-    let formDataString = "uuid=\(uuid)&url=\(url)"
+    let formDataString = "uuid=\(uuid)&file=\(filename)"
+    let formEncodedData = formDataString.data(using: .utf8)
+    request.httpBody = formEncodedData
+    session.dataTask(with: request) { (rData, response, _) in
+        guard let data = rData else { return }
+        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
+        do {
+            try data.write(to: fileURL, options: .atomic)
+            success(RESPONSE_RESULT(result: "write completed"))
+        } catch { print("getFileData Error \(error.localizedDescription)") }
+    }.resume()
+}
+
+func downloadURL(download_url: String, success: @escaping (RESPONSE_RESULT) -> Void) {
+    let config = URLSessionConfiguration.default
+    config.timeoutIntervalForRequest = TimeInterval(5)
+    let session = URLSession(configuration: config)
+    guard let url = URL(string: remote_server + "/downloadURL") else {
+        print("downloadURL url error")
+        return
+    }
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+    let uuid = getUUID()
+    let nick = getNick()
+    let formDataString = "uuid=\(uuid)&nick=\(nick)&url=\(download_url)"
     let formEncodedData = formDataString.data(using: .utf8)
     request.httpBody = formEncodedData
     session.dataTask(with: request) { (rData, response, _) in
@@ -165,6 +191,6 @@ func getURL(url: String, success: @escaping (RESPONSE_RESULT) -> Void) {
         do {
             let response_result = try JSONDecoder().decode(RESPONSE_RESULT.self, from: data)
             success(response_result)
-        } catch { print("JSONDecoder error \(error.localizedDescription)") }
+        } catch { print("downloadURL JSONDecoder error \(error.localizedDescription)") }
     }.resume()
 }

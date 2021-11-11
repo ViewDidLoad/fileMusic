@@ -101,6 +101,7 @@ class MainViewController: UIViewController {
         topView.layer.borderWidth = 1.0
         topView.layer.borderColor = UIColor.white.cgColor
         // 마법 물약 개수 가져와서 표기
+        UserDefaults.standard.set(100, forKey: "elixir")
         elixir_count = UserDefaults.standard.integer(forKey: "elixir")
         elixirLabel.text = "\(elixir_count)"
         // tableView

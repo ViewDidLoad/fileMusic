@@ -40,7 +40,6 @@ class ConfigViewController: UIViewController {
         topView.layer.borderWidth = 1.0
         topView.layer.borderColor = UIColor.white.cgColor
         // 저장된 엘릭샤 개수 가져와서 표시
-        //UserDefaults.standard.set(100, forKey: "elixir")
         elixir_count = UserDefaults.standard.integer(forKey: "elixir")
         elixirLabel.text = "\(elixir_count)"
         // 애드몹 광고창 설정
