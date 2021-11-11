@@ -129,7 +129,7 @@ open class NemesisYoutubeDL: NSObject {
         guard FileManager.default.fileExists(atPath: Self.pythonModuleURL.path) else {
             throw Error.noPythonModule
         }
-        
+        // 배포하면 이 부분에서 로딩이 안되어서 작동 안되는거 같음, 억지로 개발자가 뭘 막아 놓은거 같다. 2021.11.11. 여기까지 추적도 힘들었다.
         let sys = try Python.attemptImport("sys")
         if !(Array(sys.path) ?? []).contains(Self.pythonModuleURL.path) {
             sys.path.insert(1, Self.pythonModuleURL.path)

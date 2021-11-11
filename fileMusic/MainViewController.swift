@@ -246,8 +246,12 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func youtubeDLButtonTouched(_ sender: UIButton) {
-        // swiftUI 연결
+        /*/ swiftUI 연결, 배포하면 파이썬키트 로딩 안되어서 별도로 리모트 받아서 처리하는 걸로 대체... 나중에 해결되면 연결하자.
         if let swiftUIView = [UIHostingController(rootView: SwiftUIView())].first {
+            present(swiftUIView, animated: false, completion: nil)
+        }
+        // */
+        if let swiftUIView = [UIHostingController(rootView: YoutubeDownloadView())].first {
             present(swiftUIView, animated: false, completion: nil)
         }
     }

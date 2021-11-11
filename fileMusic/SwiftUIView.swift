@@ -5,6 +5,13 @@
 //  Created by viewdidload on 2021/11/08.
 //  Copyright © 2021 viewdidload soft. All rights reserved.
 //
+/*
+ 테스트할 때는 이상없이 잘 작동하나 배포를 하면 안됨.
+ PythonKit 로딩이 안되는 문제로 앱이 튕김.
+ 개발자 파악하고 있는거 같으나 패치하지 않은 것으로 추정 됨
+ 3D 관련 모듈은 파이썬 키트 같은 문제 발생되었으나 스트립 모드 디버깅과 바이너리 파일 제거로 해결했다고 깃헙에 올려 놓았음.
+ 이부분 추적하기 어려우니 일단 웹모듈로 대체하자.
+// */
 
 import SwiftUI
 import YoutubeDL
@@ -48,6 +55,7 @@ struct SwiftUIView: View {
             })
             Button("Download URL") {
                 //download_url = "https://youtu.be/-n_Kw19q2bM"
+                print("Download URL clicked")
                 self.url = URL(string: download_url)
             }
             .disabled(isDownloadButtonDisable)
