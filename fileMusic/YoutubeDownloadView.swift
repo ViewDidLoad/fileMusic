@@ -74,6 +74,8 @@ struct YoutubeDownloadView: View {
                         if msg.result != "" {
                             state = "Status : downloading..."
                             isCheckButtonDisable = true
+                            // 타이머 중지
+                            checkTimer.upstream.connect().cancel()
                             //*/ 서버에 요청해서 파일을 다운받아서 도큐먼트에 저장하자.
                             getFileData(filename: msg.result) { msg in
                                 print("getFileData \(msg.result)")
