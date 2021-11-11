@@ -40,8 +40,8 @@ struct YoutubeDownloadView: View {
                         isCheckButtonDisable = false
                         isLoadingViewEnable = true
                     }
-                    // 여기서 전면광고를 보여주자.
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(1800)) {
+                    // 여기서 전면광고를 보여주자. 지연이 안먹히는거 같다. 바로 실행이 된다. 
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(5800)) {
                         adLoader.presentAd { _ in
                             print("full ad presented")
                         }
@@ -79,13 +79,22 @@ struct YoutubeDownloadView: View {
                 getFileData(filename: msg.result) { msg in
                     print("getFileData \(msg.result)")
                     state = "Status : Download Completed."
-                    // 몇 초 후에 창을 닫자.
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(1500)) {
+                    /*/ 광고 창이 있는지 확인하자. 걍 무시를 할까? 어차피 다운 완료되면 광고를 닫아야 하니까....
+                    if adLoader == nil {
+                        print("adloader nil")
+                    } else {
+                        // 창을 닫았는데도 여기로 나온다.
+                        print("adloader is shown")
+                    }
+                     // */
+                    //*/ 몇 초 후에 창을 닫자.
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(5800)) {
                         // 현재 창을 닫자.
                         self.presentationMode.wrappedValue.dismiss()
                         // 다운로드 된 파일 갱신
                         NotificationCenter.default.post(name: Notification.Name("updateFileList"), object: nil)
                     }
+                    // */
                 }
                 // */
             } else {

@@ -65,22 +65,16 @@ final class InterstitialAdLoader: NSObject, GADFullScreenContentDelegate {
     /// Tells the delegate that the ad presented full screen content.
     func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad did present full screen content.")
+        // 광고 로딩에 실패했을 경우에도 다시 로딩을 해야 함
+        completion?(.failure(.failedToPresent))
+        loadInterstitial()
     }
 
     /// Tells the delegate that the ad dismissed full screen content.
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad did dismiss full screen content.")
-    }
-
-    /*/ MARK: - GADInterstitialDelegate
-    func interstitialDidFail(toPresentScreen ad: GADInterstitial) {
-        completion?(.failure(.failedToPresent))
-        loadInterstitial()
-    }
-    
-    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        // 창을 닫았을 때 - 아직 다운로드 중이므로 다시 광고를 보여줘야 하지 않을까?
         completion?(.success(true))
         loadInterstitial()
     }
-    // */
 }
