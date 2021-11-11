@@ -18,6 +18,9 @@
 		345FC141273CEE3F00A929DD /* YoutubeDownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */; };
 		345FC143273DD96500A929DD /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345FC142273DD96500A929DD /* LoadingView.swift */; };
 		345FC145273DDA9900A929DD /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345FC144273DDA9900A929DD /* ActivityIndicator.swift */; };
+		345FC147273DDC7900A929DD /* AdUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345FC146273DDC7900A929DD /* AdUnit.swift */; };
+		345FC149273DDD3400A929DD /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345FC148273DDD3400A929DD /* InterstitialAdLoader.swift */; };
+		345FC14B273DDF7D00A929DD /* UIApplicationActiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345FC14A273DDF7D00A929DD /* UIApplicationActiveWindow.swift */; };
 		920EB6782519E95E0095A3AE /* Canon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 920EB6772519E95E0095A3AE /* Canon.mp3 */; };
 		920EB67B2519E9680095A3AE /* Blumenlied.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 920EB67A2519E9680095A3AE /* Blumenlied.mp3 */; };
 		9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9271133524105DDE007E7D8B /* AppDelegate.swift */; };
@@ -46,6 +49,9 @@
 		345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeDownloadView.swift; sourceTree = "<group>"; };
 		345FC142273DD96500A929DD /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		345FC144273DDA9900A929DD /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		345FC146273DDC7900A929DD /* AdUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdUnit.swift; sourceTree = "<group>"; };
+		345FC148273DDD3400A929DD /* InterstitialAdLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdLoader.swift; sourceTree = "<group>"; };
+		345FC14A273DDF7D00A929DD /* UIApplicationActiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationActiveWindow.swift; sourceTree = "<group>"; };
 		6147D286852A41E482B85C33 /* Pods_fileMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fileMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		920EB6772519E95E0095A3AE /* Canon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Canon.mp3; sourceTree = "<group>"; };
 		920EB67A2519E9680095A3AE /* Blumenlied.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Blumenlied.mp3; sourceTree = "<group>"; };
@@ -129,6 +135,9 @@
 				92E3526C252D1BD200ACC94F /* ConfigViewController.swift */,
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
 				345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */,
+				345FC146273DDC7900A929DD /* AdUnit.swift */,
+				345FC148273DDD3400A929DD /* InterstitialAdLoader.swift */,
+				345FC14A273DDF7D00A929DD /* UIApplicationActiveWindow.swift */,
 				345FC144273DDA9900A929DD /* ActivityIndicator.swift */,
 				345FC142273DD96500A929DD /* LoadingView.swift */,
 				345B45542738A16000986B84 /* SwiftUIView.swift */,
@@ -282,8 +291,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				345FC149273DDD3400A929DD /* InterstitialAdLoader.swift in Sources */,
 				34479F99273A5F0100FD8380 /* DBHelper.swift in Sources */,
 				34479F972739EDFD00FD8380 /* NemesisYoutubeDL.swift in Sources */,
+				345FC147273DDC7900A929DD /* AdUnit.swift in Sources */,
+				345FC14B273DDF7D00A929DD /* UIApplicationActiveWindow.swift in Sources */,
 				9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */,
 				34479F9B273A606B00FD8380 /* Model.swift in Sources */,
 				9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */,

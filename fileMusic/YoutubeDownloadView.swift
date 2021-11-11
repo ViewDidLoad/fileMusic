@@ -7,9 +7,6 @@
 //
 
 import SwiftUI
-import Foundation
-import GoogleMobileAds
-import UIKit
 
 struct YoutubeDownloadView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -19,6 +16,8 @@ struct YoutubeDownloadView: View {
     @State var isLoadingViewEnable = false
     @State var state = "Status "
     private let checkTimer = Timer.publish(every: 9, on: .main, in: .common).autoconnect()
+    // 전면광고
+    private let adLoader = InterstitialAdLoader(adUnit: .interstitial)
     
     var body: some View {
         LoadingView(isShowing: .constant(isLoadingViewEnable)) {
@@ -40,6 +39,12 @@ struct YoutubeDownloadView: View {
                         isDownloadButtonDisable = true
                         isCheckButtonDisable = false
                         isLoadingViewEnable = true
+                    }
+                    // 여기서 전면광고를 보여주자.
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(1800)) {
+                        adLoader.presentAd { _ in
+                            print("full ad presented")
+                        }
                     }
                 }
                 .disabled(isDownloadButtonDisable)
@@ -86,26 +91,12 @@ struct YoutubeDownloadView: View {
             } else {
                 // 주로 이게 가장 많이 표시되므로 3~4 개 정도 안내문구를 가지고 돌려서 보여줄 것.
                 state = "Status : Downloading"
-                // 전면광고 준비 되면 보여주자. ca-app-pub-7335522539377881/2816855209
             }
         }
     }
     
 }
-/*
-struct ActivityIndicator: UIViewRepresentable {
-    @Binding var isAnimating: Bool
-    let style: UIActivityIndicatorView.Style
 
-    func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
-        return UIActivityIndicatorView(style: style)
-    }
-
-    func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {
-        isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
-    }
-}
-// */
 /* // 굳이 이게 있어야 할 필요가 있나?
 struct YoutubeDownloadView_Previews: PreviewProvider {
     static var previews: some View {
