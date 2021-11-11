@@ -101,14 +101,14 @@
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="52.666667938232422"/>
+                                                <rect key="frame" x="0.0" y="44.666666030883789" width="398" height="53"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="52.666667938232422"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="53"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                            <rect key="frame" x="24" y="16" width="358" height="20.666666666666671"/>
+                                                            <rect key="frame" x="24" y="16" width="358" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -307,14 +307,26 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mPL-k3-Gmc">
+                                        <rect key="frame" x="16" y="638.66666666666674" width="382" height="81.666666666666629"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Elixir Supplement"/>
+                                        <connections>
+                                            <action selector="elixirButtonTouched:" destination="xcD-ee-Yre" eventType="touchUpInside" id="ZlE-pJ-63O"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="ltk-m2-Vwc" secondAttribute="trailing" constant="8" id="0vT-r0-Xqx"/>
+                                    <constraint firstAttribute="bottom" secondItem="mPL-k3-Gmc" secondAttribute="bottom" constant="16" id="3PN-x6-omV"/>
                                     <constraint firstAttribute="trailing" secondItem="NSb-mr-uQw" secondAttribute="trailing" constant="8" id="B2E-vR-oEW"/>
                                     <constraint firstItem="ltk-m2-Vwc" firstAttribute="leading" secondItem="RX8-Ji-MXc" secondAttribute="leading" constant="8" id="IaD-8t-EYV"/>
+                                    <constraint firstAttribute="trailing" secondItem="mPL-k3-Gmc" secondAttribute="trailing" constant="16" id="NHJ-9r-7cp"/>
                                     <constraint firstItem="NSb-mr-uQw" firstAttribute="leading" secondItem="RX8-Ji-MXc" secondAttribute="leading" constant="8" id="SSh-4Z-JIf"/>
                                     <constraint firstItem="NSb-mr-uQw" firstAttribute="top" secondItem="ltk-m2-Vwc" secondAttribute="bottom" constant="8" id="e1l-FZ-H9C"/>
+                                    <constraint firstItem="mPL-k3-Gmc" firstAttribute="leading" secondItem="RX8-Ji-MXc" secondAttribute="leading" constant="16" id="hNb-Dp-w4A"/>
                                     <constraint firstItem="ltk-m2-Vwc" firstAttribute="top" secondItem="RX8-Ji-MXc" secondAttribute="top" constant="8" id="rUw-5u-AXn"/>
                                 </constraints>
                             </view>
@@ -340,6 +352,7 @@
                             <constraint firstItem="H0Z-c5-GoX" firstAttribute="height" secondItem="VPE-Bc-0Hl" secondAttribute="height" multiplier="0.1" id="o3q-3s-Qmo"/>
                             <constraint firstItem="H0Z-c5-GoX" firstAttribute="top" secondItem="VPE-Bc-0Hl" secondAttribute="top" id="qyI-MV-ffU"/>
                             <constraint firstItem="RX8-Ji-MXc" firstAttribute="trailing" secondItem="VPE-Bc-0Hl" secondAttribute="trailing" id="sEq-mo-L13"/>
+                            <constraint firstItem="mPL-k3-Gmc" firstAttribute="height" secondItem="VPE-Bc-0Hl" secondAttribute="height" multiplier="0.1" id="vwl-v3-yxj"/>
                         </constraints>
                     </view>
                     <connections>
@@ -347,6 +360,7 @@
                         <outlet property="bottomView" destination="QKG-Bp-vxn" id="YJv-Mt-HfN"/>
                         <outlet property="closeButton" destination="y4z-Ty-G6h" id="pvC-FG-OHq"/>
                         <outlet property="contentView" destination="RX8-Ji-MXc" id="Mx7-Ul-cx9"/>
+                        <outlet property="elixirAddButton" destination="mPL-k3-Gmc" id="hfL-o9-lYF"/>
                         <outlet property="elixirButton" destination="LDV-vw-S01" id="Tol-DI-oSI"/>
                         <outlet property="elixirLabel" destination="SmT-EU-dO8" id="bge-uL-QSA"/>
                         <outlet property="imageView" destination="DHJ-jn-ekA" id="r4M-Gs-QrG"/>

@@ -23,6 +23,7 @@ class ConfigViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var movieLabel: UILabel!
+    @IBOutlet weak var elixirAddButton: UIButton!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomHeightConstraint: NSLayoutConstraint!
     
@@ -42,6 +43,10 @@ class ConfigViewController: UIViewController {
         // 저장된 엘릭샤 개수 가져와서 표시
         elixir_count = UserDefaults.standard.integer(forKey: "elixir")
         elixirLabel.text = "\(elixir_count)"
+        // ElixirAddButton
+        elixirAddButton.layer.cornerRadius = 15.0
+        elixirAddButton.layer.borderWidth = 1.0
+        elixirAddButton.layer.borderColor = UIColor.white.cgColor
         // 애드몹 광고창 설정
         let adSize = getFullWidthAdaptiveAdSize(view: bottomView)
         bannerView = GADBannerView(adSize: adSize, origin: CGPoint.zero)
