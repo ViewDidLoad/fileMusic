@@ -8,6 +8,8 @@
 
 import SwiftUI
 import Foundation
+import GoogleMobileAds
+import UIKit
 
 struct YoutubeDownloadView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -16,7 +18,7 @@ struct YoutubeDownloadView: View {
     @State var isCheckButtonDisable = true
     @State var isLoadingViewEnable = false
     @State var state = "Status "
-    let checkTimer = Timer.publish(every: 9, on: .main, in: .common).autoconnect()
+    private let checkTimer = Timer.publish(every: 9, on: .main, in: .common).autoconnect()
     
     var body: some View {
         LoadingView(isShowing: .constant(isLoadingViewEnable)) {
@@ -54,7 +56,7 @@ struct YoutubeDownloadView: View {
                     } // end_if isCheckButtonDisable = false {
                 }
             } // end_List
-        }
+        } // end_LoadingView
     }
     
     // 다운로드 상태 체크
@@ -84,6 +86,7 @@ struct YoutubeDownloadView: View {
             } else {
                 // 주로 이게 가장 많이 표시되므로 3~4 개 정도 안내문구를 가지고 돌려서 보여줄 것.
                 state = "Status : Downloading"
+                // 전면광고 준비 되면 보여주자. ca-app-pub-7335522539377881/2816855209
             }
         }
     }
@@ -103,35 +106,10 @@ struct ActivityIndicator: UIViewRepresentable {
     }
 }
 
-struct LoadingView<Content>: View where Content: View {
-    @Binding var isShowing: Bool
-    var content: () -> Content
-
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .center) {
-                self.content()
-                    .disabled(self.isShowing)
-                    .blur(radius: self.isShowing ? 0.8 : 0)
-
-                VStack {
-                    Text("Downloading...")
-                    ActivityIndicator(isAnimating: .constant(true), style: .large)
-                }
-                .frame(width: geometry.size.width / 2,
-                       height: geometry.size.height / 5)
-                .background(Color.secondary.colorInvert())
-                .foregroundColor(Color.primary)
-                .cornerRadius(20)
-                .opacity(self.isShowing ? 0.6 : 0)
-
-            }
-        }
-    }
-}
-
+/* // 굳이 이게 있어야 할 필요가 있나?
 struct YoutubeDownloadView_Previews: PreviewProvider {
     static var previews: some View {
         YoutubeDownloadView()
     }
 }
+// */

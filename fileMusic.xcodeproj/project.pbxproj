@@ -16,6 +16,7 @@
 		345B45582738A41700986B84 /* YoutubeDL in Frameworks */ = {isa = PBXBuildFile; productRef = 345B45572738A41700986B84 /* YoutubeDL */; };
 		345B45712738F62200986B84 /* NemesisDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345B45702738F62200986B84 /* NemesisDownload.swift */; };
 		345FC141273CEE3F00A929DD /* YoutubeDownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */; };
+		345FC143273DD96500A929DD /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345FC142273DD96500A929DD /* LoadingView.swift */; };
 		920EB6782519E95E0095A3AE /* Canon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 920EB6772519E95E0095A3AE /* Canon.mp3 */; };
 		920EB67B2519E9680095A3AE /* Blumenlied.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 920EB67A2519E9680095A3AE /* Blumenlied.mp3 */; };
 		9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9271133524105DDE007E7D8B /* AppDelegate.swift */; };
@@ -42,6 +43,7 @@
 		345B45542738A16000986B84 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		345B45702738F62200986B84 /* NemesisDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemesisDownload.swift; sourceTree = "<group>"; };
 		345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeDownloadView.swift; sourceTree = "<group>"; };
+		345FC142273DD96500A929DD /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		6147D286852A41E482B85C33 /* Pods_fileMusic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fileMusic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		920EB6772519E95E0095A3AE /* Canon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Canon.mp3; sourceTree = "<group>"; };
 		920EB67A2519E9680095A3AE /* Blumenlied.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Blumenlied.mp3; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				92E3526C252D1BD200ACC94F /* ConfigViewController.swift */,
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
 				345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */,
+				345FC142273DD96500A929DD /* LoadingView.swift */,
 				345B45542738A16000986B84 /* SwiftUIView.swift */,
 				34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */,
 				345B45702738F62200986B84 /* NemesisDownload.swift */,
@@ -281,6 +284,7 @@
 				9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */,
 				34479F9B273A606B00FD8380 /* Model.swift in Sources */,
 				9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */,
+				345FC143273DD96500A929DD /* LoadingView.swift in Sources */,
 				345B45552738A16000986B84 /* SwiftUIView.swift in Sources */,
 				9299AC6725108AC100FA4252 /* Extension.swift in Sources */,
 				9299AC63251088C300FA4252 /* SplashViewController.swift in Sources */,
