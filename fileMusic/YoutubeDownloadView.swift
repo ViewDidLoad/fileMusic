@@ -82,6 +82,7 @@ struct YoutubeDownloadView: View {
                 }
                 // */
             } else {
+                // 주로 이게 가장 많이 표시되므로 3~4 개 정도 안내문구를 가지고 돌려서 보여줄 것.
                 state = "Status : Downloading"
             }
         }
@@ -111,7 +112,7 @@ struct LoadingView<Content>: View where Content: View {
             ZStack(alignment: .center) {
                 self.content()
                     .disabled(self.isShowing)
-                    .blur(radius: self.isShowing ? 1 : 0)
+                    .blur(radius: self.isShowing ? 0.8 : 0)
 
                 VStack {
                     Text("Downloading...")
@@ -122,7 +123,7 @@ struct LoadingView<Content>: View where Content: View {
                 .background(Color.secondary.colorInvert())
                 .foregroundColor(Color.primary)
                 .cornerRadius(20)
-                .opacity(self.isShowing ? 0.7 : 0)
+                .opacity(self.isShowing ? 0.6 : 0)
 
             }
         }
