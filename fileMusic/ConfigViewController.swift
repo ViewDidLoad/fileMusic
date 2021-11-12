@@ -99,11 +99,29 @@ class ConfigViewController: UIViewController {
     }
     
     @IBAction func elixirButtonTouched(_ sender: UIButton) {
-        // 배너광고를 감추자.
-        bannerView.isHidden = true
-        bottomHeightConstraint.constant = 0.0
-        UIView.animate(withDuration: 0.8) {
-            self.view.layoutIfNeeded()
+        if elixir_count > 0 {
+            // 광고 설정이 되었을 때만 버튼 보여준다.
+            let ad = UserDefaults.standard.bool(forKey: "AdEnable")
+            if ad == true {
+                // 엘릭샤 카운트 감소
+                elixir_count -= 1
+            }
+            UserDefaults.standard.set(elixir_count, forKey: "elixir")
+            elixirLabel.text = "\(elixir_count)"
+            // 배너광고를 감추자.
+            bannerView.isHidden = true
+            bottomHeightConstraint.constant = 0.0
+            UIView.animate(withDuration: 0.8) {
+                self.view.layoutIfNeeded()
+            }
+        } else {
+            // 설정화면에서 엘릭샤 버튼을 터치하여 전면광고를 시청 한 후 다시 시도하세요.
+            let alert = UIAlertController(title: "Elixir tribe", message: "Go to config and touch the elixir button to view the ad and replenish it.", preferredStyle: UIAlertController.Style.alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                alert.dismiss(animated: false, completion: nil)
+            }
+            alert.addAction(okAction)
+            present(alert, animated: false, completion: nil)
         }
     }
     
