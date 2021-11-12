@@ -79,14 +79,6 @@ struct YoutubeDownloadView: View {
                 getFileData(filename: msg.result) { msg in
                     print("getFileData \(msg.result)")
                     state = "Status : Download Completed."
-                    /*/ 광고 창이 있는지 확인하자. 걍 무시를 할까? 어차피 다운 완료되면 광고를 닫아야 하니까....
-                    if adLoader == nil {
-                        print("adloader nil")
-                    } else {
-                        // 창을 닫았는데도 여기로 나온다.
-                        print("adloader is shown")
-                    }
-                     // */
                     //*/ 몇 초 후에 창을 닫자.
                     DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(5800)) {
                         // 현재 창을 닫자.
@@ -100,13 +92,6 @@ struct YoutubeDownloadView: View {
             } else {
                 // 주로 이게 가장 많이 표시되므로 3~4 개 정도 안내문구를 가지고 돌려서 보여줄 것.
                 state = "Status : Downloading"
-                // 전면광고 창이 있는지 확인
-                if adLoader.interstitial == nil {
-                    print("adloader interstitial nil")
-                } else {
-                    // 창을 닫았는데도 여기로 뜬다. 뭔가 잘 안된다.
-                    print("adloader interstitial not nil")
-                }
             }
         }
     }
