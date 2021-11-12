@@ -73,6 +73,7 @@ class ConfigViewController: UIViewController {
         super.viewWillAppear(animated)
         // 바닥 뷰의 크기를 0으로 설정하여 나오지 않도록 하고 광고 데이터 받았을 때 나오도록 함
         bottomHeightConstraint.constant = 0.0
+        bannerView.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,6 +92,30 @@ class ConfigViewController: UIViewController {
     }
     
     @IBAction func elixirButtonTouched(_ sender: UIButton) {
+        // 배너광고를 감추자.
+        bannerView.isHidden = true
+        bottomHeightConstraint.constant = 0.0
+        UIView.animate(withDuration: 0.8) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @IBAction func playButtonTouched(_ sender: UIButton) {
+        print("playButtonTouched")
+        // 파일을 못 가져옴, 왜 그럴까? 찾았다. build phases - bundle resources 에 이 파일이 없어서 그럼, 추가하니 잘나옴
+        if let url = Bundle.main.url(forResource: "fileMusicDemoSmall", withExtension: "mp4") {
+            let player = AVPlayer(url: url)
+            let playerLayer = AVPlayerLayer(player: player)
+            playerLayer.videoGravity = .resizeAspect
+            playerLayer.frame = sender.frame
+            playerLayer.name = url.deletingPathExtension().lastPathComponent
+            movieView.layer.addSublayer(playerLayer)
+            player.play()
+        }
+        
+    }
+    
+    @IBAction func elixirAddButtonTouched(_ sender: UIButton) {
         // 데이터 가져왔으면 전면 광고 띄워보자.
         if let ad = rewardedInterstitialAd {
             ad.present(fromRootViewController: self) {
@@ -114,21 +139,6 @@ class ConfigViewController: UIViewController {
             alert.addAction(okAction)
             present(alert, animated: false, completion: nil)
         }
-    }
-    
-    @IBAction func playButtonTouched(_ sender: UIButton) {
-        print("playButtonTouched")
-        // 파일을 못 가져옴, 왜 그럴까? 찾았다. build phases - bundle resources 에 이 파일이 없어서 그럼, 추가하니 잘나옴
-        if let url = Bundle.main.url(forResource: "fileMusicDemoSmall", withExtension: "mp4") {
-            let player = AVPlayer(url: url)
-            let playerLayer = AVPlayerLayer(player: player)
-            playerLayer.videoGravity = .resizeAspect
-            playerLayer.frame = sender.frame
-            playerLayer.name = url.deletingPathExtension().lastPathComponent
-            movieView.layer.addSublayer(playerLayer)
-            player.play()
-        }
-        
     }
     
     @objc func playerDidFinishPlaying(_ noti: Notification) {

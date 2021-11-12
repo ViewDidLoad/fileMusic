@@ -100,6 +100,13 @@ struct YoutubeDownloadView: View {
             } else {
                 // 주로 이게 가장 많이 표시되므로 3~4 개 정도 안내문구를 가지고 돌려서 보여줄 것.
                 state = "Status : Downloading"
+                // 전면광고 창이 있는지 확인
+                if adLoader.interstitial == nil {
+                    print("adloader interstitial nil")
+                } else {
+                    // 창을 닫았는데도 여기로 뜬다. 뭔가 잘 안된다.
+                    print("adloader interstitial not nil")
+                }
             }
         }
     }

@@ -303,6 +303,10 @@ class MainViewController: UIViewController {
         // 파일 리스트 갱신
         DispatchQueue.main.async {
             self.fileListTableView.reloadData()
+            // 배너 창이 보이도록 설정
+            self.bannerView.isHidden = false
+            // 유튜브 다운로드 감춘다.
+            self.youtubeDlButton.isHidden = true
         }
     }
     

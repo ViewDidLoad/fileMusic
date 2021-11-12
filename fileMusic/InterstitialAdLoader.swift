@@ -19,7 +19,7 @@ final class InterstitialAdLoader: NSObject, GADFullScreenContentDelegate {
 
     // MARK: - Vars
     private let adUnit: AdUnit
-    private var interstitial: GADInterstitialAd?
+    public var interstitial: GADInterstitialAd?
     private var completion: ((Result<Bool, InterstitialAdLoaderError>) -> Void)?
     
     // MARK: - Lifecycle
