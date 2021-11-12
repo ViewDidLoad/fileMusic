@@ -179,13 +179,18 @@ class MainViewController: UIViewController {
         bannerView.rootViewController = self
         bannerView.delegate = self
         bottomView.addSubview(bannerView)
+        let adEnable = UserDefaults.standard.bool(forKey: "AdEnable")
         //*/ 스크린 샷을 위해 광고 중지
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { (status) in
-                self.bannerView.load(GADRequest())
+                if adEnable {
+                    self.bannerView.load(GADRequest())
+                }
             }
         } else {
-            bannerView.load(GADRequest())
+            if adEnable {
+                bannerView.load(GADRequest())
+            }
         }
         // */
     }

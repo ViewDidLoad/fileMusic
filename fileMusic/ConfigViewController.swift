@@ -54,17 +54,24 @@ class ConfigViewController: UIViewController {
         bannerView.rootViewController = self
         bannerView.delegate = self
         bottomView.addSubview(bannerView)
+        let adEnalbe = UserDefaults.standard.bool(forKey: "AdEnable")
         //*/ 스크린 샷을 위해 광고 중지
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { (status) in
-                self.bannerView.load(GADRequest())
+                if adEnalbe {
+                    self.bannerView.load(GADRequest())
+                }
             }
         } else {
-            bannerView.load(GADRequest())
+            if adEnalbe {
+                bannerView.load(GADRequest())
+            }
         }
         // */
         // 전면광고 데이터 가져오자.
-        loadInterstitial()
+        if adEnalbe {
+            loadInterstitial()
+        }
         // 동영상 플레이 끝났을 때 알기 위해 노티 추가
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying(_:)), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
@@ -178,8 +185,6 @@ class ConfigViewController: UIViewController {
                         self.rewardedInterstitialAd = reward_ad
                         self.rewardedInterstitialAd!.fullScreenContentDelegate = self
                         print("GADRewardedInterstitialAd load")
-                        // elixirButton
-                        self.elixirButton.isEnabled = true
                     }
                 }
             }
@@ -194,8 +199,6 @@ class ConfigViewController: UIViewController {
                     self.rewardedInterstitialAd = reward_ad
                     self.rewardedInterstitialAd!.fullScreenContentDelegate = self
                     print("GADRewardedInterstitialAd load")
-                    // elixirButton
-                    self.elixirButton.isEnabled = true
                 }
             }
         }
