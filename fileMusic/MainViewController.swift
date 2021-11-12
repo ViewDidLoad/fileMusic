@@ -204,18 +204,18 @@ class MainViewController: UIViewController {
     
     @IBAction func elixirButtonTouched(_ sender: UIButton) {
         if elixir_count > 0 {
-            // 엘릭샤 카운트 감소
-            elixir_count -= 1
+            // 광고 설정이 되었을 때만 버튼 보여준다.
+            let ad = UserDefaults.standard.bool(forKey: "AdEnable")
+            if ad == true {
+                // 엘릭샤 카운트 감소
+                elixir_count -= 1
+                // 유튜브 다운로드 버튼을 보여준다.
+                youtubeDlButton.isHidden = false
+            }
             UserDefaults.standard.set(elixir_count, forKey: "elixir")
             elixirLabel.text = "\(elixir_count)"
             // 배너 광고를 제거해준다.
             bannerView.isHidden = true
-            // 광고 설정이 되었을 때만 버튼 보여준다.
-            let ad = UserDefaults.standard.bool(forKey: "AdEnable")
-            if ad == true {
-                // 유튜브 다운로드 버튼을 보여준다.
-                youtubeDlButton.isHidden = false
-            }
             // 한번 실행하면 비활성화 하자.
             sender.isEnabled = false
         } else {
