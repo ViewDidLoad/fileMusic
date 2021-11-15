@@ -89,6 +89,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3423F29427426017003B530C /* RemoteYoutubeDL */ = {
+			isa = PBXGroup;
+			children = (
+				345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */,
+				345FC146273DDC7900A929DD /* AdUnit.swift */,
+				3423F292274230CE003B530C /* RewardAdLoader.swift */,
+				345FC148273DDD3400A929DD /* InterstitialAdLoader.swift */,
+				345FC14A273DDF7D00A929DD /* UIApplicationActiveWindow.swift */,
+				345FC144273DDA9900A929DD /* ActivityIndicator.swift */,
+				345FC142273DD96500A929DD /* LoadingView.swift */,
+			);
+			path = RemoteYoutubeDL;
+			sourceTree = "<group>";
+		};
+		3423F29527426028003B530C /* LocalYoutubeDL */ = {
+			isa = PBXGroup;
+			children = (
+				345B45542738A16000986B84 /* SwiftUIView.swift */,
+				34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */,
+				345B45702738F62200986B84 /* NemesisDownload.swift */,
+			);
+			path = LocalYoutubeDL;
+			sourceTree = "<group>";
+		};
 		7951A0B4C568487BFFC7DFFC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,16 +160,8 @@
 				9299AC6425108A1200FA4252 /* MainViewController.swift */,
 				92E3526C252D1BD200ACC94F /* ConfigViewController.swift */,
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
-				345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */,
-				345FC146273DDC7900A929DD /* AdUnit.swift */,
-				3423F292274230CE003B530C /* RewardAdLoader.swift */,
-				345FC148273DDD3400A929DD /* InterstitialAdLoader.swift */,
-				345FC14A273DDF7D00A929DD /* UIApplicationActiveWindow.swift */,
-				345FC144273DDA9900A929DD /* ActivityIndicator.swift */,
-				345FC142273DD96500A929DD /* LoadingView.swift */,
-				345B45542738A16000986B84 /* SwiftUIView.swift */,
-				34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */,
-				345B45702738F62200986B84 /* NemesisDownload.swift */,
+				3423F29427426017003B530C /* RemoteYoutubeDL */,
+				3423F29527426028003B530C /* LocalYoutubeDL */,
 				9271133E24105DE7007E7D8B /* Assets.xcassets */,
 				9271134024105DE7007E7D8B /* LaunchScreen.storyboard */,
 				920EB67A2519E9680095A3AE /* Blumenlied.mp3 */,
