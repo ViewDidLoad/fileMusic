@@ -23,8 +23,7 @@ struct LoadingView<Content>: View where Content: View {
                 VStack {
                     Text("Downloading...")
                     ActivityIndicator(isAnimating: .constant(true), style: .large)
-                    Button {
-                        print("IR_FileMusic")
+                    Button("Watch Ad") {
                         adLoader.presentAd { result in
                             switch result {
                             case .success(let reward):
@@ -37,9 +36,8 @@ struct LoadingView<Content>: View where Content: View {
                                 }
                             }
                         }
-                    } label: {
-                        Text("Watch Ad")
                     }
+                    .buttonStyle(NemesisButtonStyle())
 
                 }
                 .frame(width: geometry.size.width / 2,
@@ -50,5 +48,22 @@ struct LoadingView<Content>: View where Content: View {
                 .opacity(self.isShowing ? 0.6 : 0)
             }
         }
+    }
+}
+
+struct NemesisButtonStyle: ButtonStyle {
+    var textColor: Color = Color(enableTextColor)
+    var backgroundColor: Color = Color(enableButtonColor)
+    var borderColor: Color = Color(enableBorderColor)
+    var cornerRadius: CGFloat = 15.0
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(width: 200, height: 55, alignment: .center)
+            .foregroundColor(textColor)
+            .background(RoundedRectangle(cornerRadius: cornerRadius)
+                            .fill(backgroundColor))
+            .overlay(RoundedRectangle(cornerRadius: cornerRadius)
+                        .stroke(borderColor))
     }
 }
