@@ -8,6 +8,8 @@
 
 import UIKit
 import SwiftUI
+import AVKit
+import CoreMedia
 import AVFoundation
 import MediaPlayer
 import GoogleMobileAds
@@ -18,7 +20,7 @@ class FileListCell: UITableViewCell {
     @IBOutlet weak var fileTitleLabel: UILabel!
 }
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, RemoteCommandHandler {
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var elixirButton: UIButton!
@@ -26,8 +28,14 @@ class MainViewController: UIViewController {
     @IBOutlet weak var configButton: UIButton!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var playTitleLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var prevButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var playProgressView: UIProgressView!
+    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var tileSlider: UISlider!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var fileListTableView: UITableView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
@@ -58,49 +66,16 @@ class MainViewController: UIViewController {
     var originalItems: [PlaylistItem] = []
     let sampleBufferPlayer = SampleBufferPlayer()
     let initialItem = ["Blumenlied", "Canon"]
+    // Private notification observers.
+    private var currentOffsetObserver: NSObjectProtocol!
+    private var currentItemObserver: NSObjectProtocol!
+    private var playbackRateObserver: NSObjectProtocol!
     
     override func viewDidLoad() {
         //print("MainViewController.viewDidLoad")
         super.viewDidLoad()
         // 파일 설정 -> 리스트에 url을 넣자
         docuPath = fm.urls(for: .documentDirectory, in: .userDomainMask).first!.path
-        // engine 설정
-        engine.attach(player)
-        engine.attach(reverb)
-        // Set the desired reverb parameters
-        reverb.loadFactoryPreset(.mediumHall)
-        reverb.wetDryMix = 50
-        // connect the nodes
-        engine.connect(player, to: reverb, format: format)
-        engine.connect(reverb, to: engine.mainMixerNode, format: format)
-        do {
-            try engine.start()
-        } catch { print("engine error -> \(error.localizedDescription)") }
-                
-        // 잠금 화면과 제어센터 사용할 내용 등록
-        let commandCenter = MPRemoteCommandCenter.shared()
-        commandCenter.playCommand.addTarget { [unowned self] event in
-            self.player.play()
-            return .success
-        }
-        commandCenter.pauseCommand.addTarget { [unowned self] event in
-            self.player.pause()
-            return .success
-        }
-        commandCenter.nextTrackCommand.addTarget { [unowned self] event in
-            self.selectIndex += 1
-            if self.selectIndex >= data_item.count { self.selectIndex = 0 }
-            if self.player.isPlaying { self.player.stop() }
-            musicPlay(music: data_item[selectIndex])
-            return .success
-        }
-        commandCenter.previousTrackCommand.addTarget { [unowned self] event in
-            self.selectIndex -= 1
-            if self.selectIndex < 0 { self.selectIndex = self.data_item.count - 1 }
-            if self.player.isPlaying { self.player.stop() }
-            musicPlay(music: data_item[selectIndex])
-            return .success
-        }
         // topView
         topView.layer.cornerRadius = 15.0
         topView.layer.borderWidth = 1.0
@@ -123,39 +98,33 @@ class MainViewController: UIViewController {
         youtubeDlButton.layer.borderWidth = 1.0
         youtubeDlButton.layer.borderColor = UIColor.white.cgColor
         youtubeDlButton.isHidden = true
-        // 파일 리스트 갱신
-        NotificationCenter.default.addObserver(self, selector: #selector(updateFileList), name: Notification.Name("updateFileList"), object: nil)
-        // 플레이가 끝났을 때
-        NotificationCenter.default.addObserver(self, selector: #selector(handlePlayFinished), name: .playFinished, object: nil)
-        // 알람 설정 - 오디오 중단 발생 알림
-        NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: nil)
-        // 알람 설정 - 해드폰에서 스피커 등 변경될 때
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
-        // sceneDidBecomeActive 백그라운드에서 깨어날때
-        NotificationCenter.default.addObserver(self, selector: #selector(handleSceneDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        // Observe various notifications.
+        let notificationCenter = NotificationCenter.default
+        currentOffsetObserver = notificationCenter.addObserver(forName: SampleBufferPlayer.currentOffsetDidChange, object: sampleBufferPlayer, queue: .main) { [unowned self] notification in
+            let offset = (notification.userInfo? [SampleBufferPlayer.currentOffsetKey] as? NSValue)?.timeValue.seconds
+            self.updateOffsetLabel(offset)
+        }
+        currentItemObserver = notificationCenter.addObserver(forName: SampleBufferPlayer.currentItemDidChange, object: sampleBufferPlayer, queue: .main) { [unowned self] _ in
+            self.updateCurrentItemInfo()
+        }
+        playbackRateObserver = notificationCenter.addObserver(forName: SampleBufferPlayer.playbackRateDidChange, object: sampleBufferPlayer, queue: .main) { [unowned self] _ in
+            self.updatePlayPauseButton()
+            self.updateCurrentPlaybackInfo()
+        }
+        // Configure the view's controls.
+        doneButton.alpha = 0
+        updateOffsetLabel(0)
+        updatePlayPauseButton()
+        // Start using the Now Playing Info panel.
+        RemoteCommandCenter.handleRemoteCommands(using: self)
+        // Configure now-playing info initially.
+        updateCurrentItemInfo()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //print("MainViewController.viewWillAppear")
         // 바닥 뷰의 크기를 0으로 설정하여 나오지 않도록 하고 광고 데이터 받았을 때 나오도록 함
         bottomViewHeightConstraint.constant = 8.0
-        // 타이머 설정 - 프로그래스 바에 얼마만큼 플레이 중인지 표시
-        progressTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [unowned self] (timer) in
-            // 프로그레스로 표시
-            if let audioDuration = self.sourceFile?.duration {
-                let progress = Float(self.player.current / audioDuration)
-                //let log_str = String(format: "timer -> %.2f / %.2f = %.3f", self.player.current, audioDuration, progress)
-                //print(log_str)
-                DispatchQueue.main.async {
-                    self.playProgressView.progress = progress
-                }
-            }
-        })
-        // 타이머 실행
-        progressTimer.fire()
-        // 플레이어 이미지 설정
-        let image = player.isPlaying ? UIImage(named: "icon_pause") : UIImage(named: "icon_play")
-        playButton.setImage(image, for: .normal)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -204,8 +173,6 @@ class MainViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         //print("MainViewController.viewDidDisappear")
         super.viewDidDisappear(animated)
-        // 등록된 옵져버 제거
-        NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func elixirButtonTouched(_ sender: UIButton) {
@@ -244,17 +211,20 @@ class MainViewController: UIViewController {
         vc.modalTransitionStyle = .coverVertical
         present(vc, animated: false, completion: nil)
     }
-    
-    @IBAction func touchedPlayButton(_ sender: UIButton) {
-        //print("player status -> \(player.isPlaying)")
-        // 아이콘 표시
-        let image = player.isPlaying ? UIImage(named: "icon_play") : UIImage(named: "icon_pause")
-        sender.setImage(image, for: .normal)
-        if player.isPlaying {
-            player.pause()
+    @IBAction func togglePlayPause() {
+        if sampleBufferPlayer.isPlaying {
+            sampleBufferPlayer.pause()
         } else {
-            musicPlay(music: data_item[selectIndex])
+            sampleBufferPlayer.play()
         }
+    }
+    
+    @IBAction func previousTrack() {
+        skipToCurrentItem(offsetBy: -1)
+    }
+    
+    @IBAction func nextTrack() {
+        skipToCurrentItem(offsetBy: 1)
     }
     
     @IBAction func youtubeDLButtonTouched(_ sender: UIButton) {
@@ -303,6 +273,82 @@ class MainViewController: UIViewController {
             self.originalItems = newItems
             self.replaceAllItems()
         }
+    }
+    
+    private func updatePlayPauseButton() {
+        if let icon = sampleBufferPlayer.isPlaying ? UIImage(systemName: "pause.fill") : UIImage(systemName: "play.fill") {
+            playButton.setImage(icon, for: .normal)
+        }
+    }
+
+    private func updateOffsetLabel(_ offset: Double?) {
+        if let currentOffset = offset {
+            timeLabel.text = String(format: "%.1f", currentOffset)
+            tileSlider.value = Float(currentOffset)
+        } else {
+            timeLabel.text = ""
+            tileSlider.value = 0
+        }
+    }
+    
+    private func updateCurrentItemInfo() {
+        NowPlayingCenter.handleItemChange(item: sampleBufferPlayer.currentItem, index: sampleBufferPlayer.currentItemIndex ?? 0, count: sampleBufferPlayer.itemCount)
+        if let currentItem = sampleBufferPlayer.currentItem {
+            let duration = currentItem.duration.seconds
+            durationLabel.text = String(format: "%.1f", duration)
+            tileSlider.isEnabled = true
+            tileSlider.maximumValue = Float(duration)
+            titleLabel.text = currentItem.title
+            updateCurrentPlaybackInfo()
+        } else {
+            tileSlider.isEnabled = false
+            tileSlider.value = 0.0
+            timeLabel.text = " "
+            titleLabel.text = " "
+            durationLabel.text = " "
+        }
+    }
+    
+    private func updateCurrentPlaybackInfo() {
+        NowPlayingCenter.handlePlaybackChange(playing: sampleBufferPlayer.isPlaying, rate: sampleBufferPlayer.rate, position: sampleBufferPlayer.currentItemEndOffset?.seconds ?? 0, duration: sampleBufferPlayer.currentItem?.duration.seconds ?? 0)
+    }
+    
+    func performRemoteCommand(_ command: RemoteCommand) {
+        switch command {
+        case .pause:
+            sampleBufferPlayer.pause()//pause()
+        case .play:
+            sampleBufferPlayer.play()//play()
+        case .nextTrack:
+            nextTrack()
+        case .previousTrack:
+            previousTrack()
+        case .skipForward(let distance):
+            skip(by: distance)
+        case .skipBackward(let distance):
+            skip(by: -distance)
+        case .changePlaybackPosition(let offset):
+            skip(to: offset)
+        }
+    }
+    
+    private func skipToCurrentItem(offsetBy offset: Int) {
+        guard let currentItemIndex = sampleBufferPlayer.currentItemIndex,
+            sampleBufferPlayer.containsItem(at: currentItemIndex + offset)
+            else { return }
+        
+        sampleBufferPlayer.seekToItem(at: currentItemIndex + offset)
+    }
+    
+    private func skip(to offset: TimeInterval) {
+        sampleBufferPlayer.seekToOffset(CMTime(seconds: Double(offset), preferredTimescale: 1000))
+        updateCurrentPlaybackInfo()
+    }
+    
+    private func skip(by distance: TimeInterval) {
+        guard let offset = sampleBufferPlayer.currentItemEndOffset else { return }
+        sampleBufferPlayer.seekToOffset(offset + CMTime(seconds: distance, preferredTimescale: 1000))
+        updateCurrentPlaybackInfo()
     }
     
     func musicPlay(music: URL) {
@@ -356,105 +402,6 @@ class MainViewController: UIViewController {
             // 유튜브 다운로드 감춘다.
             self.youtubeDlButton.isHidden = true
         }
-    }
-    
-    @objc func handlePlayFinished(notification: Notification) {
-        // 마지막까지 끝내지 않을 경우는 다음곡이 아니다.
-        DispatchQueue.main.async {
-            //print("handlePlayFinished \(self.selectIndex), \(self.playProgressView.progress)")
-            if self.playProgressView.progress > 0.9 {
-                // 다음 곡
-                self.selectIndex += 1
-                if self.selectIndex >= self.data_item.count { self.selectIndex = 0 }
-                self.player.stop()
-                self.musicPlay(music: self.data_item[self.selectIndex])
-                // 현재 재생 중인 테이블 뷰의 셀을 표시하기
-                self.fileListTableView.selectRow(at: IndexPath(row: self.selectIndex, section: 0), animated: false, scrollPosition: .none)
-            } else {
-                // 초기화
-                self.playProgressView.progress = 0
-            }
-        }
-    }
-    
-    @objc func handleInterruption(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-            let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
-                return
-        }
-        print("Switch over the interruption type. \(type)\nengine.isRunning \(engine.isRunning)")
-        switch type {
-        case .began:
-            print("An interruption began. Update the UI as needed.")
-            player.pause()
-            do {
-                try audioSession.setActive(false)
-                print("audiosession is inactive")
-            } catch let error as NSError { print(error.localizedDescription) }
-        case .ended:
-            print("An interruption ended. Resume playback, if appropriate.")
-            guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
-            let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-            if options.contains(.shouldResume) {
-                print("Interruption ended. Playback should resume.")
-                // engine is running -> false, 이곳을 나오게 하는 것을 찾아야 한다.
-                do {
-                    try audioSession.setActive(true)
-                    print("audioSession is Active again")
-                    player.play()
-                } catch let error as NSError { print(error.localizedDescription) }
-            } else {
-                // 실행 중 유투브 갔다가 돌아오면 여기를 탄다
-                print("Interruption ended. Playback should not resume. engine.isRunning \(engine.isRunning)")
-            }
-        default: ()
-        }
-    }
-
-    @objc func handleRouteChange(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-            let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
-                return
-        }
-        print("Switch over the route change reason.")
-        var headphonesConnected = false
-        switch reason {
-        case .newDeviceAvailable:
-            print("New device found.")
-            let session = AVAudioSession.sharedInstance()
-            headphonesConnected = hasHeadphones(in: session.currentRoute)
-        case .oldDeviceUnavailable:
-            print("Old device removed.")
-            if let previousRoute =
-                userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
-                headphonesConnected = hasHeadphones(in: previousRoute)
-            }
-        default: ()
-        }
-        print("headphonesConnected \(headphonesConnected)")
-    }
-    
-    @objc func handleSceneDidBecomeActive(notification: Notification) {
-        // 이전에 정지 되었던 상태 였으면 여기서 다시 실행한다.
-        print("handleSceneDidBecomeActive engine.isRunning \(engine.isRunning), player \(player.description)")
-        if engine.isRunning == false {
-            do {
-                try engine.start()
-            } catch { print("engine error -> \(error.localizedDescription)") }
-        }
-        // 플레이어 이미지 설정
-        let image = player.isPlaying ? UIImage(named: "icon_pause") : UIImage(named: "icon_play")
-        playButton.setImage(image, for: .normal)
-        // 타이머 생성
-        //print("progressTimer.isValid \(progressTimer.isValid)")
-        if progressTimer.isValid {
-            playProgressView.progress = 0.0
-            progressTimer.fire()
-        }
-        // 선택된 제목 창 초기화
-        playTitleLabel.text = "select music on list"
     }
     
     fileprivate func getFullWidthAdaptiveAdSize(view: UIView) -> GADAdSize {
