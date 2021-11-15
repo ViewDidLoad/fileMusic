@@ -10,7 +10,7 @@ import SwiftUI
 
 struct YoutubeDownloadView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var download_url = ""//"https://youtu.be/-n_Kw19q2bM" <- 첨밀밀
+    @State var download_url = ""
     @State var isDownloadButtonDisable = true
     @State var isCheckButtonDisable = true
     @State var isLoadingViewEnable = false

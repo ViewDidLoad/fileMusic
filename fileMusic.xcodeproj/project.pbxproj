@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3423F293274230CE003B530C /* RewardAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F292274230CE003B530C /* RewardAdLoader.swift */; };
 		34479F972739EDFD00FD8380 /* NemesisYoutubeDL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */; };
 		34479F99273A5F0100FD8380 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F98273A5F0100FD8380 /* DBHelper.swift */; };
 		34479F9B273A606B00FD8380 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F9A273A606B00FD8380 /* Model.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3423F292274230CE003B530C /* RewardAdLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardAdLoader.swift; sourceTree = "<group>"; };
 		34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemesisYoutubeDL.swift; sourceTree = "<group>"; };
 		34479F98273A5F0100FD8380 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		34479F9A273A606B00FD8380 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
 				345FC140273CEE3F00A929DD /* YoutubeDownloadView.swift */,
 				345FC146273DDC7900A929DD /* AdUnit.swift */,
+				3423F292274230CE003B530C /* RewardAdLoader.swift */,
 				345FC148273DDD3400A929DD /* InterstitialAdLoader.swift */,
 				345FC14A273DDF7D00A929DD /* UIApplicationActiveWindow.swift */,
 				345FC144273DDA9900A929DD /* ActivityIndicator.swift */,
@@ -305,6 +308,7 @@
 				9299AC63251088C300FA4252 /* SplashViewController.swift in Sources */,
 				34479F9D273A610000FD8380 /* API.swift in Sources */,
 				345B45712738F62200986B84 /* NemesisDownload.swift in Sources */,
+				3423F293274230CE003B530C /* RewardAdLoader.swift in Sources */,
 				92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */,
 				345FC141273CEE3F00A929DD /* YoutubeDownloadView.swift in Sources */,
 				9299AC6925108DA400FA4252 /* Common.swift in Sources */,

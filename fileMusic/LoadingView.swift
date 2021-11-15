@@ -11,17 +11,36 @@ import SwiftUI
 struct LoadingView<Content>: View where Content: View {
     @Binding var isShowing: Bool
     var content: () -> Content
-
+    // 리워드 광고
+    private let adLoader = RewardedAdLoader(adUnit: .reward)
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
                 self.content()
                     .disabled(self.isShowing)
                     .blur(radius: self.isShowing ? 0.8 : 0)
-
                 VStack {
                     Text("Downloading...")
                     ActivityIndicator(isAnimating: .constant(true), style: .large)
+                    Button {
+                        print("IR_FileMusic")
+                        adLoader.presentAd { result in
+                            switch result {
+                            case .success(let reward):
+                                print("IR success \(reward.debugDescription)")
+                            case .failure(let error):
+                                switch error {
+                                case .notReady: break
+                                case .didNotEarn: break
+                                case .failedToPresent: break
+                                }
+                            }
+                        }
+                    } label: {
+                        Text("Watch Ad")
+                    }
+
                 }
                 .frame(width: geometry.size.width / 2,
                        height: geometry.size.height / 5)
@@ -29,7 +48,6 @@ struct LoadingView<Content>: View where Content: View {
                 .foregroundColor(Color.primary)
                 .cornerRadius(20)
                 .opacity(self.isShowing ? 0.6 : 0)
-
             }
         }
     }
