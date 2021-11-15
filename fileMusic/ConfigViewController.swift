@@ -19,6 +19,9 @@ class ConfigViewController: UIViewController {
     @IBOutlet weak var elixirButton: UIButton!
     @IBOutlet weak var elixirLabel: UILabel!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var nickView: UIView!
+    @IBOutlet weak var nickLabel: UILabel!
+    @IBOutlet weak var nickButon: UIButton!
     @IBOutlet weak var movieView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var playButton: UIButton!
@@ -47,6 +50,16 @@ class ConfigViewController: UIViewController {
         elixirAddButton.layer.cornerRadius = 15.0
         elixirAddButton.layer.borderWidth = 1.0
         elixirAddButton.layer.borderColor = UIColor.white.cgColor
+        // nickView
+        nickView.layer.cornerRadius = 15.0
+        nickView.layer.borderWidth = 1.0
+        nickView.layer.borderColor = UIColor.white.cgColor
+        nickLabel.text = getNick()
+        nickButon.layer.cornerRadius = 15.0
+        nickButon.layer.borderWidth = 1.0
+        nickButon.layer.borderColor = enableBorderColor.cgColor
+        nickButon.backgroundColor = enableButtonColor
+        nickButon.setTitleColor(enableTextColor, for: .normal)
         // 애드몹 광고창 설정
         let adSize = getFullWidthAdaptiveAdSize(view: bottomView)
         bannerView = GADBannerView(adSize: adSize, origin: CGPoint.zero)
@@ -123,6 +136,15 @@ class ConfigViewController: UIViewController {
             alert.addAction(okAction)
             present(alert, animated: false, completion: nil)
         }
+    }
+    
+    @IBAction func nickButtonTouched(_ sender: UIButton) {
+        // 별명 변경 창으로 이동
+        let board = UIStoryboard(name: "Main", bundle: nil)
+        let vc = board.instantiateViewController(withIdentifier: "nickVC") as! NickViewController
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: false, completion: nil)
     }
     
     @IBAction func playButtonTouched(_ sender: UIButton) {
