@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		3423F293274230CE003B530C /* RewardAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F292274230CE003B530C /* RewardAdLoader.swift */; };
+		3423F2992742616C003B530C /* SampleBufferPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F2982742616C003B530C /* SampleBufferPlayer.swift */; };
+		3423F29B27426196003B530C /* SampleBufferSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F29A27426196003B530C /* SampleBufferSerializer.swift */; };
+		3423F29D2742619D003B530C /* SampleBufferItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F29C2742619D003B530C /* SampleBufferItem.swift */; };
+		3423F29F274261A5003B530C /* SampleBufferSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F29E274261A5003B530C /* SampleBufferSource.swift */; };
+		3423F2A1274261AC003B530C /* PlaylistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F2A0274261AC003B530C /* PlaylistItem.swift */; };
+		3423F2A3274261B3003B530C /* NowPlayingCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F2A2274261B3003B530C /* NowPlayingCenter.swift */; };
+		3423F2A5274261BA003B530C /* RemoteCommandCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3423F2A4274261BA003B530C /* RemoteCommandCenter.swift */; };
 		34479F972739EDFD00FD8380 /* NemesisYoutubeDL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */; };
 		34479F99273A5F0100FD8380 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F98273A5F0100FD8380 /* DBHelper.swift */; };
 		34479F9B273A606B00FD8380 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34479F9A273A606B00FD8380 /* Model.swift */; };
@@ -41,6 +48,13 @@
 
 /* Begin PBXFileReference section */
 		3423F292274230CE003B530C /* RewardAdLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardAdLoader.swift; sourceTree = "<group>"; };
+		3423F2982742616C003B530C /* SampleBufferPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBufferPlayer.swift; sourceTree = "<group>"; };
+		3423F29A27426196003B530C /* SampleBufferSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleBufferSerializer.swift; sourceTree = "<group>"; };
+		3423F29C2742619D003B530C /* SampleBufferItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleBufferItem.swift; sourceTree = "<group>"; };
+		3423F29E274261A5003B530C /* SampleBufferSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleBufferSource.swift; sourceTree = "<group>"; };
+		3423F2A0274261AC003B530C /* PlaylistItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistItem.swift; sourceTree = "<group>"; };
+		3423F2A2274261B3003B530C /* NowPlayingCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayingCenter.swift; sourceTree = "<group>"; };
+		3423F2A4274261BA003B530C /* RemoteCommandCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteCommandCenter.swift; sourceTree = "<group>"; };
 		34479F962739EDFD00FD8380 /* NemesisYoutubeDL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemesisYoutubeDL.swift; sourceTree = "<group>"; };
 		34479F98273A5F0100FD8380 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		34479F9A273A606B00FD8380 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -113,6 +127,20 @@
 			path = LocalYoutubeDL;
 			sourceTree = "<group>";
 		};
+		3423F2A6274261C2003B530C /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				3423F2982742616C003B530C /* SampleBufferPlayer.swift */,
+				3423F29A27426196003B530C /* SampleBufferSerializer.swift */,
+				3423F29C2742619D003B530C /* SampleBufferItem.swift */,
+				3423F29E274261A5003B530C /* SampleBufferSource.swift */,
+				3423F2A0274261AC003B530C /* PlaylistItem.swift */,
+				3423F2A2274261B3003B530C /* NowPlayingCenter.swift */,
+				3423F2A4274261BA003B530C /* RemoteCommandCenter.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
 		7951A0B4C568487BFFC7DFFC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +188,7 @@
 				9299AC6425108A1200FA4252 /* MainViewController.swift */,
 				92E3526C252D1BD200ACC94F /* ConfigViewController.swift */,
 				9271133B24105DDE007E7D8B /* Main.storyboard */,
+				3423F2A6274261C2003B530C /* Player */,
 				3423F29427426017003B530C /* RemoteYoutubeDL */,
 				3423F29527426028003B530C /* LocalYoutubeDL */,
 				9271133E24105DE7007E7D8B /* Assets.xcassets */,
@@ -310,11 +339,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3423F29B27426196003B530C /* SampleBufferSerializer.swift in Sources */,
 				345FC149273DDD3400A929DD /* InterstitialAdLoader.swift in Sources */,
 				34479F99273A5F0100FD8380 /* DBHelper.swift in Sources */,
 				34479F972739EDFD00FD8380 /* NemesisYoutubeDL.swift in Sources */,
 				345FC147273DDC7900A929DD /* AdUnit.swift in Sources */,
+				3423F2992742616C003B530C /* SampleBufferPlayer.swift in Sources */,
+				3423F2A1274261AC003B530C /* PlaylistItem.swift in Sources */,
 				345FC14B273DDF7D00A929DD /* UIApplicationActiveWindow.swift in Sources */,
+				3423F2A5274261BA003B530C /* RemoteCommandCenter.swift in Sources */,
 				9271133624105DDE007E7D8B /* AppDelegate.swift in Sources */,
 				34479F9B273A606B00FD8380 /* Model.swift in Sources */,
 				9271133824105DDE007E7D8B /* SceneDelegate.swift in Sources */,
@@ -325,9 +358,12 @@
 				34479F9D273A610000FD8380 /* API.swift in Sources */,
 				345B45712738F62200986B84 /* NemesisDownload.swift in Sources */,
 				3423F293274230CE003B530C /* RewardAdLoader.swift in Sources */,
+				3423F29F274261A5003B530C /* SampleBufferSource.swift in Sources */,
 				92E3526D252D1BD200ACC94F /* ConfigViewController.swift in Sources */,
 				345FC141273CEE3F00A929DD /* YoutubeDownloadView.swift in Sources */,
+				3423F2A3274261B3003B530C /* NowPlayingCenter.swift in Sources */,
 				9299AC6925108DA400FA4252 /* Common.swift in Sources */,
+				3423F29D2742619D003B530C /* SampleBufferItem.swift in Sources */,
 				9299AC6525108A1200FA4252 /* MainViewController.swift in Sources */,
 				34479F9F273A64B400FD8380 /* NickViewController.swift in Sources */,
 				345FC145273DDA9900A929DD /* ActivityIndicator.swift in Sources */,
