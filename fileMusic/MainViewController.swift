@@ -54,6 +54,11 @@ class MainViewController: UIViewController {
     // 구글 애드몹 광고창
     var bannerView = GADBannerView()
     
+    // 신규
+    var originalItems: [PlaylistItem] = []
+    let sampleBufferPlayer = SampleBufferPlayer()
+    let initialItem = ["Blumenlied", "Canon"]
+    
     override func viewDidLoad() {
         //print("MainViewController.viewDidLoad")
         super.viewDidLoad()
@@ -111,9 +116,8 @@ class MainViewController: UIViewController {
         fileListTableView.delegate = self
         fileListTableView.dataSource = self
         fileListTableView.rowHeight = UITableView.automaticDimension
-        fileListTableView.dragDelegate = self
-        fileListTableView.dropDelegate = self
-        fileListTableView.dragInteractionEnabled = true
+        // 신규 추가됨.
+        fileListTableView.allowsSelectionDuringEditing = false
         // youtubeDL button
         youtubeDlButton.layer.cornerRadius = 15.0
         youtubeDlButton.layer.borderWidth = 1.0
@@ -156,7 +160,8 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // 디렉토리의 파일을 가져온다
+        createOriginalPlaylist()
+        /*/ 디렉토리의 파일을 가져온다
         updateFileList()
         // 가져올 파일이 없으면 샘플 파일을 로딩
         if data_item.count == 0 {
@@ -172,6 +177,7 @@ class MainViewController: UIViewController {
                 self.fileListTableView.reloadData()
             }
         }
+        // */
         // 애드몹 광고창 설정
         let adSize = getFullWidthAdaptiveAdSize(view: bottomView)
         bannerView = GADBannerView(adSize: adSize, origin: CGPoint.zero)
@@ -259,6 +265,43 @@ class MainViewController: UIViewController {
         // */
         if let swiftUIView = [UIHostingController(rootView: YoutubeDownloadView())].first {
             present(swiftUIView, animated: false, completion: nil)
+        }
+    }
+    
+    private func createOriginalPlaylist() {
+        var newItems = initialItem.map { PlaylistItem(title: $0) }
+        let group = DispatchGroup()
+        for itemIndex in 0 ..< newItems.count {
+            let placeholder = newItems [itemIndex]
+            let title = placeholder.title
+            guard let url = Bundle.main.url(forResource: title, withExtension: "mp3") else {
+                let error = NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError)
+                let item = PlaylistItem(title: title, error: error)
+                newItems [itemIndex] = item
+                continue
+            }
+            // Load the asset duration for this item asynchronously.
+            group.enter()
+            let asset = AVURLAsset(url: url)
+            asset.loadValuesAsynchronously(forKeys: ["duration"]) {
+                var error: NSError? = nil
+                let item: PlaylistItem
+                switch asset.statusOfValue(forKey: "duration", error: &error) {
+                case .loaded:
+                    item = PlaylistItem(url: url, title: title, duration: asset.duration)
+                case .failed where error != nil:
+                    item = PlaylistItem(title: title, error: error!)
+                default:
+                    let error = NSError(domain: NSCocoaErrorDomain, code: NSFileReadCorruptFileError)
+                    item = PlaylistItem(title: title, error: error)
+                }
+                newItems [itemIndex] = item
+                group.leave()
+            }
+        }
+        group.notify(queue: .main) {
+            self.originalItems = newItems
+            self.replaceAllItems()
         }
     }
     
@@ -425,6 +468,32 @@ class MainViewController: UIViewController {
         return GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(frame.size.width)
     }
     
+    private func replaceAllItems() {
+        sampleBufferPlayer.replaceItems(with: originalItems)
+        fileListTableView.reloadData()
+    }
+    
+    private func replaceItem(at row: Int, with newItem: PlaylistItem) {
+        sampleBufferPlayer.replaceItem(at: row, with: newItem)
+        fileListTableView.reloadData()
+    }
+    
+    private func removeItem(at row: Int) {
+        sampleBufferPlayer.removeItem(at: row)
+        fileListTableView.reloadData()
+    }
+    
+    private func moveItem(from sourceRow: Int, to destinationRow: Int) {
+        sampleBufferPlayer.moveItem(at: sourceRow, to: destinationRow)
+        fileListTableView.reloadData()
+    }
+    
+    private func duplicateItem(at row: Int) {
+        let item = sampleBufferPlayer.item(at: row)
+        sampleBufferPlayer.insertItem(item, at: sampleBufferPlayer.itemCount)
+        fileListTableView.reloadData()
+    }
+    
 }
 
 extension MainViewController: UITableViewDelegate {
@@ -433,94 +502,61 @@ extension MainViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 선택된 인덱스 저장
-        selectIndex = indexPath.row
-        print("selectIndex \(selectIndex), indexPath.row \(indexPath.row), play url \(data_item[selectIndex])")
-        // 실행되고 있으면 중단
-        if player.isPlaying { player.stop() }
-        // 선택된 음원 플레이
-        musicPlay(music: data_item[selectIndex])
-        // 0.5초후에 플레이
-        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
-            self.playButton.setImage(UIImage(named: "icon_pause"), for: .normal)
-        }
+        guard sampleBufferPlayer.containsItem(at: indexPath.row) else { return }
+        sampleBufferPlayer.seekToItem(at: indexPath.row)
+        sampleBufferPlayer.play()
     }
     
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        print("canMoveRowAt")
-        return true
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
     }
     
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        print("moveRowAt")
-        let tmp = data_item[sourceIndexPath.row]
-        data_item.remove(at: sourceIndexPath.row)
-        data_item.insert(tmp, at: destinationIndexPath.row)
-    }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .normal, title: "") { (action, view, completionHandler) in
-            if self.isSampleMusic {
-                print("sample file is not removed")
-            } else {
-                // 해당 파일 삭제하기
-                print("selected remove_item \(self.data_item[indexPath.row])")
-                do {
-                    //try self.fm.removeItem(atPath: remove_item)
-                    try self.fm.removeItem(at: self.data_item[indexPath.row])
-                    self.data_item.remove(at: indexPath.row)
-                    DispatchQueue.main.async {
-                        tableView.reloadData()
-                    }
-                } catch { print("FileManager RemoveItem error \(error.localizedDescription)") }
-            }
-            
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let duplicateAction = UIContextualAction(style: .normal, title: "Duplicate") { [unowned self] _, _, completionHandler in
+            self.duplicateItem(at: indexPath.row)
             completionHandler(true)
         }
-        action.image = UIImage(named: "icon_delete")
-        action.backgroundColor = .red
-        let configuration = UISwipeActionsConfiguration(actions: [action])
+        duplicateAction.backgroundColor = UIColor(named: "Duplicate")
+        
+        let configuration = UISwipeActionsConfiguration(actions: [duplicateAction])
+        configuration.performsFirstActionWithFullSwipe = true
         return configuration
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive,title: "Delete") { [unowned self] _, _, completionHandler in
+            self.removeItem(at: indexPath.row)
+            completionHandler(true)
+        }
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let sourceRow = sourceIndexPath.row
+        let destinationRow = destinationIndexPath.row
+        
+        guard sourceRow != destinationRow,
+            sampleBufferPlayer.containsItem(at: sourceRow),
+            sampleBufferPlayer.containsItem(at: destinationRow) else { return }
+        
+        moveItem(from: sourceRow, to: destinationRow)
+    }
 }
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data_item.count
+        return sampleBufferPlayer.itemCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "fileCell", for: indexPath) as! FileListCell
-        //print("data_item[indexPath.row] \(data_item[indexPath.row])")
-        if let name = data_item[indexPath.row].absoluteString.split(separator: "/").last?.split(separator: ".").first?.removingPercentEncoding {
-            cell.fileTitleLabel.text = String(name)
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell", for: indexPath) as! FileListCell
+        let row = indexPath.row
+        let item = sampleBufferPlayer.item(at: row)
+        cell.fileTitleLabel.text = item.title
         return cell
-    }
-}
-
-extension MainViewController: UITableViewDragDelegate {
-    func tableView(_ tableView: UITableView, itemsForBeginning dragSession: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        print("itemsForBeginning")
-        let music = self.data_item[indexPath.row]
-        let itemProvider = NSItemProvider(object: music as NSItemProviderWriting)
-        let dragItem = UIDragItem(itemProvider: itemProvider)
-        return [dragItem]
-    }
-    
-}
-
-extension MainViewController: UITableViewDropDelegate {
-    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-        //print("dropSessionDidUpdate")
-        // 움직일때마다 이걸 탄다, 좌표마다 타는 것 같음
-        return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-    }
-    
-    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-        print("performDropWith")
-        // 확인해보니 현재 이곳을 타지 않는다.
     }
 }
 
