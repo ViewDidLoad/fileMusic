@@ -57,6 +57,8 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     private var playbackRateObserver: NSObjectProtocol!
     // 'true' when the time offset slider is being dragged.
     private var isDraggingOffset: Bool = false
+    // 테이블 뷰 선택 셀
+    var selectedIndexPath: IndexPath?
     
     override func viewDidLoad() {
         //print("MainViewController.viewDidLoad")
@@ -481,6 +483,11 @@ extension MainViewController: UITableViewDelegate {
         guard sampleBufferPlayer.containsItem(at: indexPath.row) else { return }
         sampleBufferPlayer.seekToItem(at: indexPath.row)
         sampleBufferPlayer.play()
+        // 선택된 셀의 표시
+        selectedIndexPath = indexPath
+        DispatchQueue.main.async {
+            tableView.reloadData()
+        }
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -519,6 +526,7 @@ extension MainViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell", for: indexPath) as! FileListCell
         let row = indexPath.row
         let item = sampleBufferPlayer.item(at: row)
+        cell.fileTitleLabel.textColor = selectedIndexPath == indexPath ? UIColor.darkText : UIColor.white
         cell.fileTitleLabel.text = item.title
         return cell
     }
