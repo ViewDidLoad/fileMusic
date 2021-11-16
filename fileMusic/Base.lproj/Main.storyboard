@@ -115,6 +115,10 @@
                                             </button>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Get-YO-PGM">
                                                 <rect key="frame" x="14" y="54" width="354" height="31"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="minimumTrackTintColor" red="0.36667514019883218" green="0.71386680959426252" blue="0.37912945591772379" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="maximumTrackTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="select music on list" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SB2-aS-kgA">
                                                 <rect key="frame" x="16" y="92" width="350" height="20"/>
@@ -174,14 +178,14 @@
                                                 <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaylistCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="44.666666030883789" width="350" height="52.666667938232422"/>
+                                                        <rect key="frame" x="0.0" y="44.666666030883789" width="350" height="53.666667938232422"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="52.666667938232422"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="53.666667938232422"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                                    <rect key="frame" x="24" y="16" width="310" height="20.666666666666671"/>
+                                                                    <rect key="frame" x="24" y="16" width="310" height="21.666666666666671"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
@@ -219,6 +223,7 @@
                                             <constraint firstItem="FDs-eN-gar" firstAttribute="top" secondItem="vJD-rn-exW" secondAttribute="bottom" constant="8" id="ORt-Uz-6dQ"/>
                                             <constraint firstItem="al9-OI-9Cr" firstAttribute="width" secondItem="8jf-BI-Lov" secondAttribute="width" multiplier="0.2" id="RAh-bX-Jc4"/>
                                             <constraint firstItem="al9-OI-9Cr" firstAttribute="leading" secondItem="8jf-BI-Lov" secondAttribute="leading" constant="16" id="WbE-Jj-C43"/>
+                                            <constraint firstItem="vJD-rn-exW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="al9-OI-9Cr" secondAttribute="trailing" constant="16" id="bCV-6Y-p1l"/>
                                             <constraint firstItem="FDs-eN-gar" firstAttribute="leading" secondItem="8jf-BI-Lov" secondAttribute="leading" constant="16" id="mO9-go-8zX"/>
                                             <constraint firstAttribute="bottom" secondItem="FDs-eN-gar" secondAttribute="bottom" constant="8" id="r45-or-ELF"/>
                                             <constraint firstItem="vJD-rn-exW" firstAttribute="top" secondItem="8jf-BI-Lov" secondAttribute="top" constant="16" id="rda-f5-3NL"/>

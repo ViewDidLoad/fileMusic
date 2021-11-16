@@ -128,23 +128,6 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updatePlaylist()
-        /*/ 디렉토리의 파일을 가져온다
-        updateFileList()
-        // 가져올 파일이 없으면 샘플 파일을 로딩
-        if data_item.count == 0 {
-            if let fileUrl_1 = Bundle.main.url(forResource: "Blumenlied", withExtension: "mp3") {
-                data_item.append(fileUrl_1)
-                isSampleMusic = true
-            }
-            if let fileUrl_2 = Bundle.main.url(forResource: "Canon", withExtension: "mp3") {
-                data_item.append(fileUrl_2)
-                isSampleMusic = true
-            }
-            DispatchQueue.main.async {
-                self.fileListTableView.reloadData()
-            }
-        }
-        // */
         // 애드몹 광고창 설정
         let adSize = getFullWidthAdaptiveAdSize(view: bottomView)
         bannerView = GADBannerView(adSize: adSize, origin: CGPoint.zero)
@@ -349,7 +332,7 @@ class MainViewController: UIViewController, RemoteCommandHandler {
             timeLabel.text = String(format: "%.1f", currentOffset)
             tileSlider.value = Float(currentOffset)
         } else {
-            timeLabel.text = ""
+            timeLabel.text = "-"
             tileSlider.value = 0
         }
     }
@@ -364,11 +347,12 @@ class MainViewController: UIViewController, RemoteCommandHandler {
             playTitleLabel.text = currentItem.title
             updateCurrentPlaybackInfo()
         } else {
+            // default 값 설정
             tileSlider.isEnabled = false
             tileSlider.value = 0.0
-            timeLabel.text = " "
-            playTitleLabel.text = " "
-            durationLabel.text = " "
+            timeLabel.text = "-"
+            playTitleLabel.text = "select music on list"
+            durationLabel.text = "-"
         }
     }
     
