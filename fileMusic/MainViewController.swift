@@ -46,24 +46,10 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     // 플레이 파일 목록
     let fm = FileManager.default
     var docuPath = ""
-    var data_item = [URL]()
-    // 음원 플레이어
-    let engine = AVAudioEngine()
-    let player = AVAudioPlayerNode()
-    let reverb = AVAudioUnitReverb()
-    var sourceFile: AVAudioFile?
-    var format: AVAudioFormat?
-    let audioSession = AVAudioSession.sharedInstance()
-    // 선택된 파일 및 표시
-    var selectIndex = 0
-    // 타이머
-    var progressTimer = Timer()
-    // 샘플 음원 여부
-    var isSampleMusic = false
+    // 마법물약
     var elixir_count = 0
     // 구글 애드몹 광고창
     var bannerView = GADBannerView()
-    
     // 신규
     var originalItems: [PlaylistItem] = []
     let sampleBufferPlayer = SampleBufferPlayer()
@@ -78,8 +64,8 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     override func viewDidLoad() {
         //print("MainViewController.viewDidLoad")
         super.viewDidLoad()
-        // 파일 설정 -> 리스트에 url을 넣자
-        docuPath = fm.urls(for: .documentDirectory, in: .userDomainMask).first!.path
+        // 파일 설정 -> 리스트에 url을 넣자 기본 도큐먼트 내부에 fileMusic 폴더를 기본으로 설정
+        docuPath = fm.urls(for: .documentDirectory, in: .userDomainMask).first!.path.appending("fileMusic")
         // topView
         topView.layer.cornerRadius = 15.0
         topView.layer.borderWidth = 1.0
@@ -144,7 +130,7 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        createOriginalPlaylist()
+        updatePlaylist()
         /*/ 디렉토리의 파일을 가져온다
         updateFileList()
         // 가져올 파일이 없으면 샘플 파일을 로딩
@@ -286,41 +272,71 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         skipToCurrentItem(offsetBy: -1)
     }
     
-    private func createOriginalPlaylist() {
-        var newItems = initialItem.map { PlaylistItem(title: $0) }
-        let group = DispatchGroup()
-        for itemIndex in 0 ..< newItems.count {
-            let placeholder = newItems [itemIndex]
-            let title = placeholder.title
-            guard let url = Bundle.main.url(forResource: title, withExtension: "mp3") else {
-                let error = NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError)
-                let item = PlaylistItem(title: title, error: error)
-                newItems [itemIndex] = item
-                continue
-            }
-            // Load the asset duration for this item asynchronously.
-            group.enter()
-            let asset = AVURLAsset(url: url)
-            asset.loadValuesAsynchronously(forKeys: ["duration"]) {
-                var error: NSError? = nil
-                let item: PlaylistItem
-                switch asset.statusOfValue(forKey: "duration", error: &error) {
-                case .loaded:
-                    item = PlaylistItem(url: url, title: title, duration: asset.duration)
-                case .failed where error != nil:
-                    item = PlaylistItem(title: title, error: error!)
-                default:
-                    let error = NSError(domain: NSCocoaErrorDomain, code: NSFileReadCorruptFileError)
-                    item = PlaylistItem(title: title, error: error)
+    private func updatePlaylist() {
+        // 현재 파일이 없으면
+        if originalItems.count == 0 {
+            // 기본 내장된 파일을 일단 document/fileMusic 로 복사하자.
+            for i in 0 ..< initialItem.count {
+                if let source_url = Bundle.main.url(forResource: initialItem[i], withExtension: "mp3") {
+                    var target_url = getDocumentsDirectory().appendingPathComponent("fileMusic", isDirectory: true)
+                    // 폴더가 없으면 생성
+                    if !FileManager.default.fileExists(atPath: target_url.path) {
+                        do {
+                            try FileManager.default.createDirectory(at: target_url, withIntermediateDirectories: false, attributes: nil)
+                        } catch { print("createOriginalPlaylist createDirectory \(error.localizedDescription)") }
+                    }
+                    // 각각의 파일을 추가
+                    target_url.appendPathComponent("\(initialItem[i])", isDirectory: false)
+                    target_url.appendPathExtension("mp3")
+                    //print("createOriginalPlaylist source \(source_url.path), target \(target_url.path)")
+                    // 파일이 없으면 파일을 복사
+                    if !FileManager.default.fileExists(atPath: target_url.path) {
+                        do {
+                            try FileManager.default.copyItem(at: source_url, to: target_url)
+                        } catch { print("createOriginalPlaylist copyitem error \(error.localizedDescription)") }
+                    }
                 }
-                newItems [itemIndex] = item
-                group.leave()
             }
         }
-        group.notify(queue: .main) {
-            self.originalItems = newItems
-            self.replaceAllItems()
-        }
+        // 혹시나 모르니 일단 비우고
+        originalItems.removeAll()
+        do {
+            // 해당 폴더에서 mp3 파일만 가져와서 리스트에 추가하자.
+            let get_url = getDocumentsDirectory().appendingPathComponent("fileMusic", isDirectory: true)
+            let items = try FileManager.default.contentsOfDirectory(atPath: get_url.path)
+            //print("items count \(items.count)")
+            // 세마포어 사용.
+            let semaphore = DispatchSemaphore(value: 0)
+            for (i, item) in items.enumerated() {
+                let filename = "\(get_url.path)/\(item)"
+                let fileUrl = URL(fileURLWithPath: filename)
+                // item 에서 .mp3 는 제거하자.
+                var title = item
+                title.removeLast(4)
+                //print("fileurl \(fileUrl), \(item), \(title)")
+                // 파일 추가
+                let asset = AVURLAsset(url: fileUrl)
+                asset.loadValuesAsynchronously(forKeys: ["duration"]) {
+                    var error: NSError? = nil
+                    switch asset.statusOfValue(forKey: "duration", error: &error) {
+                    case .loaded:
+                        print("loaded \(fileUrl), \(title), \(asset.duration)") // 두개 다 여기를 탄다.
+                        self.originalItems.append(PlaylistItem(url: fileUrl, title: title, duration: asset.duration))
+                    case .failed where error != nil:
+                        //print("failed")
+                        self.originalItems.append(PlaylistItem(title: title, error: error!))
+                    default:
+                        //print("default")
+                        let error = NSError(domain: NSCocoaErrorDomain, code: NSFileReadCorruptFileError)
+                        self.originalItems.append(PlaylistItem(title: title, error: error))
+                    }
+                    // 마지작 아이템에서 세마포어 시작
+                    if i == (items.endIndex - 1) { semaphore.signal() }
+                }
+            }
+            semaphore.wait()
+            replaceAllItems()
+        } catch { print("createOriginalPlaylist Not Found item") }
     }
     
     private func updatePlayPauseButton() {
@@ -401,27 +417,6 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         updateCurrentPlaybackInfo()
     }
     
-    func musicPlay(music: URL) {
-        //print("musicPlay \(music)")
-        if let name = music.absoluteString.split(separator: "/").last?.split(separator: ".").first?.removingPercentEncoding {
-            do {
-                let audio_file = try AVAudioFile(forReading: music)
-                sourceFile = audio_file
-                format = audio_file.processingFormat
-                player.scheduleFile(audio_file, at: nil, completionHandler: {
-                    //print("\(name) completed")
-                    // 이렇게 처리하면 안되고 post 던지고 노티센터에서 받아서 처리하는 걸로 수정해보자
-                    NotificationCenter.default.post(name: .playFinished, object: nil)
-                })
-                DispatchQueue.main.async {
-                    self.playTitleLabel.text = String(name)
-                }
-                setupRemoteCommand(title: String(name), current: player.current, duration: audio_file.duration, rate: player.rate)
-                player.play()
-            } catch { print("AVAudioFile error -> \(error.localizedDescription)") }
-        }
-    }
-    
     func hasHeadphones(in routeDescription: AVAudioSessionRouteDescription) -> Bool {
         print("Filter the outputs to only those with a port type of headphones.")
         return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
@@ -443,9 +438,10 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         }
     }
     
+    /*
     @objc func updateFileList() {
         // 기존 자료 지우고.
-        data_item.removeAll()
+        //data_item.removeAll()
         do {
             // 접근한 경로의 디렉토리 내 파일 리스트를 불러옵니다.
             let items = try fm.contentsOfDirectory(atPath: docuPath)
@@ -455,9 +451,9 @@ class MainViewController: UIViewController, RemoteCommandHandler {
                 // filemusic.sqlite 는 제외하자.
                 //print("fileurl.lastPathComponent \(fileUrl.lastPathComponent)")
                 if fileUrl.lastPathComponent != "filemusic.sqlite" {
-                    data_item.append(fileUrl)
+                    //data_item.append(fileUrl)
                 }
-                isSampleMusic = false
+                //isSampleMusic = false
             }
         } catch { print("Not Found item") }
         // 파일 리스트 갱신
@@ -469,6 +465,7 @@ class MainViewController: UIViewController, RemoteCommandHandler {
             self.youtubeDlButton.isHidden = true
         }
     }
+    // */
     
     fileprivate func getFullWidthAdaptiveAdSize(view: UIView) -> GADAdSize {
         let frame = { () -> CGRect in
