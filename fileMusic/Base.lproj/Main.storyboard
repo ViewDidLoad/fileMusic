@@ -19,14 +19,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdI-3I-PF6">
                                 <rect key="frame" x="16" y="44.000000000000007" width="382" height="81.666666666666686"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FGc-T6-ne8">
-                                        <rect key="frame" x="16" y="15.999999999999996" width="159.33333333333334" height="49.666666666666657"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileMusic Player" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="FGc-T6-ne8">
+                                        <rect key="frame" x="16" y="15.999999999999996" width="191" height="49.666666666666657"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9iL-zz-c92">
-                                        <rect key="frame" x="191.33333333333334" y="15.999999999999996" width="49.666666666666657" height="49.666666666666657"/>
+                                        <rect key="frame" x="223" y="15.999999999999996" width="49.666666666666686" height="49.666666666666657"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="9iL-zz-c92" secondAttribute="height" id="0uF-Xb-fpK"/>
                                         </constraints>
@@ -38,13 +38,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EOb-Kz-zUD">
-                                        <rect key="frame" x="257" y="30" width="11" height="22"/>
+                                        <rect key="frame" x="288.66666666666669" y="30" width="11" height="22"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="htW-dx-P7S">
-                                        <rect key="frame" x="284" y="15.999999999999996" width="82" height="49.666666666666657"/>
+                                        <rect key="frame" x="315.66666666666669" y="15.999999999999996" width="50.333333333333314" height="49.666666666666657"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="64"/>
                                         <state key="normal" title="⚙︎">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -60,6 +60,7 @@
                                     <constraint firstAttribute="bottom" secondItem="9iL-zz-c92" secondAttribute="bottom" constant="16" id="FGh-Qj-m58"/>
                                     <constraint firstItem="EOb-Kz-zUD" firstAttribute="centerY" secondItem="hdI-3I-PF6" secondAttribute="centerY" id="GhB-ub-NbI"/>
                                     <constraint firstItem="htW-dx-P7S" firstAttribute="leading" secondItem="EOb-Kz-zUD" secondAttribute="trailing" constant="16" id="HsE-L4-syX"/>
+                                    <constraint firstItem="FGc-T6-ne8" firstAttribute="width" secondItem="hdI-3I-PF6" secondAttribute="width" multiplier="0.5" id="I1d-py-24c"/>
                                     <constraint firstItem="FGc-T6-ne8" firstAttribute="leading" secondItem="hdI-3I-PF6" secondAttribute="leading" constant="16" id="ZRs-qj-J3Q"/>
                                     <constraint firstAttribute="bottom" secondItem="FGc-T6-ne8" secondAttribute="bottom" constant="16" id="dHR-ar-s3v"/>
                                     <constraint firstItem="htW-dx-P7S" firstAttribute="top" secondItem="hdI-3I-PF6" secondAttribute="top" constant="16" id="kSg-4g-dK0"/>
@@ -173,14 +174,14 @@
                                                 <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaylistCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="44.666666030883789" width="350" height="52.666667938232422"/>
+                                                        <rect key="frame" x="0.0" y="44.666666030883789" width="350" height="53.333332061767578"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="52.666667938232422"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="53.333332061767578"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                                    <rect key="frame" x="24" y="16" width="310" height="20.666666666666671"/>
+                                                                    <rect key="frame" x="24" y="15.999999999999998" width="310" height="21.333333333333329"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
@@ -288,13 +289,13 @@
                         <outlet property="fileListTableView" destination="FDs-eN-gar" id="2Ei-0m-qMa"/>
                         <outlet property="listView" destination="8jf-BI-Lov" id="5k9-1o-zIm"/>
                         <outlet property="nextButton" destination="e6s-RP-JEg" id="tEm-Xn-BcY"/>
+                        <outlet property="nickLabel" destination="FGc-T6-ne8" id="ZVp-4h-88U"/>
                         <outlet property="playButton" destination="zqJ-6u-3jC" id="z5u-jx-kuV"/>
                         <outlet property="playTitleLabel" destination="SB2-aS-kgA" id="bgB-Ke-0iv"/>
                         <outlet property="playView" destination="YYo-0i-2n3" id="f3R-bf-wEA"/>
                         <outlet property="prevButton" destination="iVb-a8-ejN" id="kpG-nN-P9R"/>
                         <outlet property="tileSlider" destination="Get-YO-PGM" id="ixU-ik-vIY"/>
                         <outlet property="timeLabel" destination="svE-Jd-R2P" id="4Hk-y9-8Nt"/>
-                        <outlet property="titleLabel" destination="FGc-T6-ne8" id="VLe-W3-JyR"/>
                         <outlet property="topView" destination="hdI-3I-PF6" id="Iaa-u6-08x"/>
                         <outlet property="youtubeDlButton" destination="jno-rm-MHy" id="qNp-aj-5Xp"/>
                     </connections>

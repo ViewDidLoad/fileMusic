@@ -22,7 +22,7 @@ class FileListCell: UITableViewCell {
 
 class MainViewController: UIViewController, RemoteCommandHandler {
     @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var nickLabel: UILabel!
     @IBOutlet weak var elixirButton: UIButton!
     @IBOutlet weak var elixirLabel: UILabel!
     @IBOutlet weak var configButton: UIButton!
@@ -70,6 +70,8 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         topView.layer.cornerRadius = 15.0
         topView.layer.borderWidth = 1.0
         topView.layer.borderColor = UIColor.white.cgColor
+        // 별명 가져와서 표시
+        nickLabel.text = getNick()
         // 마법 물약 개수 가져와서 표기
         //UserDefaults.standard.set(100, forKey: "elixir")
         elixir_count = UserDefaults.standard.integer(forKey: "elixir")
@@ -364,13 +366,13 @@ class MainViewController: UIViewController, RemoteCommandHandler {
             durationLabel.text = String(format: "%.1f", duration)
             tileSlider.isEnabled = true
             tileSlider.maximumValue = Float(duration)
-            titleLabel.text = currentItem.title
+            playTitleLabel.text = currentItem.title
             updateCurrentPlaybackInfo()
         } else {
             tileSlider.isEnabled = false
             tileSlider.value = 0.0
             timeLabel.text = " "
-            titleLabel.text = " "
+            playTitleLabel.text = " "
             durationLabel.text = " "
         }
     }
