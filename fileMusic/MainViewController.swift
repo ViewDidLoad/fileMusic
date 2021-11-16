@@ -438,17 +438,23 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     
     private func replaceAllItems() {
         sampleBufferPlayer.replaceItems(with: originalItems)
-        fileListTableView.reloadData()
+        DispatchQueue.main.async {
+            self.fileListTableView.reloadData()
+        }
     }
     
     private func replaceItem(at row: Int, with newItem: PlaylistItem) {
         sampleBufferPlayer.replaceItem(at: row, with: newItem)
-        fileListTableView.reloadData()
+        DispatchQueue.main.async {
+            self.fileListTableView.reloadData()
+        }
     }
     
     private func removeItem(at row: Int) {
         let removed_item = sampleBufferPlayer.removeItem(at: row)
-        fileListTableView.reloadData()
+        DispatchQueue.main.async {
+            self.fileListTableView.reloadData()
+        }
         // 리스트에서만 삭제가 아니라 폴더에서 파일을 삭제하자.
         if let remove_url = removed_item.url {
             do {
@@ -459,13 +465,9 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     
     private func moveItem(from sourceRow: Int, to destinationRow: Int) {
         sampleBufferPlayer.moveItem(at: sourceRow, to: destinationRow)
-        fileListTableView.reloadData()
-    }
-    
-    private func duplicateItem(at row: Int) {
-        let item = sampleBufferPlayer.item(at: row)
-        sampleBufferPlayer.insertItem(item, at: sampleBufferPlayer.itemCount)
-        fileListTableView.reloadData()
+        DispatchQueue.main.async {
+            self.fileListTableView.reloadData()
+        }
     }
     
 }
@@ -483,18 +485,6 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .none
-    }
-    
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let duplicateAction = UIContextualAction(style: .normal, title: "Duplicate") { [unowned self] _, _, completionHandler in
-            self.duplicateItem(at: indexPath.row)
-            completionHandler(true)
-        }
-        duplicateAction.backgroundColor = UIColor(named: "Duplicate")
-        
-        let configuration = UISwipeActionsConfiguration(actions: [duplicateAction])
-        configuration.performsFirstActionWithFullSwipe = true
-        return configuration
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
