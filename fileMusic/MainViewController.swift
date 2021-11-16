@@ -43,9 +43,6 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var youtubeDlButton: UIButton!
     
-    // 플레이 파일 목록
-    let fm = FileManager.default
-    var docuPath = ""
     // 마법물약
     var elixir_count = 0
     // 구글 애드몹 광고창
@@ -64,8 +61,6 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     override func viewDidLoad() {
         //print("MainViewController.viewDidLoad")
         super.viewDidLoad()
-        // 파일 설정 -> 리스트에 url을 넣자 기본 도큐먼트 내부에 fileMusic 폴더를 기본으로 설정
-        docuPath = fm.urls(for: .documentDirectory, in: .userDomainMask).first!.path.appending("fileMusic")
         // topView
         topView.layer.cornerRadius = 15.0
         topView.layer.borderWidth = 1.0
@@ -491,8 +486,14 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     }
     
     private func removeItem(at row: Int) {
-        sampleBufferPlayer.removeItem(at: row)
+        let removed_item = sampleBufferPlayer.removeItem(at: row)
         fileListTableView.reloadData()
+        // 리스트에서만 삭제가 아니라 폴더에서 파일을 삭제하자.
+        if let remove_url = removed_item.url {
+            do {
+                try FileManager.default.removeItem(at: remove_url)
+            } catch { print("removeItem remove error \(error.localizedDescription)") }
+        }
     }
     
     private func moveItem(from sourceRow: Int, to destinationRow: Int) {

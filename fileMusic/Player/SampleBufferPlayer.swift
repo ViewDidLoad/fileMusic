@@ -175,7 +175,6 @@ class SampleBufferPlayer {
     /// Removes a single item from the playlist without stopping the current item, if possible.
     @discardableResult
     func removeItem(at index: Int) -> PlaylistItem {
-        
         playbackSerializer.printLog(component: .player, message: "removing item at playlist#\(index)")
         atomicitySemaphore.wait()
         defer { atomicitySemaphore.signal() }
