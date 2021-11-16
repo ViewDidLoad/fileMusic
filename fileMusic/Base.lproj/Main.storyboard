@@ -93,7 +93,7 @@
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="backward.fill" catalog="system"/>
                                                 <connections>
-                                                    <action selector="previousTrack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fIz-Ff-mRF"/>
+                                                    <action selector="prevButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mx1-Uc-PQf"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqJ-6u-3jC">
@@ -101,7 +101,7 @@
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="play.fill" catalog="system"/>
                                                 <connections>
-                                                    <action selector="togglePlayPause:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uzo-8I-J8q"/>
+                                                    <action selector="playButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Lqz-Nm-q8q"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e6s-RP-JEg">
@@ -109,7 +109,7 @@
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="forward.fill" catalog="system"/>
                                                 <connections>
-                                                    <action selector="nextTrack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cKo-5G-jXH"/>
+                                                    <action selector="nextButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lbZ-9A-yuf"/>
                                                 </connections>
                                             </button>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Get-YO-PGM">

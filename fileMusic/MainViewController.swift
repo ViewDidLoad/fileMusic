@@ -72,6 +72,8 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     private var currentOffsetObserver: NSObjectProtocol!
     private var currentItemObserver: NSObjectProtocol!
     private var playbackRateObserver: NSObjectProtocol!
+    // 'true' when the time offset slider is being dragged.
+    private var isDraggingOffset: Bool = false
     
     override func viewDidLoad() {
         //print("MainViewController.viewDidLoad")
@@ -90,6 +92,7 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         playView.layer.cornerRadius = 15.0
         playView.layer.borderWidth = 1.0
         playView.layer.borderColor = UIColor.white.cgColor
+        tileSlider.addTarget(self, action: #selector(onSliderValChanged(slider:event:)), for: .valueChanged)
         // listView
         listView.layer.cornerRadius = 15.0
         listView.layer.borderWidth = 1.0
@@ -223,7 +226,12 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         vc.modalTransitionStyle = .coverVertical
         present(vc, animated: false, completion: nil)
     }
-    @IBAction func togglePlayPause() {
+    
+    @IBAction func prevButtonTouched(_ sender: UIButton) {
+        skipToCurrentItem(offsetBy: -1)
+    }
+    
+    @IBAction func playButtonTouched(_ sender: UIButton) {
         if sampleBufferPlayer.isPlaying {
             sampleBufferPlayer.pause()
         } else {
@@ -231,11 +239,7 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         }
     }
     
-    @IBAction func previousTrack() {
-        skipToCurrentItem(offsetBy: -1)
-    }
-    
-    @IBAction func nextTrack() {
+    @IBAction func nextButtonTouched(_ sender: UIButton) {
         skipToCurrentItem(offsetBy: 1)
     }
     
@@ -248,6 +252,22 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         if let swiftUIView = [UIHostingController(rootView: YoutubeDownloadView())].first {
             present(swiftUIView, animated: false, completion: nil)
         }
+    }
+    
+    private func plause() {
+        sampleBufferPlayer.pause()
+    }
+    
+    private func play() {
+        sampleBufferPlayer.play()
+    }
+    
+    private func nextTrack() {
+        skipToCurrentItem(offsetBy: 1)
+    }
+    
+    private func previousTrack() {
+        skipToCurrentItem(offsetBy: -1)
     }
     
     private func createOriginalPlaylist() {
@@ -294,6 +314,8 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     }
 
     private func updateOffsetLabel(_ offset: Double?) {
+        // During scrubbing, the label represents the slider position instead.
+        guard !isDraggingOffset else { return }
         if let currentOffset = offset {
             timeLabel.text = String(format: "%.1f", currentOffset)
             tileSlider.value = Float(currentOffset)
@@ -328,9 +350,9 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     func performRemoteCommand(_ command: RemoteCommand) {
         switch command {
         case .pause:
-            sampleBufferPlayer.pause()//pause()
+            pause()
         case .play:
-            sampleBufferPlayer.play()//play()
+            play()
         case .nextTrack:
             nextTrack()
         case .previousTrack:
@@ -387,6 +409,22 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     func hasHeadphones(in routeDescription: AVAudioSessionRouteDescription) -> Bool {
         print("Filter the outputs to only those with a port type of headphones.")
         return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
+    }
+    
+    @objc func onSliderValChanged(slider: UISlider, event: UIEvent) {
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+            case .began:
+                isDraggingOffset = true
+            case .moved:
+                timeLabel.text = String(format: "%.1f", tileSlider.value)
+            case .ended:
+                skip(to: TimeInterval(tileSlider.value))
+                isDraggingOffset = false
+            default:
+                break
+            }
+        }
     }
     
     @objc func updateFileList() {
