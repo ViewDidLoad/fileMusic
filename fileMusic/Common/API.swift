@@ -162,7 +162,8 @@ func getFileData(filename: String, success: @escaping (RESPONSE_RESULT) -> Void)
     request.httpBody = formEncodedData
     session.dataTask(with: request) { (rData, response, _) in
         guard let data = rData else { return }
-        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
+        let download_url = getDocumentsDirectory().appendingPathComponent("fileMusic", isDirectory: true)
+        let fileURL = download_url.appendingPathComponent(filename)
         do {
             try data.write(to: fileURL, options: .atomic)
             success(RESPONSE_RESULT(result: "write completed"))

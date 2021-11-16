@@ -109,6 +109,8 @@ class MainViewController: UIViewController, RemoteCommandHandler {
             self.updatePlayPauseButton()
             self.updateCurrentPlaybackInfo()
         }
+        // 파일 리스트 갱신 옵져버 등록
+        notificationCenter.addObserver(self, selector: #selector(updateFileList(_:)), name: NSNotification.Name("updateFileList"), object: nil)
         // Configure the view's controls.
         doneButton.alpha = 0
         updateOffsetLabel(0)
@@ -403,6 +405,10 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         return !routeDescription.outputs.filter({$0.portType == .headphones}).isEmpty
     }
     
+    @objc func updateFileList(_ notification: Notification) {
+        self.updatePlaylist()
+    }
+    
     @objc func onSliderValChanged(slider: UISlider, event: UIEvent) {
         if let touchEvent = event.allTouches?.first {
             switch touchEvent.phase {
@@ -418,35 +424,6 @@ class MainViewController: UIViewController, RemoteCommandHandler {
             }
         }
     }
-    
-    /*
-    @objc func updateFileList() {
-        // 기존 자료 지우고.
-        //data_item.removeAll()
-        do {
-            // 접근한 경로의 디렉토리 내 파일 리스트를 불러옵니다.
-            let items = try fm.contentsOfDirectory(atPath: docuPath)
-            for item in items {
-                let filename = "\(docuPath)/\(item)"
-                let fileUrl = URL(fileURLWithPath: filename)
-                // filemusic.sqlite 는 제외하자.
-                //print("fileurl.lastPathComponent \(fileUrl.lastPathComponent)")
-                if fileUrl.lastPathComponent != "filemusic.sqlite" {
-                    //data_item.append(fileUrl)
-                }
-                //isSampleMusic = false
-            }
-        } catch { print("Not Found item") }
-        // 파일 리스트 갱신
-        DispatchQueue.main.async {
-            self.fileListTableView.reloadData()
-            // 배너 창이 보이도록 설정
-            self.bannerView.isHidden = false
-            // 유튜브 다운로드 감춘다.
-            self.youtubeDlButton.isHidden = true
-        }
-    }
-    // */
     
     fileprivate func getFullWidthAdaptiveAdSize(view: UIView) -> GADAdSize {
         let frame = { () -> CGRect in

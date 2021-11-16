@@ -42,26 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         // 테스트 모드 기기 등록, 내 아이폰 테스트 기기 설정
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "bae5161289c9cb3b73b84388355350e8" ]
-        // 백그라운드 사운드 컨트롤
-        //application.beginReceivingRemoteControlEvents()
-        // 백그라운드 재생
-        /*
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(.playback)
-            // 이렇게 하니까 다른 앱에서 실행해도 음원은 중지 되지 않는다. 하지만 인터럽트 이벤트가 안온다.
-            //try audioSession.setCategory(.playback, options: .mixWithOthers)
-            do {
-                try audioSession.setActive(true)
-            } catch { print("audioSession.setActive error") }
-        } catch { print("audioSession.setCategory error") }
-        //
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, policy: AVAudioSession.RouteSharingPolicy.longFormAudio)
-        } catch {
-            print("Failed to set audio session route sharing policy: \(error)")
-        }
-        // */
         // Youtube-dl
         PythonSupport.initialize()
         
