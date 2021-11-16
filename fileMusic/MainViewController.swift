@@ -27,6 +27,7 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     @IBOutlet weak var elixirLabel: UILabel!
     @IBOutlet weak var configButton: UIButton!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var playView: UIView!
     @IBOutlet weak var playTitleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
@@ -34,6 +35,7 @@ class MainViewController: UIViewController, RemoteCommandHandler {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var tileSlider: UISlider!
+    @IBOutlet weak var listView: UIView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var fileListTableView: UITableView!
@@ -84,10 +86,20 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         //UserDefaults.standard.set(100, forKey: "elixir")
         elixir_count = UserDefaults.standard.integer(forKey: "elixir")
         elixirLabel.text = "\(elixir_count)"
-        // tableView
-        fileListTableView.layer.cornerRadius = 15.0
-        fileListTableView.layer.borderWidth = 1.0
-        fileListTableView.layer.borderColor = UIColor.white.cgColor
+        // playView
+        playView.layer.cornerRadius = 15.0
+        playView.layer.borderWidth = 1.0
+        playView.layer.borderColor = UIColor.white.cgColor
+        // listView
+        listView.layer.cornerRadius = 15.0
+        listView.layer.borderWidth = 1.0
+        listView.layer.borderColor = UIColor.white.cgColor
+        editButton.layer.cornerRadius = 5.0
+        editButton.layer.borderWidth = 1.0
+        editButton.layer.borderColor = UIColor.white.cgColor
+        doneButton.layer.cornerRadius = 5.0
+        doneButton.layer.borderWidth = 1.0
+        doneButton.layer.borderColor = UIColor.white.cgColor
         fileListTableView.delegate = self
         fileListTableView.dataSource = self
         fileListTableView.rowHeight = UITableView.automaticDimension

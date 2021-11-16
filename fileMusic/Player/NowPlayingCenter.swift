@@ -24,7 +24,6 @@ class NowPlayingCenter {
             nowPlayingInfo[MPNowPlayingInfoPropertyMediaType] = MPNowPlayingInfoMediaType.audio.rawValue
             nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = false
             nowPlayingInfo[MPMediaItemPropertyTitle] = currentItem.title
-            nowPlayingInfo[MPMediaItemPropertyArtist] = currentItem.artist
             
             nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackQueueIndex] = index
             nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackQueueCount] = count
