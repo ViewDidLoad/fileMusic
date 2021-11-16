@@ -163,6 +163,9 @@
                                                 <rect key="frame" x="289.66666666666669" y="16" width="76.333333333333314" height="34"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Edit"/>
+                                                <connections>
+                                                    <action selector="editButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UqI-n7-Vcu"/>
+                                                </connections>
                                             </button>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-eN-gar">
                                                 <rect key="frame" x="16" y="57.999999999999972" width="350" height="494.33333333333326"/>
@@ -170,14 +173,14 @@
                                                 <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaylistCell" id="rke-mv-tDq" customClass="FileListCell" customModule="fileMusic" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="44.666666030883789" width="350" height="53.666667938232422"/>
+                                                        <rect key="frame" x="0.0" y="44.666666030883789" width="350" height="52.666667938232422"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rke-mv-tDq" id="UvI-e5-Dhy">
-                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="53.666667938232422"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="350" height="52.666667938232422"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sample.mp3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWl-W4-68D">
-                                                                    <rect key="frame" x="24" y="16" width="310" height="21.666666666666671"/>
+                                                                    <rect key="frame" x="24" y="16" width="310" height="20.666666666666671"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
@@ -201,6 +204,9 @@
                                                 <rect key="frame" x="16" y="16" width="76.333333333333329" height="34"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Done"/>
+                                                <connections>
+                                                    <action selector="doneButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AJ3-66-XNV"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

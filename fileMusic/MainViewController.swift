@@ -243,6 +243,22 @@ class MainViewController: UIViewController, RemoteCommandHandler {
         skipToCurrentItem(offsetBy: 1)
     }
     
+    @IBAction func editButtonTouched(_ sender: UIButton) {
+        fileListTableView.setEditing(true, animated: true)
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+            sender.alpha = 0
+            self.doneButton.alpha = 1
+        }
+    }
+    
+    @IBAction func doneButtonTouched(_ sender: UIButton) {
+        fileListTableView.setEditing(false, animated: true)
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+            sender.alpha = 0
+            self.editButton.alpha = 1
+        }
+    }
+    
     @IBAction func youtubeDLButtonTouched(_ sender: UIButton) {
         /*/ swiftUI 연결, 배포하면 파이썬키트 로딩 안되어서 별도로 리모트 받아서 처리하는 걸로 대체... 나중에 해결되면 연결하자.
         if let swiftUIView = [UIHostingController(rootView: SwiftUIView())].first {
